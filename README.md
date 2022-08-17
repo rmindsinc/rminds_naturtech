@@ -1,0 +1,1 @@
+# rminds_naturtech
