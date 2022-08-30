@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="vendor_review_log_mail_template" model="mail.template">
+        <field name="name">Vendor Review Log</field>
+        <field name="model_id" ref="rminds_vendor_review.model_res_partner"/>
+        <field name="auto_delete" eval="False" />
+        <field name="lang">{{object.lang}}</field>
+        <field name="email_from">{{object.company_id.email}}</field>
+        <field name="email_to">{{object.email}}</field>
+        <field name="subject">{{object.company_id}}</field>
+        <field name="body_html">
+            <![CDATA[
+                 <div style="margin: 0px; padding: 0px; font-size: 13px;">
+                    <p style="margin:0px 0 12px 0;box-sizing:border-box;">Dear vendor,</p>
+                    
+                    <p style="margin:0px 0 12px 0;box-sizing:border-box;"><t t-out="object.name" data-oe-t-inline="true" contenteditable="false"></t> are due for the supplier evaluation.</p>
+                    
+                    <t t-if="object" data-oe-t-group-active="true" data-oe-t-group="0" data-oe-t-inline="true">
+                        <t t-foreach="object" t-as="values" data-oe-t-inline="true">
+                        </t></t>
+                        <table style="box-sizing:border-box;-webkit-border-vertical-spacing:0px;-webkit-border-horizontal-spacing:0px;border-spacing: 0; border-collapse: collapse; width: 100%; text-align: center;" width="100%">
+                            <tbody>
+                                <tr>
+                                    <th style="border-style:solid;box-sizing:border-box;border-left-color:black;border-bottom-color:black;border-right-color:black;border-top-color:black;border-left-width:1px;border-bottom-width:1px;border-right-width:1px;border-top-width:1px;text-align:inherit;padding: 5px; border: 1px solid black;">Supplier Name</th>
+                                    <th style="border-style:solid;box-sizing:border-box;border-left-color:black;border-bottom-color:black;border-right-color:black;border-top-color:black;border-left-width:1px;border-bottom-width:1px;border-right-width:1px;border-top-width:1px;text-align:inherit;padding: 5px; border: 1px solid black;">Last Review Date</th>
+                                    <th style="border-style:solid;box-sizing:border-box;border-left-color:black;border-bottom-color:black;border-right-color:black;border-top-color:black;border-left-width:1px;border-bottom-width:1px;border-right-width:1px;border-top-width:1px;text-align:inherit;padding: 5px; border: 1px solid black;">Next Review Date</th>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 5px; border: 1px solid black;"><t t-out="values.name" data-oe-t-inline="true" contenteditable="false"></t></td>
+                                    <td style="padding: 5px; border: 1px solid black;"><t t-out="values.last_reviewed" data-oe-t-inline="true" contenteditable="false"></t></td>
+                                    <td style="padding: 5px; border: 1px solid black;"><t t-out="values.next_review" data-oe-t-inline="true" contenteditable="false"></t></td>
+                                </tr>
+                                
+                            
+                            </tbody>
+                        </table>
+
+                    <p style="margin:0px 0 12px 0;box-sizing:border-box;">If you get your feedback already, please ignore this email.</p>
+
+                    <p style="margin:0px 0 12px 0;box-sizing:border-box;">Regards,</p>
+                    <p style="margin:0px 0 12px 0;box-sizing:border-box;"><t t-out="user.signature" data-oe-t-inline="true" contenteditable="false"></t></p>    
+                </div>
+
+            ]]>
+        </field>
+    </record>
+</odoo>

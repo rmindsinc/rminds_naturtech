@@ -1,0 +1,198 @@
+# -*- coding: utf-8 -*-
+from ast import literal_eval
+
+from odoo import api, models, fields, _
+from odoo.exceptions import UserError
+
+
+class BOMChecklist(models.Model):
+    _name = 'bom.checklist'
+    _description = "Define checklist in BOM"
+
+    name = fields.Text("Details")
+    checklist_id = fields.Many2one('mrp.bom', "BOM")
+
+
+class MRPBOM(models.Model):
+    _inherit = 'mrp.bom'
+
+    checklist_ids = fields.One2many('bom.checklist', 'checklist_id', "Checklist")
+    revision_memo = fields.Text("BOM revision history")
+
+
+class MRPBOMLine(models.Model):
+    _inherit = 'mrp.bom.line'
+
+    percentage = fields.Float("Percentage")
+
+
+class WorksheetTemplate(models.Model):
+    _inherit = 'worksheet.template'
+    _description = "For which king of process this template will be used (Mixing, Filling, Packaging etc.)"
+
+    template_for = fields.Selection([('mixing', 'Mixing'), ('filling', 'Filling'), ('packing', 'Packaging')])
+
+
+class WorksheetChecklist(models.Model):
+    _name = 'worksheet.checklist'
+    _description = "Checklist to show in worksheet"
+
+    name = fields.Text("Details")
+    completed_by = fields.Many2one('res.users', "Completed by")
+    completed_date = fields.Datetime("Date")
+    verified_by = fields.Many2one('res.users', "Verified by")
+    verified_date = fields.Datetime("Date")
+
+
+class MixingLines(models.Model):
+    _name = 'mixing.lines'
+    _description = "BOM Lines to show in worksheet"
+
+    part = fields.Char("Part")
+    product_id = fields.Many2one('product.product', "Description")
+    qty = fields.Float("Quantity")
+    uom = fields.Many2one('uom.uom', "Unit")
+    added_by = fields.Many2one("res.users", "Added by")
+    verify_by = fields.Many2one("res.users", "Verified by")
+    qc_name = fields.Char("QC name")
+
+
+class IrModels(models.Model):
+
+    _inherit = 'ir.model'
+
+    @api.model
+    def create(self, vals):
+        """
+        When we click on DESIGN TEMPLATE it creates new object/model
+        we need to create all required fields into newly created model according to template type(Template for)
+        so that these fields will be available in drag-drop screen while designing.
+        :param vals:
+        :return:
+        """
+
+        res = super(IrModels, self).create(vals)
+        current_worksheet_template = self.env['worksheet.template'].search([('name', '=', vals['name'])])
+
+        if 'model' in vals and 'x_quality_check_worksheet_template' in vals['model']:
+            if current_worksheet_template.template_for == 'mixing':
+                new_fields = [
+                    ['main_qty', 'float', 'Quantity'],
+                    ['main_unit', 'many2one', 'Unit', 'uom.uom'],
+
+                    ['manufactured_date', 'datetime', 'Manufactured Date'],
+                    ['total_weight', 'float', 'Total Weight'],
+
+                    ['start_time', 'datetime', 'Start time'],
+                    ['stop_time', 'datetime', 'Stop time'],
+                    ['retain', 'char', 'Retain'],
+                    ['tank_used', 'char', 'Tank used'],
+                    ['scale_used', 'char', 'Scale used'],
+                ]
+                for item in new_fields:
+                    if item[1] == 'many2one':
+                        self.env['ir.model.fields'].create({
+                            'name': item[0],
+                            'model_id': self.env['ir.model'].search([('model', '=', vals['model'])]).id,
+                            'field_description': item[2],
+                            'ttype': item[1],
+                            'store': True,
+                            'relation': item[3],
+                        })
+                    else:
+                        self.env['ir.model.fields'].create({
+                            'name': item[0],
+                            'model_id': self.env['ir.model'].search([('model', '=', vals['model'])]).id,
+                            'field_description': item[2],
+                            'ttype': item[1],
+                            'store': True,
+                        })
+
+                # Create mixing lines O2M field === start ===
+                self.env['ir.model.fields'].create({
+                    'name': vals['model']+"_id",
+                    'ttype': 'many2one',
+                    'relation': vals['model'],
+                    'field_description': _('Template worksheet'),
+                    'model_id': self.env['ir.model'].search([('model', '=', 'mixing.lines')]).id,
+                })
+                self.env['ir.model.fields'].create({
+                    'model_id': self.env['ir.model'].search([('model', '=', vals['model'])]).id,
+                    'name': 'mixing_line_ids',
+                    'ttype': 'one2many',
+                    'relation': 'mixing.lines',
+                    'relation_field': vals['model']+"_id",
+                    'field_description': "BOM Lines",
+                })
+                # === end ===
+
+                # Create checklist/instructions lines O2M field === start ===
+                self.env['ir.model.fields'].create({
+                    'name': vals['model'] + "_id",
+                    'ttype': 'many2one',
+                    'relation': vals['model'],
+                    'field_description': _('Template worksheet'),
+                    'model_id': self.env['ir.model'].search([('model', '=', 'worksheet.checklist')]).id,
+                })
+                self.env['ir.model.fields'].create({
+                    'model_id': self.env['ir.model'].search([('model', '=', vals['model'])]).id,
+                    'name': 'checklist_line_ids',
+                    'field_description': 'Checklist/Instructions',
+                    'ttype': 'one2many',
+                    'relation': 'worksheet.checklist',
+                    'relation_field': vals['model'] + "_id",
+                })
+                # === end ===
+
+        return res
+
+
+class QualityCheckInherit(models.Model):
+
+    _inherit = 'quality.check'
+
+    def action_quality_worksheet(self):
+        """
+        Method overridden to fill worksheet with some default values(like BOM lines, instructions etc.)
+        :return:
+        """
+
+        m2o_field = self.worksheet_template_id.model_id.sudo().model + "_id"
+        work_order = self.production_id
+        worksheet = self.env[self.worksheet_template_id.model_id.sudo().model].search([('x_quality_check_id', '=', self.id)])
+        if not worksheet:
+            worksheet = self.env[self.worksheet_template_id.model_id.sudo().model].sudo().create({'x_quality_check_id': self.id})
+
+        if 'mixing_line_ids' in str(worksheet.read()):
+            mixing_lines = worksheet.mixing_line_ids
+            if 'from_manufacturing_order' in self._context and self._context['from_manufacturing_order'] is True:
+                lines_data = []
+                if not mixing_lines:
+                    for item in work_order.move_raw_ids:
+                        lines_data.append((0, 0, {
+                            'product_id': item.product_id.id,
+                            'part': item.product_id.default_code or '',
+                            'qty': item.product_uom_qty,
+                            'uom': item.product_id.product_tmpl_id.uom_id.id,
+                            'added_by': False,
+                            'verify_by': False,
+                            'qc_name': worksheet.x_name,
+                            m2o_field: worksheet.sudo().id,
+                        }))
+                    if lines_data: worksheet.mixing_line_ids = lines_data
+
+        if 'checklist_line_ids' in str(worksheet.read()):
+            checklist_lines = worksheet.checklist_line_ids
+            if 'from_manufacturing_order' in self._context and self._context['from_manufacturing_order'] is True:
+                lines_data = []
+                if not checklist_lines:
+                    for item in work_order.bom_id.checklist_ids:
+                        lines_data.append((0, 0, {
+                            'name': item.name,
+                            m2o_field: worksheet.sudo().id,
+                        }))
+                    if lines_data: worksheet.checklist_line_ids = lines_data
+
+        worksheet.main_qty = work_order.product_qty
+
+        return super(QualityCheckInherit, self).action_quality_worksheet()

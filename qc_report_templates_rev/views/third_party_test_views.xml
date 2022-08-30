@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+
+	<record id="qc_external_testing_config" model="ir.actions.act_window">
+        <field name="name">Certificate of Analysis</field>
+        <field name="res_model">qc.external.testing</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <record id="qc_external_testing_tree" model="ir.ui.view">
+		<field name="name">qc.external.testing.tree</field>
+		<field name="model">qc.external.testing</field>
+		<field name="arch" type="xml">
+			<tree string="Third Party Testing">
+				<field name="name"/>
+				<field name="product_id"/>
+			</tree>
+		</field>
+	</record>
+
+    <record id="qc_external_testing_form" model="ir.ui.view">
+		<field name="name">qc.external.testing.form</field>
+		<field name="model">qc.external.testing</field>
+		<field name="arch" type="xml">
+			<form string="Third Party Testing">
+					<header>
+	                    <button name="approve_button" string="Approve"
+	                        class="btn-primary mt8 mb8" type="object" groups="base.group_erp_manager" attrs="{'invisible': [('state','!=','draft')]}"/>
+
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm"/>
+                	</header>
+				<sheet>
+					<group>
+						<group>
+							<field name="name" force_save="1"/>
+							<field name="customer"/>
+							<!-- <field name="rev"/> -->
+							<field name="country_id"/>
+							<field name="spc"/>
+							<field name="lot"/>
+							<field name="mfg"/>
+						</group>
+						<group>
+
+							<field name="product_id" attrs="{'readonly': [('state','!=','draft')]}"/>
+							<field name="product_size"/>
+							<field name="formula"/>
+							<field name="exp_date"/>
+							<field name="fill_date"/>
+							<field name="lab" attrs="{'readonly': [('state','!=','draft')]}"/>
+							<field name="attach" attrs="{'readonly': [('state','!=','draft')]}"/>
+						</group>
+					</group>
+					<notebook>
+						<!-- <page string="Visual Test">
+							<group>
+									<field name="general_table_ids" nolabel="1" attrs="{'readonly': [('state','!=','draft')]}">
+										<tree editable="top">
+											<field name="param"/>
+											<field name="spec"/>
+											<field name="result"/>
+											<field name="qc_report_template" invisible="1"/>
+										</tree>
+									</field>
+
+							</group>
+					 </page> -->
+					<page string="Tests">
+						<group>
+								<field name="line_ids" nolabel="1" attrs="{'readonly': [('state','!=','draft')]}">
+									<tree editable="top">
+										<field name="param" force_save="1" options="{'no_create': True, 'no_create_edit':True}" />
+										<field name="unit" options="{'no_create': True, 'no_create_edit':True}"/>
+										<field name="method"/>
+										<!-- <field name="test_type"/> -->
+										<field name="spec" force_save="1" />
+										<!-- <field name="min_value" force_save="1" /> -->
+										<!-- <field name="idle" force_save="1" /> -->
+										<!-- <field name="max_value" force_save="1"/> -->
+										<field name="res"/>
+										<!-- <field name="measure" invisible="1"/> -->
+										<field name="summary" force_save="1"/>
+										<field name="qc_external_testing_id" invisible="1"/>
+									</tree>
+								</field>
+
+						</group>
+					</page>
+					<!-- <page string="Microbiologincal Test">
+						<group>
+								<field name="micro_testing_ids" nolabel="1"  attrs="{'readonly': [('state','!=','draft')]}">
+									<tree editable="top">
+										<field name="param"/>
+										<field name="spec"/>
+										<field name="result"/>
+										<field name="method"/>
+										<field name="date_tested"/>
+										<field name="qc_report_template" invisible="1"/>
+									</tree>
+								</field>
+
+						</group>
+					</page> -->
+				</notebook>
+            	</sheet>
+            	<!-- Chatter -->
+            	<div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="message_ids"/>
+                    </div>
+			</form>
+		</field>
+	</record>
+
+
+	<record id="sequence_third_party_testing" model="ir.sequence">
+	   <field name="name">Third Party Testing</field>
+	   <field name="code">qc.external.testing</field>
+	   <field name="active">TRUE</field>
+	   <field name="prefix">COA-</field>
+	   <field name="padding">6</field>
+	   <field name="number_next">1</field>
+	   <field name="number_increment">1</field>
+	</record>
+
+	<menuitem
+        id="menu_external_testing"
+        name="Third Party Testing"
+        action="qc_external_testing_config"
+        parent="quality_control.menu_quality_control"
+        sequence="126"/>
+
+    
+</odoo>

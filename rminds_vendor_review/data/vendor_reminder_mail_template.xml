@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="vendor_reminder_mail_template" model="mail.template">
+        <field name="name">Vendor Reminder Mail For Review</field>
+        <field name="model_id" ref="rminds_vendor_review.model_vendor_review_log"/>
+        <field name="auto_delete" eval="False" />
+        <field name="lang">{{object.vendor_id.lang}}</field>
+        <field name="email_from">{{object.company_id.email}}</field>
+        <field name="email_to">{{object.vendor_id.email}}</field>
+        <field name="subject">{{object.company_id.name}}</field>
+        <field name="body_html">
+            <![CDATA[
+                <div style="margin: 0px; padding: 0px; font-size: 13px;">
+                    <p>Dear vendor,</p>
+
+                    <p>Your are Reminder for your Review Should be done in 7 Days :</p>
+
+                    <table style="border-spacing: 0; border-collapse: collapse; width: 100%; text-align: center;">
+                     
+                    </table>
+
+                    <p>If you get Reminder already, please ignore this email.</p>
+
+                    <p>Regards,</p>
+                    <p><t t-out="user.signature"/></p>    
+                </div>
+            ]]>
+        </field>
+    </record>
+</odoo>

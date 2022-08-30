@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+	<record id="micro_table_action_config" model="ir.actions.act_window">
+        <field name="name">Microbiological Test</field>
+        <field name="res_model">micro.table</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+	<record id="micro_table_form" model="ir.ui.view">
+		<field name="name">micro.table.form</field>
+		<field name="model">micro.table</field>
+		<field name="arch" type="xml">
+			<form string="">
+				<sheet>
+					<group>
+						<group>
+							<field name="name"/>
+							<!-- <field name="product_id"/> -->
+						</group>
+					</group>
+					<notebook>
+						<page string="Tests">
+							<group>
+									<field name="line_ids" nolabel="1" >
+										<tree editable="top">
+											<field name="param"/>
+											<field name="spec"/>
+											<field name="method"/>
+											<field name="micro_table_id" invisible="1"/>
+										</tree>
+									</field>
+
+							</group>
+					 </page>
+				</notebook>
+            	</sheet>
+			</form>
+		</field>
+	</record>
+
+	<menuitem
+        id="menu_quality_micro_table"
+        name="Microbiological Tests"
+        action="micro_table_action_config"
+        parent="quality_control.menu_quality_configuration"
+        sequence="28"/>
+
+</odoo>

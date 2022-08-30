@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+	<record id="general_table_action_config" model="ir.actions.act_window">
+        <field name="name">Tests</field>
+        <field name="res_model">qc.general.table</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+	<record id="general_table_form" model="ir.ui.view">
+		<field name="name">qc.general.table.form</field>
+		<field name="model">qc.general.table</field>
+		<field name="arch" type="xml">
+			<form string="QC Report Template">
+				<sheet>
+					<group>
+						<group>
+							<field name="name"/>
+							<!-- <field name="product_id" widget="many2many_tags"/> -->
+						</group>
+					</group>
+					<notebook>
+						<page string="Lines">
+							<group>
+									<field name="line_ids" nolabel="1" >
+										<tree editable="top">
+											<field name="param"/>
+											<field name="method"/>
+											<field name="spec"/>
+											<field name="test_type"/>
+											<field name="min_value"/>
+											<field name="max_value"/>
+											<field name="unit_id"/>
+											<field name="general_table_id" invisible="1"/>
+										</tree>
+									</field>
+
+							</group>
+					 </page>
+				</notebook>
+            	</sheet>
+			</form>
+		</field>
+	</record>
+
+	<menuitem
+        id="menu_quality_general_table"
+        name="Tests"
+        action="general_table_action_config"
+        parent="quality_control.menu_quality_configuration"
+        sequence="27"/>
+
+</odoo>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ir_cron_auto_post_overdue_reminder_step" model="ir.cron">
+        <field name="name">Customer Overdue Reminder</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="nextcall" eval="(DateTime.now().replace(hour=2, minute=0) + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')" />
+        <field name="doall" eval="False"/>
+        <field name="model_id" ref="model_overdue_reminder_start"/>
+        <field name="code">model.autopost_overdue_invoice()</field>
+        <field name="state">code</field>
+    </record>
+</odoo>

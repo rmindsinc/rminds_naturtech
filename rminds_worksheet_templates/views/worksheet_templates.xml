@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="worksheet_template_view_form_inherit_custom" model="ir.ui.view">
+        <field name="name">worksheet.template.view.form.inherit.custom</field>
+        <field name="model">worksheet.template</field>
+        <field name="inherit_id" ref="worksheet.worksheet_template_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='color']" position="after">
+                <field name="template_for" ></field>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="mrp_bom_form_view_checklist" model="ir.ui.view">
+        <field name="name">mrp.bom.form.checklist</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/notebook/page[@name='by_products']" position="after">
+                <page name="checklist" string="Checklist/Instructions">
+                    <field name="checklist_ids" nolabel="1">
+                        <tree>
+                            <field name="name"></field>
+                        </tree>
+                        <form>
+                            <field name="name"></field>
+                        </form>
+                    </field>
+                </page>
+                <page name="revision_memo" string="Revision">
+                    <group name="revision_memo" string="Memo">
+                        <field name="revision_memo" nolabel="1"></field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+
+
+    <record id="view_mixing_lines_tree" model="ir.ui.view">
+        <field name="name">mixing.lines.tree</field>
+        <field name="model">mixing.lines</field>
+        <field name="arch" type="xml">
+            <tree string="BOM Components" editable="bottom">
+                <field name="part" readonly="1"/>
+                <field name="product_id" readonly="1"/>
+                <field name="qty" readonly="1"/>
+                <field name="uom" readonly="1"/>
+                <field name="added_by" />
+                <field name="verify_by"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_mixing_lines_fprm" model="ir.ui.view">
+        <field name="name">mixing.lines.form</field>
+        <field name="model">mixing.lines</field>
+        <field name="arch" type="xml">
+            <form string="BOM Components">
+                <sheet>
+                    <group>
+                        <field name="part" readonly="1"/>
+                        <field name="product_id" readonly="1"/>
+                        <field name="qty" readonly="1"/>
+                        <field name="uom" readonly="1"/>
+                        <field name="added_by" />
+                        <field name="verify_by"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+    <record id="view_worksheet_checklist_tree" model="ir.ui.view">
+        <field name="name">worksheet.checklist.tree</field>
+        <field name="model">worksheet.checklist</field>
+        <field name="arch" type="xml">
+            <tree string="Checklist/Instructions" editable="bottom">
+                <field name="name" readonly="1"/>
+                <field name="completed_by"/>
+                <field name="completed_date" />
+                <field name="verified_by"/>
+                <field name="verified_date" />
+            </tree>
+        </field>
+    </record>
+    <record id="view_worksheet_checklist_fprm" model="ir.ui.view">
+        <field name="name">worksheet.checklist.form</field>
+        <field name="model">worksheet.checklist</field>
+        <field name="arch" type="xml">
+            <form string="Checklist/Instructions">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="completed_by"/>
+                        <field name="completed_date" />
+                        <field name="verified_by"/>
+                        <field name="verified_date" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+    <record id="mrp_bom_form_view_percentage" model="ir.ui.view">
+        <field name="name">mrp.bom.form.view.percentage</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/notebook/page[@name='components']/field[@name='bom_line_ids']/tree/field[@name='product_qty']" position="after">
+                <field name="percentage" widget="percentage"/>
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>

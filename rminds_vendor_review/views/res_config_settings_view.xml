@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_vendor_review" model="ir.ui.view">
+        <field name="name">res.config.settings.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="purchase.res_config_settings_view_form_purchase" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='invoicing_settings_container']" position="after">
+                <h2>Vendor Review </h2>
+                <div class="row mt16 o_settings_container" id="vendor_review">
+                    <div class="col-12 col-md-12 o_setting_box">
+                        <div class="o_setting_left_pane" />
+                        <div class="o_setting_right_pane">
+                            <div class="row" name="trigger_before_days">
+                                <label for="trigger_before_days" class="col-md-5" string="Reminder"/>
+                                <field name="trigger_before_days" />
+                            </div>
+                            <div class="row" name="execute_every_year">
+                                <label for="execute_every_year" class="col-md-5" string="Review Frequency"/>
+                                <field name="execute_every_year" class="col-md-1" /> days
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

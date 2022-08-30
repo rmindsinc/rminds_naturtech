@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="vendor_review_log_action" model="ir.actions.act_window">
+        <field name="name">Vendor Review Log</field>
+        <field name="res_model">vendor.review.log</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="vendor_review_log_menu"
+        action="vendor_review_log_action"
+        sequence="16"
+        parent="purchase.menu_procurement_management"
+    />
+
+    <!-- Create a Tree View -->
+    <record id="vendor_review_log_view_tree" model="ir.ui.view">
+        <field name="name">vendor.review.log.tree</field>
+        <field name="model">vendor.review.log</field>
+        <field name="arch" type="xml">
+            <tree string="Vendor Review Log">
+                <field name="vendor_id"/>
+                <field name="mail_triggered_date"/>
+                <field name="last_reviewed_date"/>
+                <field name="status"/>
+                <field name="master_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- create a form view -->
+    <record id="vendor_review_log_view_form" model="ir.ui.view">
+        <field name="name">vendor.review.log.form</field>
+        <field name="model">vendor.review.log</field>
+        <field name="arch" type="xml">
+            <form string="Vendor Review Log">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="vendor_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="mail_triggered_date" />
+                        </group>
+                        <group>
+                            <field name="last_reviewed_date" />
+                            <field name="status" />
+                        </group>
+                        <group>
+                            <field name="master_id" />
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Create a Search View -->
+    <record id="vendor_review_log_search" model="ir.ui.view">
+        <field name="name">vendor.review.log.search</field>
+        <field name="model">vendor.review.log</field>
+        <field name="arch" type="xml">
+            <search string="Vendor Review Log">
+                <field name="vendor_id"/>
+                <field name="mail_triggered_date"/>
+                <field name="last_reviewed_date"/>
+                <field name="status"/>
+                <separator/>
+                
+                <filter name="status" string="Status" domain="[('status', '=',('draft','reviewed'))]"/>
+                <group expand="1" string="Group By">
+                    <filter string="Status" name="status" context="{'group_by':'status', 'residual_visible':True}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<record id="purchase_last_inv_price_form" model="ir.ui.view">
+		<field name="name">purchase.last.invoice.price</field>
+		<field name="model">purchase.order</field>
+		<field name="inherit_id" ref="purchase.purchase_order_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//page/field[@name='order_line']/tree/field[@name='product_id']" position="after">
+                <button type="object" name="action_product_last_five_inv_price" icon="fa-info"/>
+            </xpath>
+		</field>
+	</record>
+
+	<record id="invoice_last_inv_price_form" model="ir.ui.view">
+		<field name="name">invoice.last.invoice.price</field>
+		<field name="model">account.move.line</field>
+		<field name="arch" type="xml">
+			<tree create="false" default_order="create_date desc">
+				<!-- <field name="product_id"/> -->
+				<field name="vendor_id"/>
+				<field name="price_unit"/>
+				<field name="state"/>
+				<field name="move_type"/>
+				<!-- <field name=""/> -->
+			</tree>
+		</field>
+	</record>
+
+
+	<record id="action_invoice_last_inv_price_form" model="ir.actions.act_window">
+        <!-- <field name="name">Last 5 invoiced price for this product</field> -->
+        <field name="res_model">account.move.line</field>
+        <field name="view_mode">tree</field>
+        <field name="target">new</field>
+        <field name="limit">5</field>
+        <field name="view_id" ref="invoice_last_inv_price_form"/>
+    </record>
+
+
+
+</odoo>

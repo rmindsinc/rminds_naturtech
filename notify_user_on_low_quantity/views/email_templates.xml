@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<record id="mail_template_low_stock_notify" model="mail.template">
+        <field name="name">Notify User for low stock</field>
+<!--        <field name="model_id" ref="base.model_res_users" />-->
+        <field name="model_id" ref="model_stock_low_mail_notify" />
+        <field name="subject">mail to notiy user for low stock</field>
+<!--        <field name="partner_to">{{ object.partner_id.id }}</field>-->
+        <field name="auto_delete" eval="True"/>
+        <field name="body_html" type="html">
+			  <p>
+					These are the Products with low stock. Please have a look
+				  <br></br>
+
+			  </p>
+			  <table>
+			  	<tr>
+				  	<th style="border: 1px solid black" class="text-center">Product</th>
+				  	<th style="border: 1px solid black" class="text-center">Min Quantity</th>
+				  	<th style="border: 1px solid black" class="text-center">Available Quantity</th>
+				</tr>
+				<t t-foreach="object.product" t-as="product">
+                    <tr>
+                    	<td style="border: 1px solid black" class="text-center"><t t-out="product.name"/></td>
+                        <td style="border: 1px solid black" class="text-center"><t t-out="product.min_qty"/></td>
+                        <td style="border: 1px solid black" class="text-center"><t t-out="product.qty_available"/></td>
+                    </tr>
+                </t>
+			  </table>
+			  
+				</field>
+    </record>
+</odoo>

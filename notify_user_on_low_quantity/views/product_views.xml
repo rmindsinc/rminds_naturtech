@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<record id="product_template_qty_low_reminder" model="ir.ui.view">
+            <field name="name">product.template.qty.low.reminder</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='variants']" position="inside">
+                    <field name="qty_copy" invisible="1" force_save="1"/>
+                    <field name="reordering_min_qty_copy" invisible="1" force_save="1"/>
+                </xpath>
+                <xpath expr="//page[@name='inventory']" position="inside">
+                	<field name="low_qty_mail_sent" invisible="1"/>
+                	<field name="action_taken"/>
+                </xpath>
+            </field>
+        </record>
+</odoo>

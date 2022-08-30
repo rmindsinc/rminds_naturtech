@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="overdue_bill_mail_template" model="mail.template">
+        <field name="name">Overdue Bill Reminder</field>
+        <field
+                name="model_id"
+                ref="account_invoice_overdue_reminder.model_overdue_bill_step"
+            />
+        <field name="auto_delete" eval="False" />
+        <field name="lang">{{object.partner_id.lang}}</field>
+        <field name="email_from">{{object.user_id.email or object.company_id.email}}</field>
+        <field name="email_to">{{object.partner_id.email}}</field>
+        <field name="subject">{{object.company_id.name}} - Overdue bill reminder n°{{object.counter}}</field>
+        <field name="body_html">
+            
+            <![CDATA[
+                <div style="margin: 0px; padding: 0px; font-size: 13px;">
+                    <p>Dear customer,</p>
+
+                    <p>According to our books, the following invoices are overdue:</p>
+
+                    <table style="border-spacing: 0; border-collapse: collapse; width: 100%; text-align: center;">
+                        <tr>
+                            <th style="padding: 5px; border: 1px solid black;">Invoice Number</th>
+                            <th style="padding: 5px; border: 1px solid black;">Invoice Date</th>
+                            <th style="padding: 5px; border: 1px solid black;">Payment Terms</th>
+                            <th style="padding: 5px; border: 1px solid black;">Due Date</th>
+                            <th style="padding: 5px; border: 1px solid black;">Order Ref.</th>
+                            <th style="padding: 5px; border: 1px solid black;">Total Untaxed</th>
+                            <th style="padding: 5px; border: 1px solid black;">Total</th>
+                            <th style="padding: 5px; border: 1px solid black;">Residual</th>
+                            <th style="padding: 5px; border: 1px solid black;">Past Reminders</th>
+                        </tr>
+                        <t t-if="object.bill_ids.sorted(key='invoice_date')">
+                            <t t-foreach="object.bill_ids.sorted(key='invoice_date')" t-as="values">
+                                <tr>
+                                    <td style="padding: 5px; border: 1px solid black;"><t t-out="values.name"/></td>
+                                    <td style="padding: 5px; border: 1px solid black;"><t t-out="format_date(values.invoice_date)"/></td>
+                                    <td style="padding: 5px; border: 1px solid black;"><t t-out="values.invoice_payment_term_id.name or ''"/></td>
+                                    <td style="padding: 5px; border: 1px solid black;"><t t-out="format_date(values.invoice_date_due)"/></td>
+                                    <td style="padding: 5px; border: 1px solid black;"><t t-out="values.ref or ''"/></td>
+                                    <td style="padding: 5px; border: 1px solid black; text-align: right;"><t t-out="format_amount(values.amount_untaxed * (values.move_type == 'out_refund' and -1 or 1), values.currency_id)"/></td>
+                                    <td style="padding: 5px; border: 1px solid black; text-align: right;"><t t-out="format_amount(values.amount_total * (values.move_type == 'out_refund' and -1 or 1), values.currency_id)"/></td>
+                                    <td style="padding: 5px; border: 1px solid black; text-align: right;"><t t-out="format_amount(values.amount_residual * (values.move_type == 'out_refund' and -1 or 1), values.currency_id)"/></td>
+                                    <td style="padding: 5px; border: 1px solid black;"><t t-out="values.overdue_reminder_counter"/></td>
+                                </tr>
+                            </t>
+                        </t>
+                        <t t-foreach="object.total_residual()" t-as="tot">
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td colspan="2" style="padding: 5px; border: 1px solid black; font-weight: bold; text-align: right;">Total Residual in <t t-out="tot[0].name"/>:</td>
+                                <td style="padding: 5px; border: 1px solid black; font-weight: bold; text-align: right;"><t t-out="tot[1]"/><t t-out="tot[0].name"/></td>
+                                <td></td>
+                            </tr>
+                        </t>
+                    </table>
+
+                    <p>If you made a payment for these invoices a few days ago, please ignore this email.</p>
+
+                    <t t-out="object.company_id.overdue_reminder_attach_invoice">
+                        <p>You will find enclosed the overdue invoices.</p>
+                    </t>
+
+                    <t t-out="object.counter > 2">
+                        <p>Despite several reminders, we are disappointed to see that these overdue invoices are still unpaid. In order to avoid legal proceedings, we urge you to paid these overdue invoices in the next days.</p>
+                    </t>
+
+                    <p>Regards,</p>
+
+                    <t t-out="user.signature">
+                        <p><t t-out="user.signature | safe"/></p>
+                    </t>
+
+                </div>
+            ]]>
+        </field>
+    </record>
+</odoo>

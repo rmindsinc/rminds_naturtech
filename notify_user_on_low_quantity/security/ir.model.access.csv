@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_low_mail_notify,low.mail.notify,model_stock_low_mail_notify,base.group_user,1,1,1,1
+access_low_mail_notify_line,low.mail.notify.line,model_stock_low_mail_notify_line,base.group_user,1,1,1,1

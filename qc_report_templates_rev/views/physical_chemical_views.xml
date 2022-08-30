@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+	<record id="physical_table_action_config" model="ir.actions.act_window">
+        <field name="name">Physical and Chemical Test</field>
+        <field name="res_model">phyical.checmical.table</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+	<record id="physical_table_form" model="ir.ui.view">
+		<field name="name">physical.table.form</field>
+		<field name="model">phyical.checmical.table</field>
+		<field name="arch" type="xml">
+			<form>
+				<sheet>
+					<group>
+						<group>
+							<field name="name"/>
+							<!-- <field name="product_id"/> -->
+						</group>
+					</group>
+					<notebook>
+						<page string="Tests">
+							<group>
+									<field name="line_ids" nolabel="1" >
+										<tree editable="top">
+											<field name="param"/>
+											<field name="unit_id"/>
+											<field name="idle" force_save="1"/>
+											<field name="min_value" force_save="1" />
+											<!-- <field name="measure"/> -->
+											<field name="max_value" force_save="1"/>
+											<field name="physical_table_id" invisible="1"/>
+										</tree>
+									</field>
+
+							</group>
+					 </page>
+				</notebook>
+            	</sheet>
+			</form>
+		</field>
+	</record>
+
+	<menuitem
+        id="menu_quality_physical_table"
+        name="Physical and Chemical Tests"
+        action="physical_table_action_config"
+        parent="quality_control.menu_quality_configuration"
+        sequence="28"/>
+
+</odoo>
