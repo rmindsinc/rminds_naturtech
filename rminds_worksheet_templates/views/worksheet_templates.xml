@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="worksheet.worksheet_template_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='color']" position="after">
-                <field name="template_for" ></field>
+                <field name="x_template_for" ></field>
             </xpath>
         </field>
     </record>
@@ -21,16 +21,16 @@
                 <page name="checklist" string="Checklist/Instructions">
                     <field name="checklist_ids" nolabel="1">
                         <tree>
-                            <field name="name"></field>
+                            <field name="x_name"></field>
                         </tree>
                         <form>
-                            <field name="name"></field>
+                            <field name="x_name"></field>
                         </form>
                     </field>
                 </page>
                 <page name="revision_memo" string="Revision">
                     <group name="revision_memo" string="Memo">
-                        <field name="revision_memo" nolabel="1"></field>
+                        <field name="x_revision_memo" nolabel="1"></field>
                     </group>
                 </page>
             </xpath>
@@ -44,12 +44,12 @@
         <field name="model">mixing.lines</field>
         <field name="arch" type="xml">
             <tree string="BOM Components" editable="bottom">
-                <field name="part" readonly="1"/>
-                <field name="product_id" readonly="1"/>
-                <field name="qty" readonly="1"/>
-                <field name="uom" readonly="1"/>
-                <field name="added_by" />
-                <field name="verify_by"/>
+                <field name="x_part" readonly="1"/>
+                <field name="x_product_id" readonly="1"/>
+                <field name="x_qty" readonly="1"/>
+                <field name="x_uom" readonly="1"/>
+                <field name="x_added_by" />
+                <field name="x_verify_by"/>
             </tree>
         </field>
     </record>
@@ -60,12 +60,12 @@
             <form string="BOM Components">
                 <sheet>
                     <group>
-                        <field name="part" readonly="1"/>
-                        <field name="product_id" readonly="1"/>
-                        <field name="qty" readonly="1"/>
-                        <field name="uom" readonly="1"/>
-                        <field name="added_by" />
-                        <field name="verify_by"/>
+                        <field name="x_part" readonly="1"/>
+                        <field name="x_product_id" readonly="1"/>
+                        <field name="x_qty" readonly="1"/>
+                        <field name="x_uom" readonly="1"/>
+                        <field name="x_added_by" />
+                        <field name="x_verify_by"/>
                     </group>
                 </sheet>
             </form>
@@ -79,11 +79,11 @@
         <field name="model">worksheet.checklist</field>
         <field name="arch" type="xml">
             <tree string="Checklist/Instructions" editable="bottom">
-                <field name="name" readonly="1"/>
-                <field name="completed_by"/>
-                <field name="completed_date" />
-                <field name="verified_by"/>
-                <field name="verified_date" />
+                <field name="x_name" readonly="1"/>
+                <field name="x_completed_by"/>
+                <field name="x_completed_date" />
+                <field name="x_verified_by"/>
+                <field name="x_verified_date" />
             </tree>
         </field>
     </record>
@@ -94,11 +94,11 @@
             <form string="Checklist/Instructions">
                 <sheet>
                     <group>
-                        <field name="name" />
-                        <field name="completed_by"/>
-                        <field name="completed_date" />
-                        <field name="verified_by"/>
-                        <field name="verified_date" />
+                        <field name="x_name" />
+                        <field name="x_completed_by"/>
+                        <field name="x_completed_date" />
+                        <field name="x_verified_by"/>
+                        <field name="x_verified_date" />
                     </group>
                 </sheet>
             </form>
@@ -113,7 +113,7 @@
         <field name="inherit_id" ref="mrp.mrp_bom_form_view" />
         <field name="arch" type="xml">
             <xpath expr="//form/sheet/notebook/page[@name='components']/field[@name='bom_line_ids']/tree/field[@name='product_qty']" position="after">
-                <field name="percentage" widget="percentage"/>
+                <field name="x_percentage" widget="percentage"/>
             </xpath>
         </field>
     </record>

@@ -9,52 +9,52 @@ class BOMChecklist(models.Model):
     _name = 'bom.checklist'
     _description = "Define checklist in BOM"
 
-    name = fields.Text("Details")
-    checklist_id = fields.Many2one('mrp.bom', "BOM")
+    x_name = fields.Text("Details")
+    x_checklist_id = fields.Many2one('mrp.bom', "BOM")
 
 
 class MRPBOM(models.Model):
     _inherit = 'mrp.bom'
 
-    checklist_ids = fields.One2many('bom.checklist', 'checklist_id', "Checklist")
-    revision_memo = fields.Text("BOM revision history")
+    x_checklist_ids = fields.One2many('bom.checklist', 'x_checklist_id', "Checklist")
+    x_revision_memo = fields.Text("BOM revision history")
 
 
 class MRPBOMLine(models.Model):
     _inherit = 'mrp.bom.line'
 
-    percentage = fields.Float("Percentage")
+    x_percentage = fields.Float("Percentage")
 
 
 class WorksheetTemplate(models.Model):
     _inherit = 'worksheet.template'
     _description = "For which king of process this template will be used (Mixing, Filling, Packaging etc.)"
 
-    template_for = fields.Selection([('mixing', 'Mixing'), ('filling', 'Filling'), ('packing', 'Packaging')])
+    x_template_for = fields.Selection([('mixing', 'Mixing'), ('filling', 'Filling'), ('packing', 'Packaging')])
 
 
 class WorksheetChecklist(models.Model):
     _name = 'worksheet.checklist'
     _description = "Checklist to show in worksheet"
 
-    name = fields.Text("Details")
-    completed_by = fields.Many2one('res.users', "Completed by")
-    completed_date = fields.Datetime("Date")
-    verified_by = fields.Many2one('res.users', "Verified by")
-    verified_date = fields.Datetime("Date")
+    x_name = fields.Text("Details")
+    x_completed_by = fields.Many2one('res.users', "Completed by")
+    x_completed_date = fields.Datetime("Date")
+    x_verified_by = fields.Many2one('res.users', "Verified by")
+    x_verified_date = fields.Datetime("Date")
 
 
 class MixingLines(models.Model):
     _name = 'mixing.lines'
     _description = "BOM Lines to show in worksheet"
 
-    part = fields.Char("Part")
-    product_id = fields.Many2one('product.product', "Description")
-    qty = fields.Float("Quantity")
-    uom = fields.Many2one('uom.uom', "Unit")
-    added_by = fields.Many2one("res.users", "Added by")
-    verify_by = fields.Many2one("res.users", "Verified by")
-    qc_name = fields.Char("QC name")
+    x_part = fields.Char("Part")
+    x_product_id = fields.Many2one('product.product', "Description")
+    x_qty = fields.Float("Quantity")
+    x_uom = fields.Many2one('uom.uom', "Unit")
+    x_added_by = fields.Many2one("res.users", "Added by")
+    x_verify_by = fields.Many2one("res.users", "Verified by")
+    x_qc_name = fields.Char("QC name")
 
 
 class IrModels(models.Model):
@@ -77,17 +77,17 @@ class IrModels(models.Model):
         if 'model' in vals and 'x_quality_check_worksheet_template' in vals['model']:
             if current_worksheet_template.template_for == 'mixing':
                 new_fields = [
-                    ['main_qty', 'float', 'Quantity'],
-                    ['main_unit', 'many2one', 'Unit', 'uom.uom'],
+                    ['x_main_qty', 'float', 'Quantity'],
+                    ['x_main_unit', 'many2one', 'Unit', 'uom.uom'],
 
-                    ['manufactured_date', 'datetime', 'Manufactured Date'],
-                    ['total_weight', 'float', 'Total Weight'],
+                    ['x_manufactured_date', 'datetime', 'Manufactured Date'],
+                    ['x_total_weight', 'float', 'Total Weight'],
 
-                    ['start_time', 'datetime', 'Start time'],
-                    ['stop_time', 'datetime', 'Stop time'],
-                    ['retain', 'char', 'Retain'],
-                    ['tank_used', 'char', 'Tank used'],
-                    ['scale_used', 'char', 'Scale used'],
+                    ['x_start_time', 'datetime', 'Start time'],
+                    ['x_stop_time', 'datetime', 'Stop time'],
+                    ['x_retain', 'char', 'Retain'],
+                    ['x_tank_used', 'char', 'Tank used'],
+                    ['x_scale_used', 'char', 'Scale used'],
                 ]
                 for item in new_fields:
                     if item[1] == 'many2one':
@@ -110,7 +110,7 @@ class IrModels(models.Model):
 
                 # Create mixing lines O2M field === start ===
                 self.env['ir.model.fields'].create({
-                    'name': vals['model']+"_id",
+                    'name': 'x_'+vals['model']+"_id",
                     'ttype': 'many2one',
                     'relation': vals['model'],
                     'field_description': _('Template worksheet'),
@@ -118,17 +118,17 @@ class IrModels(models.Model):
                 })
                 self.env['ir.model.fields'].create({
                     'model_id': self.env['ir.model'].search([('model', '=', vals['model'])]).id,
-                    'name': 'mixing_line_ids',
+                    'name': 'x_mixing_line_ids',
                     'ttype': 'one2many',
                     'relation': 'mixing.lines',
-                    'relation_field': vals['model']+"_id",
+                    'relation_field': 'x_'+vals['model']+"_id",
                     'field_description': "BOM Lines",
                 })
                 # === end ===
 
                 # Create checklist/instructions lines O2M field === start ===
                 self.env['ir.model.fields'].create({
-                    'name': vals['model'] + "_id",
+                    'name': 'x_'+vals['model'] + "_id",
                     'ttype': 'many2one',
                     'relation': vals['model'],
                     'field_description': _('Template worksheet'),
@@ -136,11 +136,11 @@ class IrModels(models.Model):
                 })
                 self.env['ir.model.fields'].create({
                     'model_id': self.env['ir.model'].search([('model', '=', vals['model'])]).id,
-                    'name': 'checklist_line_ids',
+                    'name': 'x_checklist_line_ids',
                     'field_description': 'Checklist/Instructions',
                     'ttype': 'one2many',
                     'relation': 'worksheet.checklist',
-                    'relation_field': vals['model'] + "_id",
+                    'relation_field': 'x_'+vals['model'] + "_id",
                 })
                 # === end ===
 
@@ -170,14 +170,14 @@ class QualityCheckInherit(models.Model):
                 if not mixing_lines:
                     for item in work_order.move_raw_ids:
                         lines_data.append((0, 0, {
-                            'product_id': item.product_id.id,
-                            'part': item.product_id.default_code or '',
-                            'qty': item.product_uom_qty,
-                            'uom': item.product_id.product_tmpl_id.uom_id.id,
-                            'added_by': False,
-                            'verify_by': False,
-                            'qc_name': worksheet.x_name,
-                            m2o_field: worksheet.sudo().id,
+                            'x_product_id': item.product_id.id,
+                            'x_part': item.product_id.default_code or '',
+                            'x_qty': item.product_uom_qty,
+                            'x_uom': item.product_id.product_tmpl_id.uom_id.id,
+                            'x_added_by': False,
+                            'x_verify_by': False,
+                            'x_qc_name': worksheet.x_name,
+                            'x_'+m2o_field: worksheet.sudo().id,
                         }))
                     if lines_data: worksheet.mixing_line_ids = lines_data
 
@@ -188,8 +188,8 @@ class QualityCheckInherit(models.Model):
                 if not checklist_lines:
                     for item in work_order.bom_id.checklist_ids:
                         lines_data.append((0, 0, {
-                            'name': item.name,
-                            m2o_field: worksheet.sudo().id,
+                            'x_name': item.name,
+                            'x_'+m2o_field: worksheet.sudo().id,
                         }))
                     if lines_data: worksheet.checklist_line_ids = lines_data
 
