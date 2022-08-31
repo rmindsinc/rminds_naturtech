@@ -75,7 +75,7 @@ class IrModels(models.Model):
         current_worksheet_template = self.env['worksheet.template'].search([('name', '=', vals['name'])])
 
         if 'model' in vals and 'x_quality_check_worksheet_template' in vals['model']:
-            if current_worksheet_template.template_for == 'mixing':
+            if current_worksheet_template.x_template_for == 'mixing':
                 new_fields = [
                     ['x_main_qty', 'float', 'Quantity'],
                     ['x_main_unit', 'many2one', 'Unit', 'uom.uom'],
@@ -164,7 +164,7 @@ class QualityCheckInherit(models.Model):
             worksheet = self.env[self.worksheet_template_id.model_id.sudo().model].sudo().create({'x_quality_check_id': self.id})
 
         if 'mixing_line_ids' in str(worksheet.read()):
-            mixing_lines = worksheet.mixing_line_ids
+            mixing_lines = worksheet.x_mixing_line_ids
             if 'from_manufacturing_order' in self._context and self._context['from_manufacturing_order'] is True:
                 lines_data = []
                 if not mixing_lines:
@@ -179,10 +179,10 @@ class QualityCheckInherit(models.Model):
                             'x_qc_name': worksheet.x_name,
                             'x_'+m2o_field: worksheet.sudo().id,
                         }))
-                    if lines_data: worksheet.mixing_line_ids = lines_data
+                    if lines_data: worksheet.x_mixing_line_ids = lines_data
 
         if 'checklist_line_ids' in str(worksheet.read()):
-            checklist_lines = worksheet.checklist_line_ids
+            checklist_lines = worksheet.x_checklist_line_ids
             if 'from_manufacturing_order' in self._context and self._context['from_manufacturing_order'] is True:
                 lines_data = []
                 if not checklist_lines:
@@ -191,8 +191,8 @@ class QualityCheckInherit(models.Model):
                             'x_name': item.name,
                             'x_'+m2o_field: worksheet.sudo().id,
                         }))
-                    if lines_data: worksheet.checklist_line_ids = lines_data
+                    if lines_data: worksheet.x_checklist_line_ids = lines_data
 
-        worksheet.main_qty = work_order.product_qty
+        worksheet.x_main_qty = work_order.product_qty
 
         return super(QualityCheckInherit, self).action_quality_worksheet()
