@@ -19,7 +19,7 @@
         <field name="arch" type="xml">
             <xpath expr="//form/sheet/notebook/page[@name='by_products']" position="after">
                 <page name="checklist" string="Checklist/Instructions">
-                    <field name="checklist_ids" nolabel="1">
+                    <field name="x_checklist_ids" nolabel="1">
                         <tree>
                             <field name="x_name"></field>
                         </tree>
