@@ -1,0 +1,19 @@
+.group_custom_class td{
+    width: fit-content !important;
+    float: left !important;
+    padding: 0px !important;
+}
+
+.class_step, th[data-name="x_step"]{
+    width: 70px !important;
+    text-align: left !important;
+}
+
+td[name="x_step"]{
+    text-align: left !important;
+}
+
+.class_sequence{
+    width: 70px !important;
+    text-align: left !important;
+}

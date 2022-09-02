@@ -7,6 +7,21 @@
         <field name="view_mode">tree,form</field>
     </record>
 
+	<record id="mrp_bom_form_view_test" model="ir.ui.view">
+        <field name="name">mrp.bom.form.view.test</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/group/group[1]/div[@class='o_row']" position="after">
+				<group name="test_set" colspan="6" col="1">
+					<br></br>
+					<h3>Test sets</h3>
+                	<field name="x_test_ids" nolabel="1"/>
+				</group>
+            </xpath>
+        </field>
+    </record>
+
 	<record id="general_table_form" model="ir.ui.view">
 		<field name="name">qc.general.table.form</field>
 		<field name="model">qc.general.table</field>

@@ -131,6 +131,12 @@ class GeneralTableLine(models.Model):
     general_table_id = fields.Many2one('qc.general.table','general table id' )
 
 
+class MRPBOM(models.Model):
+    _inherit = 'mrp.bom'
+
+    x_test_ids = fields.Many2many('qc.general.table', string="Test sets")
+
+
 # class GeneralTable(models.Model):
 #     _name = 'general.table'
 

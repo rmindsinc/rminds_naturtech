@@ -20,11 +20,39 @@
             <xpath expr="//form/sheet/notebook/page[@name='by_products']" position="after">
                 <page name="checklist" string="Checklist/Instructions">
                     <field name="x_checklist_ids" nolabel="1">
-                        <tree>
+                        <tree editable="bottom">
+                            <field name="x_sequence" string="Sequence" class="class_sequence" widget="handle"></field>
+                            <field name="x_step" string="Step" class="class_step"></field>
                             <field name="x_name"></field>
                         </tree>
                         <form>
-                            <field name="x_name"></field>
+                            <group>
+                                <h3>Instructions</h3>
+                            </group>
+                            <group name="instructions">
+<!--                                <field name="x_sr_no"></field>-->
+                                <field name="x_name" nolabel="1"></field>
+                            </group>
+
+<!--                            Commented temporary-->
+<!--                            <group name="parameters">-->
+<!--                                <h3>Parameters</h3>-->
+<!--                                <br></br>-->
+<!--                                <group class="group_custom_class">-->
+<!--                                    <field name="x_start_date_show" nolabel="1"></field>-->
+<!--                                    <label for="x_start_date_show" />-->
+
+<!--                                    <field name="x_stop_date_show" nolabel="1"></field>-->
+<!--                                    <label for="x_stop_date_show" />-->
+
+<!--                                    <field name="x_ph_show" nolabel="1"></field>-->
+<!--                                    <label for="x_ph_show" />-->
+<!--                                </group>-->
+<!--                                <group>-->
+
+<!--                                </group>-->
+<!--                            </group>-->
+
                         </form>
                     </field>
                 </page>
@@ -43,7 +71,7 @@
         <field name="name">mixing.lines.tree</field>
         <field name="model">mixing.lines</field>
         <field name="arch" type="xml">
-            <tree string="BOM Components" editable="bottom">
+            <tree string="BOM Components" editable="bottom" create="false" delete="false">
                 <field name="x_part" readonly="1"/>
                 <field name="x_product_id" readonly="1"/>
                 <field name="x_qty" readonly="1"/>
@@ -78,7 +106,8 @@
         <field name="name">worksheet.checklist.tree</field>
         <field name="model">worksheet.checklist</field>
         <field name="arch" type="xml">
-            <tree string="Checklist/Instructions" editable="bottom">
+            <tree string="Checklist/Instructions" editable="bottom" create="false" delete="false">
+                <field name="x_step" readonly="1"/>
                 <field name="x_name" readonly="1"/>
                 <field name="x_completed_by"/>
                 <field name="x_completed_date" />
@@ -94,11 +123,29 @@
             <form string="Checklist/Instructions">
                 <sheet>
                     <group>
-                        <field name="x_name" />
+                        <h3>Instructions</h3>
+                    </group>
+                    <group>
+                        <field name="x_name" nolabel="1"/>
+                    </group>
+                    <group col="4">
                         <field name="x_completed_by"/>
                         <field name="x_completed_date" />
                         <field name="x_verified_by"/>
                         <field name="x_verified_date" />
+                    </group>
+                    <group name="parameters" col="4">
+                        <field name="x_start_date_show" invisible="1" ></field>
+                        <field name="x_stop_date_show" invisible="1" ></field>
+                        <field name="x_ph_show" invisible="1" ></field>
+                    </group>
+                    <group>
+                        <h3>Parameters</h3>
+                    </group>
+                    <group col="4">
+                        <field name="x_start_date" attrs="{'invisible': [('x_start_date_show', '=', False)]}" ></field>
+                        <field name="x_stop_date" attrs="{'invisible': [('x_stop_date_show', '=', False)]}" ></field>
+                        <field name="x_ph" attrs="{'invisible': [('x_ph_show', '=', False)]}" ></field>
                     </group>
                 </sheet>
             </form>

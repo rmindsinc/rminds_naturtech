@@ -6,7 +6,7 @@ class PurchaseOrderLine(models.Model):
 
     price_diff_percentage = fields.Float("Price price difference warning percentage")
 
-    def action_product_last_five_inv_price(self):
+    def action_product_last_inv_price(self):
         value = self.env['ir.config_parameter'].sudo().get_param('purchase_order_line.price_diff_percentage')
         # import pdb;pdb.set_trace()
         res = self.env['account.move.line'].search([('product_id', '=', self.product_id.id), ('move_type','=','in_invoice'),('vendor_id','=',self.partner_id.id),('state','in',('draft','posted'))],limit=2, order='create_date desc')

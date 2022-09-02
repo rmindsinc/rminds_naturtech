@@ -16,7 +16,7 @@ Custom Worksheet Templates
     'demo': [],
     'assets': {
         'web.assets_backend': [
-
+            'rminds_worksheet_templates/static/src/css/custom.css',
         ],
         'web.assets_frontend': [
 

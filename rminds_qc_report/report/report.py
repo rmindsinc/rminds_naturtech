@@ -1,6 +1,6 @@
 from odoo import models,api
 class ExternalTestingReport(models.AbstractModel):
-    _name = 'report.qc_report_templates_rev.report_external_qc_testing'
+    _name = 'report.rminds_qc_report.report_external_qc_testing'
  
 
 

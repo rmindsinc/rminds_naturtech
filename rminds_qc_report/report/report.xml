@@ -4,8 +4,8 @@
             <field name="name">External Testing</field>
             <field name="model">qc.external.testing</field>
             <field name="report_type">qweb-pdf</field>
-            <field name="report_name">qc_report_templates_rev.report_external_qc_testing</field>
-            <field name="report_file">qc_report_templates_rev.report_external_qc_testing</field>
+            <field name="report_name">rminds_qc_report.report_external_qc_testing</field>
+            <field name="report_file">rminds_qc_report.report_external_qc_testing</field>
             <field name="binding_model_id" ref="model_qc_external_testing"/>
             <field name="binding_type">report</field>
         </record>

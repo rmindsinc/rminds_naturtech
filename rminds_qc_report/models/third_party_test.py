@@ -135,13 +135,14 @@ class QCTestLine(models.Model):
     @api.depends('res')
     def change_result(self):
         if self.min_value > 0 or self.max_value > 0:
-            if self.res >= self.min_value and self.max_value <= self.max_value:
+            if float(self.res) >= self.min_value and float(self.res) <= self.max_value:
                 self.summary = 'pass'
             else:
                 self.summary = 'fail'
         elif self.res == self.spec:
             self.summary = 'pass'
-        else: self.summary = 'fail'
+        else:
+            self.summary = 'fail'
 
 
 class GeneralTable(models.Model):

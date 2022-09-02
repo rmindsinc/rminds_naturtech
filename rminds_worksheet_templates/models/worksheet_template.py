@@ -9,8 +9,17 @@ class BOMChecklist(models.Model):
     _name = 'bom.checklist'
     _description = "Define checklist in BOM"
 
-    x_name = fields.Text("Details")
+    _order = "x_step,id"
+
+    x_sequence = fields.Integer("Sr. No.")
+    x_step = fields.Integer("Step")
+    x_name = fields.Text("Instructions")
     x_checklist_id = fields.Many2one('mrp.bom', "BOM")
+
+    # Parameters show flag at backend
+    x_start_date_show = fields.Boolean("Start Time")
+    x_stop_date_show = fields.Boolean("Stop Time")
+    x_ph_show = fields.Boolean("Ph")
 
 
 class MRPBOM(models.Model):
@@ -28,7 +37,7 @@ class MRPBOMLine(models.Model):
 
 class WorksheetTemplate(models.Model):
     _inherit = 'worksheet.template'
-    _description = "For which king of process this template will be used (Mixing, Filling, Packaging etc.)"
+    _description = "For which kind of process this template will be used (Mixing, Filling, Packaging etc.)"
 
     x_template_for = fields.Selection([('mixing', 'Mixing'), ('filling', 'Filling'), ('packing', 'Packaging')])
 
@@ -36,12 +45,25 @@ class WorksheetTemplate(models.Model):
 class WorksheetChecklist(models.Model):
     _name = 'worksheet.checklist'
     _description = "Checklist to show in worksheet"
+    _order = "x_step,id"
 
-    x_name = fields.Text("Details")
+    x_sequence = fields.Integer("Sr. No.")
+    x_step = fields.Integer("Step")
+    x_name = fields.Text("Instructions")
     x_completed_by = fields.Many2one('res.users', "Completed by")
-    x_completed_date = fields.Datetime("Date")
+    x_completed_date = fields.Date("Date")
     x_verified_by = fields.Many2one('res.users', "Verified by")
-    x_verified_date = fields.Datetime("Date")
+    x_verified_date = fields.Date("Date")
+
+    # Parameters
+    x_start_date = fields.Datetime("Start Time")
+    x_stop_date = fields.Datetime("Stop Time")
+    x_ph = fields.Float("Ph")
+
+    # Parameters show flag
+    x_start_date_show = fields.Boolean("Start Time")
+    x_stop_date_show = fields.Boolean("Stop Time")
+    x_ph_show = fields.Boolean("Ph")
 
 
 class MixingLines(models.Model):
@@ -186,11 +208,19 @@ class QualityCheckInherit(models.Model):
             if 'from_manufacturing_order' in self._context and self._context['from_manufacturing_order'] is True:
                 lines_data = []
                 if not checklist_lines:
-                    for item in work_order.bom_id.checklist_ids:
-                        lines_data.append((0, 0, {
-                            'x_name': item.name,
+                    for item in work_order.bom_id.x_checklist_ids:
+                        data = {
+                            'x_name': item.x_name,
                             'x_'+m2o_field: worksheet.sudo().id,
-                        }))
+                            'x_sequence': item.x_sequence,
+                            'x_step': item.x_step,
+                        }
+                        # Show only marked fields to fill
+                        if item.x_start_date_show: data.update({'x_start_date_show': True})
+                        if item.x_stop_date_show: data.update({'x_stop_date_show': True})
+                        if item.x_ph_show: data.update({'x_ph_show': True})
+
+                        lines_data.append((0, 0, data))
                     if lines_data: worksheet.x_checklist_line_ids = lines_data
 
         worksheet.x_main_qty = work_order.product_qty
