@@ -1,0 +1,77 @@
+
+<odoo>
+    <data>
+        <record id="action_sale_product_report_pdf" model="ir.actions.report">
+            <field name="name">Sale Material Report</field>
+            <field name="model">sale.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">sale_product_report.sale_product_report</field>
+            <field name="report_file">sale_product_report.sale_product_report</field>
+            <field name="print_report_name">'Sale_Product_Report %s' % object.name</field>
+            <field name="binding_model_id" ref="sale.model_sale_order"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <template id="sale_product_report">
+            <t t-call="web.html_container">
+                <t t-set="data_report_header_spacing" t-value="40"/>
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <center>
+                                <h4>Products Require For Sale Order No :<span t-esc="docs.display_name"/></h4>
+                            </center>
+                            <h5>Customer: <span t-esc="docs.partner_id.name"/></h5>
+                            <h5>Order date: <span t-esc="docs.date_order"/></h5>
+                             <table style="border: 1pt solid black;width:100% !important">
+                                 <thead style="display: table-header-group;">
+                                     <tr style="border: 1pt solid black;">
+                                         <th style="padding-left: 3px;">Reference</th>
+                                         <th style="padding-left: 3px;">Product Name</th>
+                                         <th>Quantity</th>
+                                         <th>Unit</th>
+                                     </tr>
+                                 </thead>
+                                 <tbody>
+                                     <t t-foreach="consume" t-as="line1">
+                                         <tr style="border: 1pt solid;border-bottom-color: #DCDCDC;">
+                                             <td>
+                                                 <span t-esc="consume[line1]['origin']" style="font-size:11px;"/>
+                                             </td>
+                                             <td>
+                                                 <span t-esc="consume[line1]['product_id']"/>
+                                             </td>
+                                             <td>
+                                                 <span t-esc="consume[line1]['total_qty']"/>
+                                             </td>
+                                             <td>
+                                                 <span t-esc="consume[line1]['unit']"/>
+                                             </td>
+
+                                         </tr>
+                                     </t>
+                                     <t t-foreach="sale" t-as="line2">
+                                         <tr style="border: 1pt solid;border-bottom-color: #DCDCDC;">
+                                             <td>
+                                                 <span t-esc="line2.order_id.name" style="font-size:11px;"/>
+                                             </td>
+                                             <td>
+                                                 <span t-esc="line2.product_id.display_name"/>
+                                             </td>
+                                             <td>
+                                                 <span t-esc="line2.product_uom_qty"/>
+                                             </td>
+                                             <td>
+                                                 <span t-esc="line2.product_uom.name"/>
+                                             </td>
+                                         </tr>
+                                     </t>
+                                 </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

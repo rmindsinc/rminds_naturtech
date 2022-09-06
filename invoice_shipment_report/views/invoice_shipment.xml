@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="invoice_report_ship_detail" inherit_id="account.report_invoice_document">
+            <xpath expr="//div[@id='informations']" position="inside">
+                <t t-foreach="request.env['stock.picking'].search([('origin', '=', o.invoice_origin),('state','=','done'),('name','like', 'OUT')])"
+                   t-as="obj">
+                    <div class="col-auto mw-100 mb-2" t-if="obj.carrier_id" id="carrier_id">
+                        <strong>Carrier</strong>
+                        <p class="m-0" t-field="obj.carrier_id"/>
+                    </div>
+                    <div class="col-auto mw-100 mb-2" t-if="obj.carrier_tracking_ref" id="tracking_no">
+                        <strong>Tracking No:</strong>
+                         <p class="m-0" t-field="obj.carrier_tracking_ref"/>
+                    </div>
+                </t>
+            </xpath>
+        </template>
+    </data>
+</odoo>

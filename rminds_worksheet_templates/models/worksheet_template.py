@@ -29,12 +29,6 @@ class MRPBOM(models.Model):
     x_revision_memo = fields.Text("BOM revision history")
 
 
-class MRPBOMLine(models.Model):
-    _inherit = 'mrp.bom.line'
-
-    x_percentage = fields.Float("Percentage")
-
-
 class WorksheetTemplate(models.Model):
     _inherit = 'worksheet.template'
     _description = "For which kind of process this template will be used (Mixing, Filling, Packaging etc.)"
