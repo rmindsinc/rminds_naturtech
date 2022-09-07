@@ -283,7 +283,7 @@ class MRPProduction(models.Model):
                 }
                 ch_id = self.env['mo.checklist'].create(checklist_data)
                 ch_ids.append(ch_id.id)
-            self.x_checklist_ids_mo =   [(6, 0, ch_ids)]
+            self.x_checklist_ids_mo = [(6, 0, ch_ids)]
             self.x_revision_memo_mo = self.bom_id.x_revision_memo
         return res
 
@@ -291,6 +291,9 @@ class MRPProduction(models.Model):
         res = super(MRPProduction, self).action_confirm()
         quality_checks = self.env['quality.check'].sudo().search([('production_id', '=', self.id)])
         for quality_check in quality_checks:
-            quality_check.action_quality_worksheet()
+            try:
+                quality_check.action_quality_worksheet()
+            except Exception as e:
+                pass
 
         return res
