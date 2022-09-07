@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="paperformat_product_report" model="report.paperformat">
+            <field name="name">Product Paperformat Report</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">42</field>
+            <field name="margin_bottom">15</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">40</field>
+            <field name="dpi">90</field>
+        </record>
+        <template id="report_product_raw">
+            <t t-call="web.external_layout">
+                <t t-set="o" t-value="o.with_context(lang=lang)" />
+                <div class="page">
+                    <style>
+                        table, tr, td {
+                          border: 1px solid black;
+                          border-collapse: collapse;
+                        }
+                        #report tr:nth-child(even){background-color: #f2f2f2;}
+                    </style>
+                    <h3 style="font-weight: bold;" class="text-center">Product Raw Material</h3>
+                    <div class="row">
+                        <div style="font-weight: bold;" class="col-6 text-left">From Date : <span t-esc="date_from" t-options='{"widget": "date", "format": "MM.dd.yyyy"}'></span></div>
+                        <div style="font-weight: bold;" class="col-6 text-right">To Date : <span t-esc="date_to" t-options='{"widget": "date", "format": "MM.dd.yyyy"}'></span></div>
+                    </div>
+                    <div>
+                       <strong>Product Name</strong>  : <strong><span t-esc="product_name"/></strong>
+                    </div>
+                    <div class="mt-1">
+                        <h4><strong>Used in Products</strong></h4>
+                    </div>
+                    <div class="mt-1">
+                        <h5><strong>Sale Orders</strong></h5>
+                    </div>
+                    <div class="mt-1">
+                        <table id="report" class="table table-sm" width="100%">
+                            <t t-set="i" t-value="1"/>
+                            <thead>
+                            <tr style="font-weight: bold;">
+                                <th width="10%" class="text-center"><strong>SL No.</strong></th>
+                                <th width="26%"><strong>Product</strong></th>
+                                <th width="16%"><strong>Order Number</strong></th>
+                                <th width="16%"><strong>Client</strong></th>
+                                <th width="16%"><strong>SO Date</strong></th>
+                            </tr>
+                            </thead>
+                            <t t-foreach="bom_list" t-as="bom">
+                                <t t-set="so_lines" t-value="request.env['sale.order.line'].sudo().search([('product_id', '=', bom.product_tmpl_id.product_variant_id.id)])"/>
+                                <tr t-foreach="so_lines" t-as="so_line">
+                                    <td class="text-center" width="10%">
+                                        <span t-esc="i"/>
+                                        <t t-set="i" t-value="i+1"/>
+                                    </td>
+                                    <td width="26%"><span t-esc="bom.product_tmpl_id.display_name"></span></td>
+                                    <td width="16%"><span t-esc="so_line.order_id.name"></span></td>
+                                    <td width="16%"><span t-esc="so_line.order_id.partner_id.name"></span></td>
+                                    <td width="16%"><span t-esc="so_line.order_id.date_order.strftime('%m.%d.%Y')"></span></td>
+                                </tr>
+                            </t>
+                        </table>
+                    </div>
+
+                    <div class="mt-1">
+                        <h5><strong>Purchase Order</strong></h5>
+                    </div>
+                    <div class="mt-1">
+                        <table id="report" class="table table-sm" width="100%">
+                            <t t-set="i" t-value="1"/>
+                            <thead>
+                            <tr style="font-weight: bold;">
+                                <td class="text-center" width="10%"><strong>SL No.</strong></td>
+                                <td width="16%"><strong>PO Number</strong></td>
+                                <td width="16%"><strong>PO Date</strong></td>
+                                <td width="16%"><strong>Qty</strong></td>
+                                <td width="16%"><strong>Price</strong></td>
+                                <td width="26%"><strong>Vendor</strong></td>
+                            </tr>
+                            </thead>
+                            <t t-foreach="bom_list" t-as="bom">
+                                <t t-set="po_lines" t-value="request.env['purchase.order.line'].sudo().search([('product_id', '=', bom.product_tmpl_id.product_variant_id.id)])"/>
+                                <tr t-foreach="po_lines" t-as="po_line">
+                                    <t t-if="date_from &lt; po_line.order_id.date_order and date_to &gt; po_line.order_id.date_order">
+                                    <td class="text-center" width="10%">
+                                        <span t-esc="i"/>
+                                        <t t-set="i" t-value="i+1"/>
+                                    </td>
+                                    <td width="16%"><span t-esc="po_line.order_id.name"></span></td>
+                                    <td width="16%"><span t-esc="po_line.order_id.date_order.strftime('%m.%d.%Y')"></span></td>
+                                    <td width="16%"><span t-esc="po_line.product_qty"></span></td>
+                                    <td width="16%"><span t-esc="po_line.price_unit"></span></td>
+                                    <td width="26%"><span t-esc="po_line.order_id.partner_id.name"></span></td>
+                                    </t>
+                                </tr>
+
+                            </t>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </template>
+        <template id="report_raw">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="product_raw_material_report.report_product_raw" t-lang="user.partner_id.lang"/>
+                </t>
+            </t>
+        </template>
+        <report
+            id="action_report_product_raw"
+            model="product.product"
+            report_type="qweb-pdf"
+            string="Product Raw Report"
+            name="product_raw_material_report.report_raw"
+            file="product_raw_material_report.report_raw"
+            paperformat="product_raw_material_report.paperformat_product_report"
+            />
+</odoo>

@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <template id="report_mrpreport">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.internal_layout">
+                    <div class="page">
+<!--                        <div class="oe_structure"/>-->
+                        <div class="row">
+                            <div class="col-7">
+                                <h3>
+                                    <span t-field="o.name"/>
+                                </h3>
+                            </div>
+                        </div>
+                        <br></br>
+
+                        <div class="row col-12">
+                            <div class="column col-9">
+                                <div class="row mt32 mb32">
+                                    <div class="col-6" style="display: inline-flex;">
+                                        <strong>Part No.:</strong>
+                                        <span t-field="o.product_id.default_code" style="margin-left: 10px;"/>
+                                    </div>
+                                    <div class="col-6" style="display: inline-flex;">
+                                        <strong>Description:</strong>
+                                        <span t-field="o.product_id.name" style="margin-left: 10px;"/>
+                                    </div>
+                                </div>
+                                <div class="row mt32 mb32">
+                                    <div class="col-6" style="display: inline-flex;">
+                                        <strong>Quantity:</strong>
+                                        <span t-field="o.qty_producing" style="margin-left: 10px;"/>
+                                    </div>
+                                    <div class="col-6" style="display: inline-flex;">
+                                        <strong>Unit:</strong>
+                                        <span t-field="o.product_id.uom_id.id" style="margin-left: 10px;"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="column col-3">
+                                <t t-foreach="o.workorder_ids" t-as="process">
+                                    <t t-foreach="process.check_ids" t-as="check_list">
+                                        <t t-set="worksheet1" t-value="check_list.get_worksheet()"></t>
+                                    </t>
+                                </t>
+                                <div class="row mt32 mb32">
+                                    <div class="col-12" style="display: inline-flex;">
+                                        <strong>Start Time:</strong>
+                                        <span t-esc="worksheet1.x_start_time" style="margin-left: 10px;"/>
+                                    </div>
+                                </div>
+                                <div class="row mt32 mb32">
+                                    <div class="col-12" style="display: inline-flex;">
+                                        <strong>Stop Time:</strong>
+                                        <span t-esc="worksheet1.x_stop_time" style="margin-left: 10px;"/>
+                                    </div>
+                                </div>
+                                <div class="row mt32 mb32">
+                                    <div class="col-12" style="display: inline-flex;">
+                                        <strong>Retain:</strong>
+                                        <span t-esc="worksheet1.x_retain" style="margin-left: 10px;"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br></br>
+
+
+                        <div class="row col-12">
+                            <div class="column col-9">
+                                <div class="row mt32 mb32">
+                                    <div class="col-6" style="display: inline-flex;">
+                                        <strong>Product formula revision:</strong>
+                                        <span style="margin-left: 10px;"/>
+                                    </div>
+                                </div>
+                                <div class="row mt32 mb32">
+                                    <div class="col-6" style="display: inline-flex;">
+                                        <strong>Manufactured date:</strong>
+                                        <span t-field="worksheet1.x_manufactured_date" style="margin-left: 10px;"/>
+                                    </div>
+                                </div>
+                                <div class="row mt32 mb32">
+                                    <div class="col-6" style="display: inline-flex;">
+                                        <strong>Batch ticket job #:</strong>
+                                        <span style="margin-left: 10px;"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="column col-3">
+                                <div class="row mt32 mb32">
+                                    <div class="col-12" style="display: inline-flex;">
+                                        <strong>Due date:</strong>
+                                        <span t-esc="o.date_planned_start.date()" style="margin-left: 10px;"/>
+                                    </div>
+                                </div>
+                                <div class="row mt32 mb32">
+                                    <div class="col-12" style="display: inline-flex;">
+                                        <strong>QC lot sign off:</strong>
+                                        <span style="margin-left: 10px;"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <hr></hr>
+                        <div t-if="o.workorder_ids" groups="mrp.group_mrp_routings">
+                            <h3>
+                                <span>Operations Details</span>
+                            </h3>
+                            <br></br>
+
+                            <t t-foreach="o.workorder_ids" t-as="process">
+                                <t t-foreach="process.check_ids" t-as="check_list">
+                                    <t t-set="worksheet" t-value="check_list.get_worksheet()"></t>
+                                    <h4>
+                                        <span t-esc="process.name"></span>
+                                    </h4>
+
+                                    <!--                                    Components section-->
+                                    <h5>Components</h5>
+                                    <table class="table table-sm">
+                                        <tr>
+                                            <th style="width: 7%">
+                                                <strong>Part</strong>
+                                            </th>
+                                            <th style="width: 48%;">
+                                                <strong>Description</strong>
+                                            </th>
+<!--                                            <th style="width: 7%;">-->
+<!--                                                <strong>Percentage</strong>-->
+<!--                                            </th>-->
+                                            <th style="width: 7%;">
+                                                <strong>Quantity</strong>
+                                            </th>
+                                            <th style="width: 7%;">
+                                                <strong>Unit</strong>
+                                            </th>
+                                            <th style="width: 12%;">
+                                                <strong>Added by</strong>
+                                            </th>
+                                            <th style="width: 12%;">
+                                                <strong>Verified by</strong>
+                                            </th>
+                                        </tr>
+                                        <tr t-foreach="worksheet.x_mixing_line_ids" t-as="mixing_line">
+                                            <td style="vertical-align: middle; text-align: left;">
+                                                <span t-field="mixing_line.x_part"
+                                                      style="padding: 10px; display: block; min-height: 70px;"/>
+                                            </td>
+                                            <td style="vertical-align: middle; text-align: left;">
+                                                <span t-field="mixing_line.x_product_id.display_name"
+                                                      style="padding: 10px; display: block; min-height: 70px;"/>
+                                            </td>
+<!--                                            <td style="vertical-align: middle; text-align: right;">-->
+<!--                                                <span t-esc="o.get_percentage(mixing_line.x_product_id)"-->
+<!--                                                      style="padding: 10px; display: block; min-height: 70px;"/>-->
+<!--                                            </td>-->
+                                            <td style="vertical-align: middle; text-align: right;">
+                                                <span t-field="mixing_line.x_qty"
+                                                      style="padding: 10px; display: block; min-height: 70px;"/>
+                                            </td>
+                                            <td style="vertical-align: middle; text-align: left;">
+                                                <span t-field="mixing_line.x_uom.name"
+                                                      style="padding: 10px; display: block; min-height: 70px;"/>
+                                            </td>
+                                            <td style="vertical-align: middle; text-align: center;">
+                                                <span t-field="mixing_line.x_added_by.name"
+                                                      style="border: 1px solid #dee2e6; padding: 10px; display: block; min-height: 70px;"/>
+                                            </td>
+                                            <td style="vertical-align: middle; text-align: center;">
+                                                <span t-field="mixing_line.x_verify_by.name"
+                                                      style="border: 1px solid #dee2e6; padding: 10px; display: block; min-height: 70px;"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+
+                                    <!--                                    Checklist/Instructions section-->
+                                    <h5>Instructions</h5>
+                                    <table class="table table-sm">
+                                        <tr>
+                                            <th style="vertical-align: middle;">
+                                                <strong>Step</strong>
+                                            </th>
+                                            <th style="vertical-align: middle;">
+                                                <strong>Instruction</strong>
+                                            </th>
+                                            <th style="vertical-align: middle;">
+                                                <strong>Completed by</strong>
+                                            </th>
+                                            <th style="vertical-align: middle;">
+                                                <strong>Date</strong>
+                                            </th>
+                                            <th style="vertical-align: middle;">
+                                                <strong>Verified by</strong>
+                                            </th>
+                                            <th style="vertical-align: middle;">
+                                                <strong>Date</strong>
+                                            </th>
+                                        </tr>
+                                        <tr t-foreach="worksheet.x_checklist_line_ids" t-as="instruction_line">
+                                            <td style="vertical-align: middle; text-align: left;">
+                                                <span t-field="instruction_line.x_step"
+                                                      style="padding: 10px; display: block; min-height: 70px;"/>
+                                            </td>
+                                            <td style="vertical-align: middle; text-align: left; width: 50%;">
+                                                <span t-field="instruction_line.x_name"
+                                                      style="padding: 10px; display: block; min-height: 70px;"/>
+                                            </td>
+                                            <td style="vertical-align: middle; text-align: center; width: 12%;">
+                                                <span t-field="instruction_line.x_completed_by"
+                                                      style="border: 1px solid #dee2e6; padding: 10px; display: block; min-height: 70px;"/>
+                                            </td>
+                                            <td style="vertical-align: middle; text-align: center; width: 12%;">
+                                                <span t-field="instruction_line.x_completed_date"
+                                                      style="border: 1px solid #dee2e6; padding: 10px; display: block; min-height: 70px;"/>
+                                            </td>
+                                            <td style="vertical-align: middle; text-align: center; width: 12%;">
+                                                <span t-field="instruction_line.x_verified_by"
+                                                      style="border: 1px solid #dee2e6; padding: 10px; display: block; min-height: 70px;"/>
+                                            </td>
+                                            <td style="vertical-align: middle; text-align: center; width: 12%;">
+                                                <span t-field="instruction_line.x_verified_date"
+                                                      style="border: 1px solid #dee2e6; padding: 10px; display: block; min-height: 70px;"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </t>
+                            </t>
+                        </div>
+
+
+                        <div class="row col-12">
+                            <div class="column col-6">
+                                <div class="row mt32 mb32">
+                                    <div class="col-12" style="">
+                                        <strong>Quality comments:</strong>
+                                        <span style="">
+                                            <textarea rows="7" style="width: 100%;"></textarea>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="column col-6">
+                                <div class="row mt32 mb32">
+                                    <div class="col-12" style="">
+                                        <strong>Production comments:</strong>
+                                        <span style="">
+                                            <textarea rows="7" style="width: 100%;"></textarea>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br></br>
+                        <br></br>
+
+                        <div class="row col-12">
+                            <div class="column col-12">
+                                <div class="row mt32 mb32">
+                                    <div class="col-12" style="">
+                                        <span style="">
+                                            <span t-esc="o.x_revision_memo_mo" style="width: 100%;"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br></br>
+                        <br></br>
+                        <br></br>
+
+
+                        <span style="width: 100%; text-align: center">
+                            <h5>Quality Control</h5>
+                        </span>
+                        <table class="table table-sm">
+                            <tr>
+                                <th style="width: 40%; text-align: left;">
+                                    <strong>Test name</strong>
+                                </th>
+                                <th style="width: 20%;">
+                                    <strong>Minimum</strong>
+                                </th>
+                                <th style="width: 20%;">
+                                    <strong>Maximum</strong>
+                                </th>
+                                <th style="width: 20%;">
+                                    <strong>Target</strong>
+                                </th>
+                            </tr>
+                            <tr t-foreach="o.bom_id.x_test_id.line_ids" t-as="test" t-if="o.bom_id.x_test_id">
+                                <td style="vertical-align: middle; text-align: left;">
+                                    <span t-field="test.param.name"
+                                          style="padding: 10px; display: block;"/>
+                                </td>
+                                <td style="vertical-align: middle;">
+                                    <span t-field="test.min_value"
+                                          style="padding: 10px; display: block;"/>
+                                </td>
+                                <td style="vertical-align: middle;">
+                                    <span t-field="test.max_value"
+                                          style="padding: 10px; display: block;"/>
+                                </td>
+                                <td style="vertical-align: middle;">
+                                    <span t-field="test.target"
+                                          style="padding: 10px; display: block;"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <br></br>
+                        <br></br>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+<!--    "binding_model_id" is set to false hide this report menu from "print" dropdown -->
+    <record id="action_report_production_report" model="ir.actions.report">
+        <field name="name">Production Report</field>
+        <field name="model">mrp.production</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">rminds_production_report.report_mrpreport</field>
+        <field name="report_file">rminds_production_report.report.mrp_production_report</field>
+        <field name="print_report_name">'Production Report - %s' % object.name</field>
+        <field name="binding_model_id" eval="False"/>
+        <field name="binding_type">report</field>
+    </record>
+
+
+
+
+
+    <record model="ir.actions.server" id="action_print_production_report">
+            <field name="name">Production Report</field>
+            <field name="model_id" ref="mrp.model_mrp_production"/>
+            <field name="binding_model_id" ref="mrp.model_mrp_production" />
+            <field name="state">code</field>
+            <field name="binding_view_types">form</field>
+            <field name="code">
+if records:
+    action = records.generate_production_report()
+            </field>
+        </record>
+
+
+
+</odoo>

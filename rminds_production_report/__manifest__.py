@@ -1,22 +1,21 @@
 # -*- coding: utf-8 -*-
-
 {
-    'name': 'Worksheet Templates',
+    'name': 'MO Production Report',
     'category': 'MRP',
-    'summary': 'Custom Worksheet Templates',
+    'summary': 'MO Production Report',
     'description': """
-Custom Worksheet Templates
+MO Production Report'
 """,
-    'depends': ['quality_control_worksheet'],
+    'depends': ['rminds_worksheet_templates'],
     'data': [
         'security/ir.model.access.csv',
         'views/worksheet_templates.xml',
-        'views/worksheet_data.xml',
+        "report/report.xml",
     ],
     'demo': [],
     'assets': {
         'web.assets_backend': [
-            'rminds_worksheet_templates/static/src/css/custom.css',
+
         ],
         'web.assets_frontend': [
 

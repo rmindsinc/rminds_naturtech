@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 from ast import literal_eval
+from distutils.command.check import check
 
 from odoo import api, models, fields, _
 from odoo.exceptions import UserError
+import base64
+from PyPDF2 import PdfFileMerger, PdfFileReader
 
 
 class BOMChecklist(models.Model):
@@ -15,6 +18,25 @@ class BOMChecklist(models.Model):
     x_step = fields.Integer("Step")
     x_name = fields.Text("Instructions")
     x_checklist_id = fields.Many2one('mrp.bom', "BOM")
+    x_checklist_id_mo = fields.Many2one('mrp.production', "MO")
+
+    # Parameters show flag at backend
+    x_start_date_show = fields.Boolean("Start Time")
+    x_stop_date_show = fields.Boolean("Stop Time")
+    x_ph_show = fields.Boolean("Ph")
+
+
+class BOMChecklist(models.Model):
+    _name = 'mo.checklist'
+    _description = "Checklist in MO"
+
+    _order = "x_step,id"
+
+    x_sequence = fields.Integer("Sr. No.")
+    x_step = fields.Integer("Step")
+    x_name = fields.Text("Instructions")
+    x_checklist_id = fields.Many2one('mrp.bom', "BOM")
+    x_checklist_id_mo = fields.Many2one('mrp.production', "MO")
 
     # Parameters show flag at backend
     x_start_date_show = fields.Boolean("Start Time")
@@ -181,7 +203,7 @@ class QualityCheckInherit(models.Model):
 
         if 'mixing_line_ids' in str(worksheet.read()):
             mixing_lines = worksheet.x_mixing_line_ids
-            if 'from_manufacturing_order' in self._context and self._context['from_manufacturing_order'] is True:
+            if 1==1 or 'from_manufacturing_order' in self._context and self._context['from_manufacturing_order'] is True:
                 lines_data = []
                 if not mixing_lines:
                     for item in work_order.move_raw_ids:
@@ -199,24 +221,115 @@ class QualityCheckInherit(models.Model):
 
         if 'checklist_line_ids' in str(worksheet.read()):
             checklist_lines = worksheet.x_checklist_line_ids
-            if 'from_manufacturing_order' in self._context and self._context['from_manufacturing_order'] is True:
-                lines_data = []
-                if not checklist_lines:
-                    for item in work_order.bom_id.x_checklist_ids:
-                        data = {
-                            'x_name': item.x_name,
-                            'x_'+m2o_field: worksheet.sudo().id,
-                            'x_sequence': item.x_sequence,
-                            'x_step': item.x_step,
-                        }
-                        # Show only marked fields to fill
-                        if item.x_start_date_show: data.update({'x_start_date_show': True})
-                        if item.x_stop_date_show: data.update({'x_stop_date_show': True})
-                        if item.x_ph_show: data.update({'x_ph_show': True})
+            added_steps = []
+            for exist_item in worksheet.x_checklist_line_ids:
+                added_steps.append(exist_item.x_step)
+            if 1==1 or 'from_manufacturing_order' in self._context and self._context['from_manufacturing_order'] is True:
+                if 1 == 1 or not checklist_lines:
+                    for item in work_order.x_checklist_ids_mo:
+                        lines_data = []
+                        if item.x_step not in added_steps:
+                            data = {
+                                'x_name': item.x_name,
+                                'x_'+m2o_field: worksheet.sudo().id,
+                                'x_sequence': item.x_sequence,
+                                'x_step': item.x_step,
+                            }
+                            # Show only marked fields to fill
+                            if item.x_start_date_show: data.update({'x_start_date_show': True})
+                            if item.x_stop_date_show: data.update({'x_stop_date_show': True})
+                            if item.x_ph_show: data.update({'x_ph_show': True})
 
-                        lines_data.append((0, 0, data))
-                    if lines_data: worksheet.x_checklist_line_ids = lines_data
+                            lines_data.append((0, 0, data))
+                            if lines_data: worksheet.x_checklist_line_ids = lines_data
 
-        worksheet.x_main_qty = work_order.product_qty
+        try:
+            worksheet.x_main_qty = work_order.product_qty
+        except Exception as e: pass
 
         return super(QualityCheckInherit, self).action_quality_worksheet()
+
+
+class MRPProduction(models.Model):
+    _inherit = 'mrp.production'
+
+    x_checklist_ids_mo = fields.One2many('mo.checklist', 'x_checklist_id_mo', "Checklist")
+    x_revision_memo_mo = fields.Text("BOM revision history")
+
+    def generate_production_report(self):
+        report_file = "/tmp/worksheet%s.pdf" % self.id
+        files = [report_file]
+        report = self.env.ref('rminds_production_report.action_report_production_report')._render_qweb_pdf(self.id)
+        f = open(report_file, 'wb+')
+        f.write(report[0])
+        f.close()
+
+        for bom_line in self.bom_id.bom_line_ids:
+            domain = [
+                '|',
+                '&', ('res_model', '=', 'product.product'), ('res_id', '=', bom_line.product_id.id),
+                '&', ('res_model', '=', 'product.template'), ('res_id', '=', bom_line.product_id.product_tmpl_id.id)]
+            attachment_ids = self.env['mrp.document'].sudo().search(domain)
+            for attachment in attachment_ids:
+                file_name = "/tmp/bom_line%s.pdf" % attachment.id
+                f = open(file_name, 'wb+')
+                files.append(file_name)
+                f.write(base64.decodebytes(attachment.datas))
+                f.close()
+
+        merger = PdfFileMerger()
+        for pdf_file in files:
+            merger.append(PdfFileReader(pdf_file, 'rb'), import_bookmarks=False)
+        final_file = "/tmp/merged_2_pages%s.pdf" % self.id
+        f2 = open(final_file, 'wb+')
+        f2.close()
+        merger.write(final_file)
+        merger.close()
+
+        f2 = open(final_file, 'rb')
+        final_pdf_file = self.env['ir.attachment'].create({
+            'name': 'Production Report - %s' % self.name,
+            'datas': base64.b64encode(f2.read()),
+            'res_model': 'mrp.production',
+            'res_id': self.id,
+            'mimetype': 'application/pdf'
+        })
+
+        action = {
+            'type': 'ir.actions.act_url',
+            'url': "web/content/?model=ir.attachment&id=" + str(
+                final_pdf_file.id) + "&filename_field=name&field=datas&download=true&name=" + final_pdf_file.name,
+            'target': 'self'
+        }
+        return action
+
+
+    def get_percentage(self, product_id):
+        percentage = 0
+        for item in self.bom_id.bom_line_ids:
+            if item.product_id.id == product_id.id:
+                percentage = item.bom_percentage
+        return percentage
+
+    @api.onchange('bom_id')
+    def _onchange_bom_id(self):
+        res = super(MRPProduction, self)._onchange_bom_id()
+        for ch in self:
+            ch.x_checklist_ids_mo = [(5,0,0)]
+        if self.bom_id:
+            ch_ids = []
+            for item in self.bom_id.x_checklist_ids:
+                checklist_data = {'x_step': item.x_step, 'x_name':item.x_name}
+                ch_id = self.env['mo.checklist'].create(checklist_data)
+                ch_ids.append(ch_id.id)
+            self.x_checklist_ids_mo =   [(6, 0, ch_ids)]
+            self.x_revision_memo_mo = self.bom_id.x_revision_memo
+        return res
+
+    def action_confirm(self):
+        res = super(MRPProduction, self).action_confirm()
+        quality_checks = self.env['quality.check'].sudo().search([('production_id', '=', self.id)])
+        for quality_check in quality_checks:
+            quality_check.action_quality_worksheet()
+
+        return res

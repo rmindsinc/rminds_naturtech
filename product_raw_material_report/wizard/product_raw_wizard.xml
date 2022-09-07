@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_product_raw_wizard_form" model="ir.ui.view">
+        <field name="name">product.raw.wizard.form</field>
+        <field name="model">product.raw.wizard</field>
+        <field name="arch" type="xml">
+        <form string="Product Form">
+            <group>
+                <group>
+                    <field name="date_from"/>
+                </group>
+                <group>
+                    <field name="date_to"/>
+                </group>
+            </group>
+                <group string="Products">
+                    <field name="product_id" nolabel="1"/>
+                </group>
+
+            <footer>
+                <button name="action_print_report" string="Print" type="object" default_focus="1" class="oe_highlight"/>
+                or <button string="Cancel" class="oe_link" special="cancel" />
+            </footer>
+        </form>
+        </field>
+    </record>
+
+    <record id="action_product_raw_wizard" model="ir.actions.act_window">
+        <field name="name">Product Raw Report</field>
+        <field name="res_model">product.raw.wizard</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_product_raw_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <!--<act_window name="Product Raw Report"
+                id="product_raw_wizard"
+                view_id="view_product_raw_wizard_form"
+                res_model="product.raw.wizard"
+                binding_model="product.product"
+                binding_views="form"
+                view_mode="form"
+                target="new"
+                context="{'default_product_id': active_id}"
+        />-->
+
+    <menuitem
+        id="menu_product_raw_wizard"
+        name="Product Raw Report"
+        action="action_product_raw_wizard"
+        parent="sale.menu_sale_report"/>
+
+</odoo>

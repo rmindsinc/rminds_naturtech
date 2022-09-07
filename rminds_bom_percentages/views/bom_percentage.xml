@@ -1,0 +1,25 @@
+<odoo>
+
+    <record id="bom_percentage_form" model="ir.ui.view">
+        <field name="name">mrp.mrp_bom_form_view</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='miscellaneous']//field[@name='consumption']" position="after">
+
+                <field name="is_percentage" />
+
+            </xpath>
+            <xpath expr="//page[@name='components']//field[@name='attachments_count']" position="after">
+
+                <field name="bom_percentage" widget="percentage"  attrs="{'column_invisible': [('parent.is_percentage', '!=', True)],'readonly': [('parent.is_percentage', '!=', True)]}" />
+
+            </xpath>
+
+
+
+
+        </field>
+    </record>
+
+</odoo>

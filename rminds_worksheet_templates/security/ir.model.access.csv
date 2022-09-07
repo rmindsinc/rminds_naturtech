@@ -2,3 +2,4 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_mixing_lines,mixing.lines,model_mixing_lines,,1,1,1,1
 access_worksheet_checklist,worksheet.checklist,model_worksheet_checklist,,1,1,1,1
 access_bom_checklist,bom.checklist,model_bom_checklist,,1,1,1,1
+access_mo_checklist,mo.checklist,model_mo_checklist,,1,1,1,1

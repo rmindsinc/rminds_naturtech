@@ -67,6 +67,62 @@
 
 
 
+<!--    View for MO-->
+    <record id="mrp_production_form_view_checklist" model="ir.ui.view">
+        <field name="name">mrp.production.form.viewchecklist</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/notebook/page[@name='operations']" position="after">
+                <page name="checklist" string="Checklist/Instructions">
+                    <field name="x_checklist_ids_mo" nolabel="1" attrs="{'readonly':[('state', '!=', 'draft')]}">
+                        <tree editable="bottom">
+                            <field name="x_sequence" string="Sequence" class="class_sequence" widget="handle"></field>
+                            <field name="x_step" string="Step" class="class_step"></field>
+                            <field name="x_name"></field>
+                        </tree>
+                        <form>
+                            <group>
+                                <h3>Instructions</h3>
+                            </group>
+                            <group name="instructions">
+<!--                                <field name="x_sr_no"></field>-->
+                                <field name="x_name" nolabel="1"></field>
+                            </group>
+
+<!--                            Commented temporary-->
+<!--                            <group name="parameters">-->
+<!--                                <h3>Parameters</h3>-->
+<!--                                <br></br>-->
+<!--                                <group class="group_custom_class">-->
+<!--                                    <field name="x_start_date_show" nolabel="1"></field>-->
+<!--                                    <label for="x_start_date_show" />-->
+
+<!--                                    <field name="x_stop_date_show" nolabel="1"></field>-->
+<!--                                    <label for="x_stop_date_show" />-->
+
+<!--                                    <field name="x_ph_show" nolabel="1"></field>-->
+<!--                                    <label for="x_ph_show" />-->
+<!--                                </group>-->
+<!--                                <group>-->
+
+<!--                                </group>-->
+<!--                            </group>-->
+
+                        </form>
+                    </field>
+                </page>
+                <page name="revision_memo" string="Revision">
+                    <group name="revision_memo" string="Memo">
+                        <field name="x_revision_memo_mo" nolabel="1"></field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+
+
     <record id="view_mixing_lines_tree" model="ir.ui.view">
         <field name="name">mixing.lines.tree</field>
         <field name="model">mixing.lines</field>
