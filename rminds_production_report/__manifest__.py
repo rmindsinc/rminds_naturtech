@@ -11,6 +11,7 @@ MO Production Report'
         'security/ir.model.access.csv',
         'views/worksheet_templates.xml',
         "report/report.xml",
+        "report/production_workorder.xml",
     ],
     'demo': [],
     'assets': {

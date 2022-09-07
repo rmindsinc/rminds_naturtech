@@ -19,11 +19,18 @@
         <field name="arch" type="xml">
             <xpath expr="//form/sheet/notebook/page[@name='by_products']" position="after">
                 <page name="checklist" string="Checklist/Instructions">
-                    <field name="x_checklist_ids" nolabel="1">
+                    <field name="x_checklist_ids" nolabel="1"
+                           widget="section_and_note_one2many">
                         <tree editable="bottom">
+                            <control>
+                                <create name="add_line_control" string="Add a line"/>
+                                <create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}"/>
+                            </control>
                             <field name="x_sequence" string="Sequence" class="class_sequence" widget="handle"></field>
                             <field name="x_step" string="Step" class="class_step"></field>
-                            <field name="x_name"></field>
+                            <field name="x_name" widget="section_and_note_text" optional="show"></field>
+                            <field name="display_type" invisible="1"/>
+                            <field name="name" widget="section_and_note_text" optional="show"/>
                         </tree>
                         <form>
                             <group>
@@ -75,11 +82,18 @@
         <field name="arch" type="xml">
             <xpath expr="//form/sheet/notebook/page[@name='operations']" position="after">
                 <page name="checklist" string="Checklist/Instructions">
-                    <field name="x_checklist_ids_mo" nolabel="1" attrs="{'readonly':[('state', '!=', 'draft')]}">
+                    <field name="x_checklist_ids_mo" nolabel="1" attrs="{'readonly':[('state', '!=', 'draft')]}"
+                        widget="section_and_note_one2many" >
                         <tree editable="bottom">
+                            <control>
+                                <create name="add_line_control" string="Add a line"/>
+                                <create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}"/>
+                            </control>
                             <field name="x_sequence" string="Sequence" class="class_sequence" widget="handle"></field>
                             <field name="x_step" string="Step" class="class_step"></field>
                             <field name="x_name"></field>
+                            <field name="display_type" invisible="1"/>
+                            <field name="name" widget="section_and_note_text" optional="show"/>
                         </tree>
                         <form>
                             <group>

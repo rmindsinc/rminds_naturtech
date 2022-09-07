@@ -5,7 +5,8 @@ class QCExternalTesting(models.Model):
     _name = 'qc.external.testing'
     _inherit = 'mail.thread'
 
-    product_id = fields.Many2one("product.product", "Product", required=True, track_visibility="always")
+    mo_id = fields.Many2one('mrp.production', 'Manufacturing Order', track_visibility="always")
+    product_id = fields.Many2one("product.product", "Product", required=True, track_visibility="always",store=True)
     line_ids = fields.One2many( 'qc.external.testing.line', 'qc_external_testing_id',"Tests", required=True)
     name = fields.Char("Name", required=True, readonly=True, default='New')
     lab = fields.Many2one("res.users", "Lab User", domain="[('is_lab_user', '=', True)]", required=True,default= lambda self: self.env.user)
@@ -29,6 +30,11 @@ class QCExternalTesting(models.Model):
     
     def _get_default_country(self):
         return self.env['res.country'].search([('code', '=', 'US')], limit=1)
+
+    @api.onchange('mo_id')
+    def _onchange_mo_id(self):
+        if self.mo_id:
+            self.product_id = self.mo_id.product_id.id
 
 
     def approve_button(self):

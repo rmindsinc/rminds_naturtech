@@ -23,7 +23,7 @@
                             </center>
                             <h5>Customer: <span t-esc="docs.partner_id.name"/></h5>
                             <h5>Order date: <span t-esc="docs.date_order"/></h5>
-                             <table style="border: 1pt solid black;width:100% !important">
+                             <table class="table table-sm o_main_table">
                                  <thead style="display: table-header-group;">
                                      <tr style="border: 1pt solid black;">
                                          <th style="padding-left: 3px;">Reference</th>
