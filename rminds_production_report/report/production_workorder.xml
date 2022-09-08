@@ -7,572 +7,586 @@
                 <t t-call="web.internal_layout">
                     <div class="page">
 
-                        <table class="table table-sm table1" style="margin-bottom: -1px !important;">
-                            <tr>
-                                <td style="padding: 7px; width: 25%; border: 1px solid #dee2e6;">
-                                    <strong>Product</strong>
-                                </td>
-                                <td style="width: 75%; text-align: left; border: 1px solid #dee2e6;">
-                                    <span t-field="o.product_id.display_name"
-                                          style="padding: 5px; display: block; "/>
-                                </td>
-                            </tr>
-                        </table>
-                        <table class="table table-sm">
-                            <tr>
-                                <td style="width: 75%; border: 1px solid #dee2e6;">
-                                    <table class="table table-sm table2" style="margin: 0px !important;">
-                                        <tr>
-                                            <td style="padding: 7px; width: 20%; border: 1px solid #dee2e6;">
-                                                <strong>Customer</strong>
-                                            </td>
-                                            <td style="width: 30%; border: 1px solid #dee2e6;">
-                                                <span t-esc="o.get_customer()"
-                                                      style="padding: 5px; display: block; "/>
-                                            </td>
-                                            <td style="padding: 7px; width: 20%; border: 1px solid #dee2e6;">
-                                                <strong>Formula#</strong>
-                                            </td>
-                                            <td style="width: 30%; border: 1px solid #dee2e6;">
-                                                <span t-field="o.bom_id.code"
-                                                      style="padding: 5px; display: block; "/>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="padding: 7px; width: 20%; border: 1px solid #dee2e6;">
-                                                <strong>PO</strong>
-                                            </td>
-                                            <td style="width: 30%; border: 1px solid #dee2e6;">
-                                                <span t-esc="o.get_customer_ref()"
-                                                      style="padding: 5px; display: block; "/>
-                                            </td>
-                                            <td style="padding: 7px; width: 20%; border: 1px solid #dee2e6;">
-                                                <strong>MO#</strong>
-                                            </td>
-                                            <td style="width: 30%; border: 1px solid #dee2e6;">
-                                                <span t-field="o.name"
-                                                      style="padding: 5px; display: block; "/>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 20%; border: 1px solid #dee2e6;">
-                                                <strong>Quamtity</strong>
-                                            </td>
-                                            <td style="width: 30%; border: 1px solid #dee2e6;">
-                                                <span t-field="o.qty_producing"
-                                                      style="padding: 5px; display: block; "/>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
+                        <!--                        <table class="table table-sm">-->
+                        <!--                            <tr>-->
+                        <!--                                <td style="width: 75%; border: 1px solid #dee2e6; padding: 0px !important">-->
+                        <!--                                    <table class="table table-sm table2" style="margin: 0px !important;">-->
+                        <!--                                        <tr>-->
+                        <!--                                            <td style="padding: 7px; width: 20%; border: 1px solid #dee2e6;">-->
+                        <!--                                                <strong>Product:</strong>-->
+                        <!--                                            </td>-->
+                        <!--                                            <td colspan="3"-->
+                        <!--                                                style="width: 30%; text-align: left; border: 1px solid #dee2e6;">-->
+                        <!--                                                <span t-field="o.product_id.display_name"-->
+                        <!--                                                      style="padding: 5px; display: block; "/>-->
+                        <!--                                            </td>-->
+                        <!--                                        </tr>-->
+                        <!--                                        <tr>-->
+                        <!--                                            <td style="padding: 7px; width: 20%; border: 1px solid #dee2e6;">-->
+                        <!--                                                <strong>Customer:</strong>-->
+                        <!--                                            </td>-->
+                        <!--                                            <td style="width: 30%; border: 1px solid #dee2e6;">-->
+                        <!--                                                <span t-esc="o.get_customer()"-->
+                        <!--                                                      style="padding: 5px; display: block; "/>-->
+                        <!--                                            </td>-->
+                        <!--                                            <td style="padding: 7px; width: 20%; border: 1px solid #dee2e6;">-->
+                        <!--                                                <strong>Formula#:</strong>-->
+                        <!--                                            </td>-->
+                        <!--                                            <td style="width: 30%; border: 1px solid #dee2e6;">-->
+                        <!--                                                <span t-field="o.bom_id.code"-->
+                        <!--                                                      style="padding: 5px; display: block; "/>-->
+                        <!--                                            </td>-->
+                        <!--                                        </tr>-->
+                        <!--                                        <tr>-->
+                        <!--                                            <td style="padding: 7px; width: 20%; border: 1px solid #dee2e6;">-->
+                        <!--                                                <strong>PO:</strong>-->
+                        <!--                                            </td>-->
+                        <!--                                            <td style="width: 30%; border: 1px solid #dee2e6;">-->
+                        <!--                                                <span t-esc="o.get_customer_ref()"-->
+                        <!--                                                      style="padding: 5px; display: block; "/>-->
+                        <!--                                            </td>-->
+                        <!--                                            <td style="padding: 7px; width: 20%; border: 1px solid #dee2e6;">-->
+                        <!--                                                <strong>MO#:</strong>-->
+                        <!--                                            </td>-->
+                        <!--                                            <td style="width: 30%; border: 1px solid #dee2e6;">-->
+                        <!--                                                <span t-field="o.name"-->
+                        <!--                                                      style="padding: 5px; display: block; "/>-->
+                        <!--                                            </td>-->
+                        <!--                                        </tr>-->
+                        <!--                                        <tr>-->
+                        <!--                                            <td style="width: 20%; border: 1px solid #dee2e6;">-->
+                        <!--                                                <strong>Quantity:</strong>-->
+                        <!--                                            </td>-->
+                        <!--                                            <td style="width: 30%; border: 1px solid #dee2e6;">-->
+                        <!--                                                <span t-field="o.qty_producing"-->
+                        <!--                                                      style="padding: 5px; display: block; "/>-->
+                        <!--                                            </td>-->
+                        <!--                                        </tr>-->
+                        <!--                                    </table>-->
+                        <!--                                </td>-->
 
-                                <!--                                td for company logo-->
-                                <td style="width: 25%; border: 1px solid #dee2e6;">
-                                    <img src='/web/binary/company_logo' class=""
-                                         style="height: auto; margin: 10px; width: 80%; object-fit: scale-down;"
-                                         alt="Logo"/>
-                                </td>
-                            </tr>
-                        </table>
-                        <br></br>
+                        <!--                                &lt;!&ndash;                                td for company logo&ndash;&gt;-->
+                        <!--                                <td style="width: 25%; border: 1px solid #dee2e6;">-->
+                        <!--                                    <img src='/web/binary/company_logo' class=""-->
+                        <!--                                         style="height: auto; margin: 10px; width: 80%; object-fit: scale-down;"-->
+                        <!--                                         alt="Logo"/>-->
+                        <!--                                </td>-->
+                        <!--                            </tr>-->
+                        <!--                        </table>-->
+                        <!--                        <br></br>-->
 
-                        <div style="border: 1px solid #dee2e6; padding-left: 5px; padding-right: 5px; padding-top: 20px; padding-bottom: 30px">
-                            <div>
-                                <span>
-                                    Start time:
-                                    <input type="text" style="border:none;
-                                            border-bottom: 1px solid #dee2e6;"></input>
-                                </span>
-                                <span>
-                                    Stop time:
-                                    <input type="text" style="border:none;
-                                            border-bottom: 1px solid #dee2e6;"></input>
-                                </span>
-                                <span>
-                                    Total time:
-                                    <input type="text" style="border:none;
-                                            border-bottom: 1px solid #dee2e6;"></input>
-                                </span>
-                            </div>
-                            <div style="margin-top: 10px">
-                                <span>
-                                    Total number of personal to complete order:
-                                    <input type="text" style="border:none;
-                                            border-bottom: 1px solid #dee2e6;"></input>
-                                </span>
-                            </div>
-                            <div style="margin-top: 10px">Downtime</div>
-                            <div>
-                                <span>
-                                    1.
-                                    <input type="text" style="border:none;
-                                            border-bottom: 1px solid #dee2e6;"></input>
-                                </span>
-                            </div>
-                            <div style="margin-top: 10px">
-                                <span>
-                                    2.
-                                    <input type="text" style="border:none;
-                                            border-bottom: 1px solid #dee2e6;"></input>
-                                </span>
-                            </div>
-                            <div style="margin-top: 10px">
-                                <span>
-                                    3.
-                                    <input type="text" style="border:none;
-                                            border-bottom: 1px solid #dee2e6;"></input>
-                                </span>
-                            </div>
-                            <div style="margin-top: 10px">
-                                <span>
-                                    4.
-                                    <input type="text" style="border:none;
-                                            border-bottom: 1px solid #dee2e6;"></input>
-                                </span>
-                            </div>
-                            <div style="margin-top: 10px">
-                                <span>
-                                    5.
-                                    <input type="text" style="border:none;
-                                            border-bottom: 1px solid #dee2e6;"></input>
-                                </span>
-                            </div>
-
-                        </div>
-                        <br></br>
-                        <br></br>
-
-
-                        <table class="table table-sm" t-if="o.move_raw_ids">
-                            <t t-set="has_product_barcode" t-value="any(m.product_id.barcode for m in o.move_raw_ids)"/>
-                            <thead>
-                                <tr>
-                                    <th style="border: 1px solid #dee2e6;">Item Number</th>
-                                    <th style="border: 1px solid #dee2e6; width: 50%;">Description</th>
-                                    <th style="border: 1px solid #dee2e6;">Qty</th>
-                                    <th style="border: 1px solid #dee2e6;">Qty Used</th>
-                                    <th style="border: 1px solid #dee2e6;">Qty of samples</th>
-                                    <th style="border: 1px solid #dee2e6;">Scrap</th>
-                                    <th style="border: 1px solid #dee2e6;">Returned</th>
-                                    <th style="border: 1px solid #dee2e6;">Reconcile %</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <t t-if="o.move_raw_ids">
-                                    <tr t-foreach="o.move_raw_ids" t-as="raw_line">
-                                        <td style="border: 1px solid #dee2e6;">
-                                            <span t-field="raw_line.product_id.default_code"/>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6; width: 50%;">
-                                            <span t-field="raw_line.product_id"/>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6;">
-                                            <span t-field="raw_line.product_uom_qty"/>
-                                            <span t-field="raw_line.product_uom" groups="uom.group_uom"/>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6;">
-                                            <t t-if="raw_line.quantity_done > 0">
-                                                <span t-field="raw_line.quantity_done"/>
-                                                <span t-field="raw_line.product_uom" groups="uom.group_uom"/>
-                                            </t>
-                                        </td>
-
-                                        <td style="border: 1px solid #dee2e6;" class="text-center">
-
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6;" class="text-center">
-
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6;" class="text-center">
-
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6;" class="text-center">
-
-                                        </td>
-                                    </tr>
-                                </t>
-                            </tbody>
-                        </table>
-                        <span>
-                            Bill of Material / Components Reconcile Percentage must be +/- 10% anything out of range
-                            will require an investigation
-                        </span>
-
-                        <br></br>
-                        <br></br>
-                        <h5>Instructions</h5>
-                        <t t-foreach="o.workorder_ids" t-as="process">
-                            <t t-foreach="process.check_ids" t-as="check_list">
-                                <t t-set="worksheet" t-value="check_list.get_worksheet()"></t>
-                            </t>
-                        </t>
-
-
-                        <t t-foreach="worksheet.x_checklist_line_ids" t-as="instruction_line">
-                            <table class="table table-sm" style="margin-top: 10px;">
-                                <tr>
-                                    <td class="" style="margin-right: 0px!important; margin-left: 0px!important; margin-bottom: -1px!important; text-align: left; border: 1px solid #dee2e6; width: 100%; ">
-                                        <span t-field="instruction_line.x_step"
-                                              style="padding: 5px;"/>
-                                        <span style="padding: 5px;">.</span>
-                                        <span t-field="instruction_line.x_name"
-                                              style="padding: 5px;"/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="display: inline-flex; text-align: left; width: 100%; padding: 0px!important">
-                                        <table class="table table-sm" style="">
-                                            <tr>
-                                                <td style="vertical-align: middle; text-align: left; border: 1px solid #dee2e6; width: 25%; ">
-                                                    <strong>Production</strong>
-                                                </td>
-                                                <td style="vertical-align: middle; text-align: left; border: 1px solid #dee2e6; width: 25%; ">
-                                                    <span t-field="instruction_line.x_completed_by"
-                                                          style="padding: 10px; display: block; "/>
-                                                </td>
-                                                <td style="vertical-align: middle; text-align: left; border: 1px solid #dee2e6; width: 25%; ">
-                                                    <strong>Date</strong>
-                                                </td>
-                                                <td style="vertical-align: middle; text-align: left; border: 1px solid #dee2e6; width: 25%; ">
-                                                    <span t-field="instruction_line.x_completed_date"
-                                                          style="padding: 10px; display: block; "/>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="vertical-align: middle; text-align: left; border: 1px solid #dee2e6; width: 25%; ">
-                                                    <strong>Quality Control</strong>
-                                                </td>
-                                                <td style="vertical-align: middle; text-align: left; border: 1px solid #dee2e6; width: 25%; ">
-                                                    <span t-field="instruction_line.x_verified_by"
-                                                          style="padding: 10px; display: block; "/>
-                                                </td>
-                                                <td style="vertical-align: middle; text-align: left; border: 1px solid #dee2e6; width: 25%; ">
-                                                    <strong>Date</strong>
-                                                </td>
-                                                <td style="vertical-align: middle; text-align: left; border: 1px solid #dee2e6; width: 25%; ">
-                                                    <span t-field="instruction_line.x_verified_date"
-                                                          style="padding: 10px; display: block; "/>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </table>
-                        </t>
-
-
-                        <!--                        <div class="oe_structure"/>-->
-                        <div class="row">
-                            <div class="col-7">
-                                <h3>
-                                    <span t-field="o.name"/>
-                                </h3>
-                            </div>
-                        </div>
-                        <br></br>
-
-                        <div class="row col-12">
-                            <div class="column col-9">
-                                <div class="row mt32 mb32">
-                                    <div class="col-6" style="display: inline-flex;">
-                                        <strong>Part No.:</strong>
-                                        <span t-field="o.product_id.default_code" style="margin-left: 10px;"/>
-                                    </div>
-                                    <div class="col-6" style="display: inline-flex;">
-                                        <strong>Description:</strong>
-                                        <span t-field="o.product_id.name" style="margin-left: 10px;"/>
-                                    </div>
-                                </div>
-                                <div class="row mt32 mb32">
-                                    <div class="col-6" style="display: inline-flex;">
-                                        <strong>Quantity:</strong>
-                                        <span t-field="o.qty_producing" style="margin-left: 10px;"/>
-                                    </div>
-                                    <div class="col-6" style="display: inline-flex;">
-                                        <strong>Unit:</strong>
-                                        <span t-field="o.product_id.uom_id.id" style="margin-left: 10px;"/>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="column col-3">
-                                <t t-foreach="o.workorder_ids" t-as="process">
-                                    <t t-foreach="process.check_ids" t-as="check_list">
-                                        <t t-set="worksheet1" t-value="check_list.get_worksheet()"></t>
-                                    </t>
-                                </t>
-                                <div class="row mt32 mb32">
-                                    <div class="col-12" style="display: inline-flex;">
-                                        <strong>Start Time:</strong>
-                                        <span t-esc="worksheet1.x_start_time" style="margin-left: 10px;"/>
-                                    </div>
-                                </div>
-                                <div class="row mt32 mb32">
-                                    <div class="col-12" style="display: inline-flex;">
-                                        <strong>Stop Time:</strong>
-                                        <span t-esc="worksheet1.x_stop_time" style="margin-left: 10px;"/>
-                                    </div>
-                                </div>
-                                <div class="row mt32 mb32">
-                                    <div class="col-12" style="display: inline-flex;">
-                                        <strong>Retain:</strong>
-                                        <span t-esc="worksheet1.x_retain" style="margin-left: 10px;"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <br></br>
-
-
-                        <div class="row col-12">
-                            <div class="column col-9">
-                                <div class="row mt32 mb32">
-                                    <div class="col-6" style="display: inline-flex;">
-                                        <strong>Product formula revision:</strong>
-                                        <span style="margin-left: 10px;"/>
-                                    </div>
-                                </div>
-                                <div class="row mt32 mb32">
-                                    <div class="col-6" style="display: inline-flex;">
-                                        <strong>Manufactured date:</strong>
-                                        <span t-field="worksheet1.x_manufactured_date" style="margin-left: 10px;"/>
-                                    </div>
-                                </div>
-                                <div class="row mt32 mb32">
-                                    <div class="col-6" style="display: inline-flex;">
-                                        <strong>Batch ticket job #:</strong>
-                                        <span style="margin-left: 10px;"/>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="column col-3">
-                                <div class="row mt32 mb32">
-                                    <div class="col-12" style="display: inline-flex;">
-                                        <strong>Due date:</strong>
-                                        <span t-esc="o.date_planned_start.date()" style="margin-left: 10px;"/>
-                                    </div>
-                                </div>
-                                <div class="row mt32 mb32">
-                                    <div class="col-12" style="display: inline-flex;">
-                                        <strong>QC lot sign off:</strong>
-                                        <span style="margin-left: 10px;"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <hr></hr>
-                        <div t-if="o.workorder_ids" groups="mrp.group_mrp_routings">
-                            <h3>
-                                <span>Operations Details</span>
-                            </h3>
+                        <div>
+                            <span style="width: 100%; text-align: center">
+                                <h4>Production Work Order</h4>
+                            </span>
+                            <br></br>
                             <br></br>
 
+                            <div style="border: 1px solid #dee2e6; padding-left: 5px; padding-right: 5px; padding-top: 20px; padding-bottom: 30px">
+                                <div>
+                                    <span>
+                                        Start time:
+                                        <input type="text" style="border:none;
+                                            border-bottom: 1px solid #dee2e6;"></input>
+                                    </span>
+                                    <span>
+                                        Stop time:
+                                        <input type="text" style="border:none;
+                                            border-bottom: 1px solid #dee2e6;"></input>
+                                    </span>
+                                    <span>
+                                        Total time:
+                                        <input type="text" style="border:none;
+                                            border-bottom: 1px solid #dee2e6;"></input>
+                                    </span>
+                                </div>
+                                <div style="margin-top: 10px">
+                                    <span>
+                                        Total number of personal to complete order:
+                                        <input type="text" style="border:none;
+                                            border-bottom: 1px solid #dee2e6;"></input>
+                                    </span>
+                                </div>
+                                <div style="margin-top: 10px">Downtime</div>
+                                <div>
+                                    <div style="display: flex">
+                                        1.
+                                        <input type="text" style="border:none;
+                                            border-bottom: 1px solid #dee2e6; width: 90%!important;"></input>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 10px">
+                                    <div style="display: flex">
+                                        2.
+                                        <input type="text" style="border:none;
+                                            border-bottom: 1px solid #dee2e6; width: 90%!important;"></input>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 10px">
+                                    <div style="display: flex">
+                                        3.
+                                        <input type="text" style="border:none;
+                                            border-bottom: 1px solid #dee2e6; width: 90%!important;"></input>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 10px">
+                                    <div style="display: flex">
+                                        4.
+                                        <input type="text" style="border:none;
+                                            border-bottom: 1px solid #dee2e6; width: 90%!important;"></input>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 10px">
+                                    <div style="display: flex">
+                                        5.
+                                        <input type="text" style="border:none;
+                                            border-bottom: 1px solid #dee2e6; width: 90%!important;"></input>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <br></br>
+                            <br></br>
+
+
+                            <h45>Components</h45>
+                            <table class="table table-sm" t-if="o.move_raw_ids">
+                                <thead>
+                                    <tr>
+                                        <th style="border: 1px solid #dee2e6;">Item Number</th>
+                                        <th style="border: 1px solid #dee2e6; width: 50%;">Description</th>
+                                        <th style="border: 1px solid #dee2e6;">Qty</th>
+                                        <th style="border: 1px solid #dee2e6;">Qty used</th>
+                                        <th style="border: 1px solid #dee2e6;">Qty of samples</th>
+                                        <th style="border: 1px solid #dee2e6;">Scrap</th>
+                                        <th style="border: 1px solid #dee2e6;">Returned</th>
+                                        <th style="border: 1px solid #dee2e6;">Reconcile %</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-if="o.move_raw_ids">
+                                        <tr t-foreach="o.move_raw_ids" t-as="raw_line">
+                                            <td style="border: 1px solid #dee2e6;">
+                                                <span t-field="raw_line.product_id.default_code"/>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6; width: 50%;">
+                                                <span t-field="raw_line.product_id"/>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6;">
+                                                <span t-field="raw_line.product_uom_qty"/>
+                                                <span t-field="raw_line.product_uom" groups="uom.group_uom"/>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6;">
+                                                <t t-if="raw_line.quantity_done > 0">
+                                                    <span t-field="raw_line.quantity_done"/>
+                                                    <span t-field="raw_line.product_uom" groups="uom.group_uom"/>
+                                                </t>
+                                            </td>
+
+                                            <td style="border: 1px solid #dee2e6;" class="text-center">
+
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6;" class="text-center">
+
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6;" class="text-center">
+
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6;" class="text-center">
+
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                            <span>
+                                Bill of Material / Components Reconcile Percentage must be +/- 10% anything out of range
+                                will require an investigation
+                            </span>
+
+                            <br></br>
+                            <br></br>
+                            <br></br>
+
+
+                            <table class="table table-sm" t-if="o.move_raw_ids">
+                                <thead>
+                                    <tr>
+                                        <th style="border: 1px solid #dee2e6; padding: 4px;">Equipment</th>
+                                        <th style="border: 1px solid #dee2e6; padding: 4px;">Cleaned by</th>
+                                        <th style="border: 1px solid #dee2e6; padding: 4px;">Checked by</th>
+                                        <th style="border: 1px solid #dee2e6; padding: 4px;">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+                            <br></br>
+                            <br></br>
+
+
+                            <table class="table table-sm" t-if="o.move_raw_ids">
+                                <thead>
+                                    <tr>
+                                        <th style="border: 1px solid #dee2e6; padding: 4px;">Scales Used</th>
+                                        <th style="border: 1px solid #dee2e6; padding: 4px;">Next Calibration Due Date
+                                        </th>
+                                        <th style="border: 1px solid #dee2e6; padding: 4px;">Checked by</th>
+                                        <th style="border: 1px solid #dee2e6; padding: 4px;">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                        <td style="border: 1px solid #dee2e6; height: 36px;">
+                                            <span style="white-space: break-spaces;">
+
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+                            <br></br>
+                            <br></br>
+
+
+                            <h5>Instructions</h5>
                             <t t-foreach="o.workorder_ids" t-as="process">
                                 <t t-foreach="process.check_ids" t-as="check_list">
                                     <t t-set="worksheet" t-value="check_list.get_worksheet()"></t>
-                                    <h4>
-                                        <span t-esc="process.name"></span>
-                                    </h4>
-
-                                    <!--                                    Components section-->
-                                    <h5>Components</h5>
-                                    <table class="table table-sm">
-                                        <tr>
-                                            <th style="width: 7%">
-                                                <strong>Part</strong>
-                                            </th>
-                                            <th style="width: 48%;">
-                                                <strong>Description</strong>
-                                            </th>
-                                            <!--                                            <th style="width: 7%;">-->
-                                            <!--                                                <strong>Percentage</strong>-->
-                                            <!--                                            </th>-->
-                                            <th style="width: 7%;">
-                                                <strong>Quantity</strong>
-                                            </th>
-                                            <th style="width: 7%;">
-                                                <strong>Unit</strong>
-                                            </th>
-                                            <th style="width: 12%;">
-                                                <strong>Added by</strong>
-                                            </th>
-                                            <th style="width: 12%;">
-                                                <strong>Verified by</strong>
-                                            </th>
-                                        </tr>
-                                        <tr t-foreach="worksheet.x_mixing_line_ids" t-as="mixing_line">
-                                            <td style="vertical-align: middle; text-align: left;">
-                                                <span t-field="mixing_line.x_part"
-                                                      style="padding: 5px; display: block; "/>
-                                            </td>
-                                            <td style="vertical-align: middle; text-align: left;">
-                                                <span t-field="mixing_line.x_product_id.display_name"
-                                                      style="padding: 5px; display: block; "/>
-                                            </td>
-                                            <!--                                            <td style="vertical-align: middle; text-align: right;">-->
-                                            <!--                                                <span t-esc="o.get_percentage(mixing_line.x_product_id)"-->
-                                            <!--                                                      style="padding: 5px; display: block; "/>-->
-                                            <!--                                            </td>-->
-                                            <td style="vertical-align: middle; text-align: right;">
-                                                <span t-field="mixing_line.x_qty"
-                                                      style="padding: 5px; display: block; "/>
-                                            </td>
-                                            <td style="vertical-align: middle; text-align: left;">
-                                                <span t-field="mixing_line.x_uom.name"
-                                                      style="padding: 5px; display: block; "/>
-                                            </td>
-                                            <td style="vertical-align: middle; text-align: center;">
-                                                <span t-field="mixing_line.x_added_by.name"
-                                                      style="border: 1px solid #dee2e6; padding: 10px; display: block; "/>
-                                            </td>
-                                            <td style="vertical-align: middle; text-align: center;">
-                                                <span t-field="mixing_line.x_verify_by.name"
-                                                      style="border: 1px solid #dee2e6; padding: 10px; display: block; "/>
-                                            </td>
-                                        </tr>
-                                    </table>
-
-
-                                    <!--                                    Checklist/Instructions section-->
-                                    <h5>Instructions</h5>
-                                    <table class="table table-sm">
-                                        <tr>
-                                            <th style="vertical-align: middle;">
-                                                <strong>Step</strong>
-                                            </th>
-                                            <th style="vertical-align: middle;">
-                                                <strong>Instruction</strong>
-                                            </th>
-                                            <th style="vertical-align: middle;">
-                                                <strong>Completed by</strong>
-                                            </th>
-                                            <th style="vertical-align: middle;">
-                                                <strong>Date</strong>
-                                            </th>
-                                            <th style="vertical-align: middle;">
-                                                <strong>Verified by</strong>
-                                            </th>
-                                            <th style="vertical-align: middle;">
-                                                <strong>Date</strong>
-                                            </th>
-                                        </tr>
-                                        <tr t-foreach="worksheet.x_checklist_line_ids" t-as="instruction_line">
-                                            <td style="vertical-align: middle; text-align: left;">
-                                                <span t-field="instruction_line.x_step"
-                                                      style="padding: 5px; display: block; "/>
-                                            </td>
-                                            <td style="vertical-align: middle; text-align: left; width: 50%;">
-                                                <span t-field="instruction_line.x_name"
-                                                      style="padding: 5px; display: block; "/>
-                                            </td>
-                                            <td style="vertical-align: middle; text-align: center; width: 12%;">
-                                                <span t-field="instruction_line.x_completed_by"
-                                                      style="border: 1px solid #dee2e6; padding: 10px; display: block; "/>
-                                            </td>
-                                            <td style="vertical-align: middle; text-align: center; width: 12%;">
-                                                <span t-field="instruction_line.x_completed_date"
-                                                      style="border: 1px solid #dee2e6; padding: 10px; display: block; "/>
-                                            </td>
-                                            <td style="vertical-align: middle; text-align: center; width: 12%;">
-                                                <span t-field="instruction_line.x_verified_by"
-                                                      style="border: 1px solid #dee2e6; padding: 10px; display: block; "/>
-                                            </td>
-                                            <td style="vertical-align: middle; text-align: center; width: 12%;">
-                                                <span t-field="instruction_line.x_verified_date"
-                                                      style="border: 1px solid #dee2e6; padding: 10px; display: block; "/>
-                                            </td>
-                                        </tr>
-                                    </table>
                                 </t>
                             </t>
-                        </div>
+
+                            <t t-if="worksheet">
+                                <t t-foreach="worksheet.x_checklist_line_ids" t-as="instruction_line">
+                                    <t t-if="instruction_line.x_step != 98765">
+                                        <table class="table table-sm" style="margin-top: 10px;">
+                                            <tr>
+                                                <td class=""
+                                                    style="margin-right: 0px!important; margin-left: 0px!important; margin-bottom: -1px!important; text-align: left; border: 1px solid #dee2e6; width: 100%; ">
+                                                    <span t-field="instruction_line.x_step"
+                                                          style="padding: 5px;"/>.
+                                                    <span t-field="instruction_line.x_name"
+                                                          style="padding: 5px;"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="display: inline-flex; text-align: left; width: 100%; padding: 0px!important">
+                                                    <table class="table table-sm" style="">
+                                                        <tr>
+                                                            <td style="vertical-align: middle; text-align: left; border: 1px solid #dee2e6; width: 25%; ">
+                                                                <strong>Production</strong>
+                                                            </td>
+                                                            <td style="vertical-align: middle; text-align: left; border: 1px solid #dee2e6; width: 25%; ">
+                                                                <span t-field="instruction_line.x_completed_by"
+                                                                      style="padding: 10px; display: block; "/>
+                                                            </td>
+                                                            <td style="vertical-align: middle; text-align: left; border: 1px solid #dee2e6; width: 25%; ">
+                                                                <strong>Date</strong>
+                                                            </td>
+                                                            <td style="vertical-align: middle; text-align: left; border: 1px solid #dee2e6; width: 25%; ">
+                                                                <span t-field="instruction_line.x_completed_date"
+                                                                      style="padding: 10px; display: block; "/>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="vertical-align: middle; text-align: left; border: 1px solid #dee2e6; width: 25%; ">
+                                                                <strong>Quality Control</strong>
+                                                            </td>
+                                                            <td style="vertical-align: middle; text-align: left; border: 1px solid #dee2e6; width: 25%; ">
+                                                                <span t-field="instruction_line.x_verified_by"
+                                                                      style="padding: 10px; display: block; "/>
+                                                            </td>
+                                                            <td style="vertical-align: middle; text-align: left; border: 1px solid #dee2e6; width: 25%; ">
+                                                                <strong>Date</strong>
+                                                            </td>
+                                                            <td style="vertical-align: middle; text-align: left; border: 1px solid #dee2e6; width: 25%; ">
+                                                                <span t-field="instruction_line.x_verified_date"
+                                                                      style="padding: 10px; display: block; "/>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </t>
+                                </t>
+                            </t>
 
 
-                        <div class="row col-12">
-                            <div class="column col-6">
-                                <div class="row mt32 mb32">
-                                    <div class="col-12" style="">
-                                        <strong>Quality comments:</strong>
-                                        <span style="">
-                                            <textarea rows="7" style="width: 100%;"></textarea>
-                                        </span>
+                            <br></br>
+                            <br></br>
+                            <h5>BOM revision history</h5>
+                            <div class="row col-12">
+                                <div class="column col-12">
+                                    <div class="row mt32 mb32">
+                                        <div class="col-12" style="">
+                                            <span style="">
+                                                <span t-esc="o.x_revision_memo_mo" style="width: 100%;"></span>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <br></br>
+                            <br></br>
+                            <br></br>
 
-                            <div class="column col-6">
-                                <div class="row mt32 mb32">
-                                    <div class="col-12" style="">
-                                        <strong>Production comments:</strong>
-                                        <span style="">
-                                            <textarea rows="7" style="width: 100%;"></textarea>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
+
+                            <span style="width: 100%; text-align: center">
+                                <h5>Quality Control</h5>
+                            </span>
+                            <table class="table table-sm">
+                                <tr>
+                                    <th style="width: 40%; text-align: left;">
+                                        <strong>Test name</strong>
+                                    </th>
+                                    <th style="width: 20%;">
+                                        <strong>Minimum</strong>
+                                    </th>
+                                    <th style="width: 20%;">
+                                        <strong>Maximum</strong>
+                                    </th>
+                                    <th style="width: 20%;">
+                                        <strong>Target</strong>
+                                    </th>
+                                </tr>
+                                <tr t-foreach="o.bom_id.x_test_id.line_ids" t-as="test" t-if="o.bom_id.x_test_id">
+                                    <td style="vertical-align: middle; text-align: left;">
+                                        <span t-field="test.param.name"
+                                              style="padding: 5px; display: block;"/>
+                                    </td>
+                                    <td style="vertical-align: middle;">
+                                        <span t-field="test.min_value"
+                                              style="padding: 5px; display: block;"/>
+                                    </td>
+                                    <td style="vertical-align: middle;">
+                                        <span t-field="test.max_value"
+                                              style="padding: 5px; display: block;"/>
+                                    </td>
+                                    <td style="vertical-align: middle;">
+                                        <span t-field="test.target"
+                                              style="padding: 5px; display: block;"/>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
-                        <br></br>
-                        <br></br>
-
-                        <div class="row col-12">
-                            <div class="column col-12">
-                                <div class="row mt32 mb32">
-                                    <div class="col-12" style="">
-                                        <span style="">
-                                            <span t-esc="o.x_revision_memo_mo" style="width: 100%;"></span>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <br></br>
-                        <br></br>
-                        <br></br>
-
-
-                        <span style="width: 100%; text-align: center">
-                            <h5>Quality Control</h5>
-                        </span>
-                        <table class="table table-sm">
-                            <tr>
-                                <th style="width: 40%; text-align: left;">
-                                    <strong>Test name</strong>
-                                </th>
-                                <th style="width: 20%;">
-                                    <strong>Minimum</strong>
-                                </th>
-                                <th style="width: 20%;">
-                                    <strong>Maximum</strong>
-                                </th>
-                                <th style="width: 20%;">
-                                    <strong>Target</strong>
-                                </th>
-                            </tr>
-                            <tr t-foreach="o.bom_id.x_test_id.line_ids" t-as="test" t-if="o.bom_id.x_test_id">
-                                <td style="vertical-align: middle; text-align: left;">
-                                    <span t-field="test.param.name"
-                                          style="padding: 5px; display: block;"/>
-                                </td>
-                                <td style="vertical-align: middle;">
-                                    <span t-field="test.min_value"
-                                          style="padding: 5px; display: block;"/>
-                                </td>
-                                <td style="vertical-align: middle;">
-                                    <span t-field="test.max_value"
-                                          style="padding: 5px; display: block;"/>
-                                </td>
-                                <td style="vertical-align: middle;">
-                                    <span t-field="test.target"
-                                          style="padding: 5px; display: block;"/>
-                                </td>
-                            </tr>
-                        </table>
-                        <br></br>
-                        <br></br>
-
                     </div>
                 </t>
             </t>
@@ -587,14 +601,14 @@
         <field name="report_name">rminds_production_report.report_mrpproduction</field>
         <field name="report_file">rminds_production_report.report.production_workorder</field>
         <field name="print_report_name">'Production Report - %s' % object.name</field>
-        <!--        <field name="binding_model_id" eval="False"/>-->
-        <field name="binding_model_id" ref="mrp.model_mrp_production"/>
+                <field name="binding_model_id" eval="False"/>
+<!--        <field name="binding_model_id" ref="mrp.model_mrp_production"/>-->
         <field name="binding_type">report</field>
     </record>
 
 
     <record model="ir.actions.server" id="action_print_production_workorder_report">
-        <field name="name">Production WorkOrder Report</field>
+        <field name="name">Production Workorder Report</field>
         <field name="model_id" ref="mrp.model_mrp_production"/>
         <field name="binding_model_id" ref="mrp.model_mrp_production"/>
         <field name="state">code</field>
@@ -605,5 +619,121 @@
         </field>
     </record>
 
+
+    <template id="internal_layout_inherit" inherit_id="web.internal_layout">
+        <xpath expr="//div[@class='header']/div[@class='row']" position="replace">
+            <t t-set="report_name" t-value="xmlid"/>
+            <t t-if="report_name == 'rminds_production_report.report_mrpproduction'">
+                <div class="row">
+                    <div class="col-3">
+                        <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                    </div>
+                    <div class="col-2 offset-2 text-center">
+                        <span t-esc="company.name"/>
+                    </div>
+                    <div class="col-2 offset-3 text-right">
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <span class="page"/>
+                            </li>
+                            <li class="list-inline-item">/</li>
+                            <li class="list-inline-item">
+                                <span class="topage"/>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <table class="table table-sm">
+                        <tr>
+                            <td style="width: 75%; border: 1px solid #dee2e6; padding: 0px !important">
+                                <table class="table table-sm table2" style="margin: 0px !important;">
+                                    <tr>
+                                        <td style="padding: 7px; width: 20%; border: 1px solid #dee2e6;">
+                                            <strong>Product:</strong>
+                                        </td>
+                                        <td colspan="3"
+                                            style="width: 30%; text-align: left; border: 1px solid #dee2e6;">
+                                            <span t-field="o.product_id.display_name"
+                                                  style="padding: 5px; display: block; "/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 7px; width: 20%; border: 1px solid #dee2e6;">
+                                            <strong>Customer:</strong>
+                                        </td>
+                                        <td style="width: 30%; border: 1px solid #dee2e6;">
+                                            <span t-esc="o.get_customer()"
+                                                  style="padding: 5px; display: block; "/>
+                                        </td>
+                                        <td style="padding: 7px; width: 20%; border: 1px solid #dee2e6;">
+                                            <strong>Formula#:</strong>
+                                        </td>
+                                        <td style="width: 30%; border: 1px solid #dee2e6;">
+                                            <span t-field="o.bom_id.code"
+                                                  style="padding: 5px; display: block; "/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 7px; width: 20%; border: 1px solid #dee2e6;">
+                                            <strong>PO:</strong>
+                                        </td>
+                                        <td style="width: 30%; border: 1px solid #dee2e6;">
+                                            <span t-esc="o.get_customer_ref()"
+                                                  style="padding: 5px; display: block; "/>
+                                        </td>
+                                        <td style="padding: 7px; width: 20%; border: 1px solid #dee2e6;">
+                                            <strong>MO#:</strong>
+                                        </td>
+                                        <td style="width: 30%; border: 1px solid #dee2e6;">
+                                            <span t-field="o.name"
+                                                  style="padding: 5px; display: block; "/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 20%; border: 1px solid #dee2e6;">
+                                            <strong>Quantity:</strong>
+                                        </td>
+                                        <td style="width: 30%; border: 1px solid #dee2e6;">
+                                            <span t-field="o.qty_producing"
+                                                  style="padding: 5px; display: block; "/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+
+                            <!--                                td for company logo-->
+                            <td style="width: 25%; border: 1px solid #dee2e6;">
+                                <img src='/web/binary/company_logo' class=""
+                                     style="height: auto; margin: 10px; width: 80%; object-fit: scale-down;"
+                                     alt="Logo"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+            <t t-else="">
+                <div class="row">
+                    <div class="col-3">
+                        <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                    </div>
+                    <div class="col-2 offset-2 text-center">
+                        <span t-esc="company.name"/>
+                    </div>
+                    <div class="col-2 offset-3 text-right">
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <span class="page"/>
+                            </li>
+                            <li class="list-inline-item">/</li>
+                            <li class="list-inline-item">
+                                <span class="topage"/>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </template>
 
 </odoo>

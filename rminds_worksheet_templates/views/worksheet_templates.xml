@@ -176,7 +176,8 @@
         <field name="name">worksheet.checklist.tree</field>
         <field name="model">worksheet.checklist</field>
         <field name="arch" type="xml">
-            <tree string="Checklist/Instructions" editable="bottom" create="false" delete="false">
+            <tree string="Checklist/Instructions" editable="bottom" create="false" >
+<!--            <tree string="Checklist/Instructions" editable="bottom" create="false" delete="false">-->
                 <field name="x_step" readonly="1"/>
                 <field name="x_name" readonly="1"/>
                 <field name="x_completed_by"/>

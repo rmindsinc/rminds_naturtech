@@ -70,7 +70,7 @@ class WorksheetTemplate(models.Model):
 class WorksheetChecklist(models.Model):
     _name = 'worksheet.checklist'
     _description = "Checklist to show in worksheet"
-    _order = "x_step,id"
+    _order = "x_sequence,id"
 
     x_sequence = fields.Integer("Sr. No.")
     x_step = fields.Integer("Step")
@@ -232,19 +232,34 @@ class QualityCheckInherit(models.Model):
             if 'checklist_line_ids' in str(worksheet.read()):
                 checklist_lines = worksheet.x_checklist_line_ids
                 added_steps = []
+                items_to_delete = []
                 for exist_item in worksheet.x_checklist_line_ids:
                     added_steps.append(exist_item.x_step)
+                    if exist_item.x_step == 98765:
+                        items_to_delete.append(exist_item)
+                for item in items_to_delete:
+                    item.unlink()
+
                 if 1==1 or 'from_manufacturing_order' in self._context and self._context['from_manufacturing_order'] is True:
                     if 1 == 1 or not checklist_lines:
                         for item in work_order.x_checklist_ids_mo:
+                            print (item.x_name, item.display_type, "ITEM =============================")
                             lines_data = []
                             if item.x_step not in added_steps:
-                                data = {
-                                    'x_name': item.x_name,
-                                    'x_'+m2o_field: worksheet.sudo().id,
-                                    'x_sequence': item.x_sequence,
-                                    'x_step': item.x_step,
-                                }
+                                if item.display_type and item.display_type == 'line_section':
+                                    data = {
+                                        'x_name': item.name,
+                                        'x_' + m2o_field: worksheet.sudo().id,
+                                        'x_sequence': item.x_sequence,
+                                        'x_step': 98765,
+                                    }
+                                else:
+                                    data = {
+                                        'x_name': item.x_name,
+                                        'x_'+m2o_field: worksheet.sudo().id,
+                                        'x_sequence': item.x_sequence,
+                                        'x_step': item.x_step,
+                                    }
                                 # Show only marked fields to fill
                                 if item.x_start_date_show: data.update({'x_start_date_show': True})
                                 if item.x_stop_date_show: data.update({'x_stop_date_show': True})
