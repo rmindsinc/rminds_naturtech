@@ -129,6 +129,7 @@ class QCTestLine(models.Model):
         ('pass','Pass'),
         ('fail','Fail')
     ], string="Pass/Fail", compute="change_result")
+    target = fields.Char("Target")
     qc_external_testing_id = fields.Many2one('qc.external.testing','qc external testing' )
 
     # @api.onchange('res')

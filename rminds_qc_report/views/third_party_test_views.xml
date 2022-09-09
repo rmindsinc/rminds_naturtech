@@ -82,7 +82,8 @@
 										 <field name="max_value" invisible="1"/>
 										<field name="res"/>
 										<!-- <field name="measure" invisible="1"/> -->
-										<field name="summary" force_save="1"/>
+										<field name="summary" force_save="1" invisible="1"/>
+										<field name="target"/>
 										<field name="qc_external_testing_id" invisible="1"/>
 									</tree>
 								</field>
