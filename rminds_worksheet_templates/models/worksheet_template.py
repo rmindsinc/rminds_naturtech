@@ -211,6 +211,9 @@ class QualityCheckInherit(models.Model):
             if not worksheet:
                 worksheet = self.env[self.worksheet_template_id.model_id.sudo().model].sudo().create({'x_quality_check_id': self.id})
 
+            exist = work_order.related_captured_templates or ''
+            work_order.related_captured_templates = exist + '@@' + self.worksheet_template_id.model_id.sudo().model + '##' + str(worksheet.id) + "##" + self.worksheet_template_id.x_template_for
+
             if 'mixing_line_ids' in str(worksheet.read()):
                 mixing_lines = worksheet.x_mixing_line_ids
                 if 1==1 or 'from_manufacturing_order' in self._context and self._context['from_manufacturing_order'] is True:
@@ -281,6 +284,8 @@ class MRPProduction(models.Model):
     x_checklist_ids_mo = fields.One2many('mo.checklist', 'x_checklist_id_mo', "Checklist")
     x_revision_memo_mo = fields.Text("BOM revision history")
 
+    related_captured_templates = fields.Char("Related captured worksheet templates")
+
     @api.onchange('bom_id')
     def _onchange_bom_id(self):
         res = super(MRPProduction, self)._onchange_bom_id()
@@ -336,6 +341,5 @@ class SaleOrder(models.Model):
                     ch_ids.append(ch_id.id)
                 mo.x_checklist_ids_mo = [(6, 0, ch_ids)]
                 mo.x_revision_memo_mo = mo.bom_id.x_revision_memo
-
 
         return res

@@ -41,7 +41,7 @@ class MRPProduction(models.Model):
 
         f2 = open(final_file, 'rb')
         final_pdf_file = self.env['ir.attachment'].create({
-            'name': 'Production Report - %s' % self.name,
+            'name': 'Mixing Workorder Report - %s' % self.name,
             'datas': base64.b64encode(f2.read()),
             'res_model': 'mrp.production',
             'res_id': self.id,
@@ -97,7 +97,7 @@ class MRPProduction(models.Model):
 
         f2 = open(final_file, 'rb')
         final_pdf_file = self.env['ir.attachment'].create({
-            'name': 'Production Report - %s' % self.name,
+            'name': 'Production Workorder Report - %s' % self.name,
             'datas': base64.b64encode(f2.read()),
             'res_model': 'mrp.production',
             'res_id': self.id,

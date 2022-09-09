@@ -690,7 +690,7 @@
     <template id="internal_layout_inherit" inherit_id="web.internal_layout">
         <xpath expr="//div[@class='header']/div[@class='row']" position="replace">
             <t t-set="report_name" t-value="xmlid"/>
-            <t t-if="report_name == 'rminds_production_report.report_mrpproduction' or report_name == 'rminds_production_report.report_mrpreport'">
+            <t t-if="report_name == 'rminds_production_report.report_mrpproduction'">
                 <div class="row">
                     <div class="col-3">
                         <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
@@ -779,7 +779,113 @@
                     </table>
                 </div>
             </t>
-            <t t-else="">
+
+
+
+            <t t-else="report_name == 'rminds_production_report.report_mrpreport'">
+                <div class="row">
+                    <div class="col-3">
+                        <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                    </div>
+                    <div class="col-2 offset-2 text-center">
+                        <span t-esc="company.name"/>
+                    </div>
+                    <div class="col-2 offset-3 text-right">
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <span class="page"/>
+                            </li>
+                            <li class="list-inline-item">/</li>
+                            <li class="list-inline-item">
+                                <span class="topage"/>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <table class="table table-sm">
+                            <tr>
+                                <td style="width: 75%; border: 1px solid #dee2e6; padding: 0px !important">
+                                    <table class="table table-sm table2" style="margin: 0px !important;">
+                                        <tr>
+                                            <td style="padding: 7px; width: 20%; border: 1px solid #dee2e6;">
+                                                <strong>Product:</strong>
+                                            </td>
+                                            <td colspan="3"
+                                                style="width: 30%; text-align: left; border: 1px solid #dee2e6;">
+                                                <span t-field="o.product_id.display_name"
+                                                      style="padding: 5px; display: block; "/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 7px; width: 20%; border: 1px solid #dee2e6;">
+                                                <strong>Customer:</strong>
+                                            </td>
+                                            <td style="width: 30%; border: 1px solid #dee2e6;">
+                                                <span t-esc="o.get_customer_ref()"
+                                                      style="padding: 5px; display: block; "/>
+                                            </td>
+
+                                            <td style="padding: 7px; width: 20%; border: 1px solid #dee2e6;">
+                                                <strong>Master Formula#</strong>
+                                            </td>
+                                            <td style="width: 30%; border: 1px solid #dee2e6;">
+                                                <span t-field="o.bom_id.code"
+                                                      style="padding: 5px; display: block; "/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+
+                                            <td style="padding: 7px; width: 20%; border: 1px solid #dee2e6;">
+                                                <strong>Date:</strong>
+                                            </td>
+                                            <td style="width: 30%; border: 1px solid #dee2e6;">
+                                                <t t-set="d" t-value="(o.create_date).date()"/>
+
+                                                <span t-esc="d"
+                                                      style="padding: 5px; display: block; "/>
+                                            </td>
+                                            <td style="padding: 7px; width: 20%; border: 1px solid #dee2e6;">
+                                                <strong>MO#:</strong>
+                                            </td>
+                                            <td style="width: 30%; border: 1px solid #dee2e6;">
+                                                <span t-field="o.name"
+                                                      style="padding: 5px; display: block; "/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 20%; border: 1px solid #dee2e6;">
+                                                <strong>Batch Size:</strong>
+                                            </td>
+                                            <td style="width: 30%; border: 1px solid #dee2e6;">
+                                                <span t-field="o.qty_producing"
+                                                      style="padding: 5px; display: block; "/>
+                                            </td>
+                                            <td style="width: 20%; border: 1px solid #dee2e6;">
+                                                <strong>Unit:</strong>
+                                            </td>
+                                            <td style="width: 30%; border: 1px solid #dee2e6;">
+                                                <span t-field="o.product_uom_id.name"
+                                                      style="padding: 5px; display: block; "/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+
+                                <!--                                td for company logo-->
+                                <td style="width: 25%; border: 1px solid #dee2e6;">
+                                    <img src='/web/binary/company_logo' class=""
+                                         style="height: auto; margin: 10px; width: 80%; object-fit: scale-down;"
+                                         alt="Logo"/>
+                                </td>
+                            </tr>
+                        </table>
+                </div>
+            </t>
+
+
+            <t t-if="report_name not in ['rminds_production_report.report_mrpreport', 'rminds_production_report.report_mrpproduction']">
+<!--            <t t-else="">-->
                 <div class="row">
                     <div class="col-3">
                         <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
