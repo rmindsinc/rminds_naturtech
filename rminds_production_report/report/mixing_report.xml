@@ -136,7 +136,7 @@
                                                 <span t-field="component.product_id.display_name"/>
                                             </td>
                                             <td style="border: 1px solid #dee2e6;">
-                                                <span></span>
+                                                <span t-esc="o.get_percentage(component.product_id)"> </span>
                                             </td>
                                             <td style="border: 1px solid #dee2e6;">
                                                 <span t-field="component.product_uom_qty"/>

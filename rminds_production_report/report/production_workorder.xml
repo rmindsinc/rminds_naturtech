@@ -762,7 +762,7 @@
                                             <strong>Quantity:</strong>
                                         </td>
                                         <td style="width: 30%; border: 1px solid #dee2e6;">
-                                            <span t-field="o.qty_producing"
+                                            <span t-field="o.product_qty"
                                                   style="padding: 5px; display: block; "/>
                                         </td>
                                     </tr>
@@ -858,7 +858,7 @@
                                                 <strong>Batch Size:</strong>
                                             </td>
                                             <td style="width: 30%; border: 1px solid #dee2e6;">
-                                                <span t-field="o.qty_producing"
+                                                <span t-field="o.product_qty"
                                                       style="padding: 5px; display: block; "/>
                                             </td>
                                             <td style="width: 20%; border: 1px solid #dee2e6;">
