@@ -77,7 +77,7 @@
 
                         <div>
                             <span style="width: 100%; text-align: center">
-                                <h4>Production Work Order</h4>
+                                <h3>Production Work Order</h3>
                             </span>
                             <br></br>
                             <br></br>
@@ -149,7 +149,7 @@
                             <br></br>
 
 
-                            <h45>Components</h45>
+                            <h3>Components</h3>
                             <table class="table table-sm" t-if="o.move_raw_ids">
                                 <thead>
                                     <tr>
@@ -466,15 +466,17 @@
                             <br></br>
 
 
-                            <h5>Instructions</h5>
+                            <h3>Instructions</h3>
                             <t t-foreach="o.workorder_ids" t-as="process">
                                 <t t-foreach="process.check_ids" t-as="check_list">
                                     <t t-set="worksheet" t-value="check_list.get_worksheet()"></t>
                                 </t>
                             </t>
-
                             <t t-if="worksheet">
                                 <t t-foreach="worksheet.x_checklist_line_ids" t-as="instruction_line">
+                                    <t t-if="instruction_line.x_step == 98765">
+                                        <h4><t t-esc="instruction_line.x_name"></t></h4>
+                                    </t>
                                     <t t-if="instruction_line.x_step != 98765">
                                         <table class="table table-sm" style="margin-top: 10px;">
                                             <tr>
@@ -532,7 +534,7 @@
 
                             <br></br>
                             <br></br>
-                            <h5>BOM revision history</h5>
+                            <h3>BOM revision history</h3>
                             <div class="row col-12">
                                 <div class="column col-12">
                                     <div class="row mt32 mb32">
@@ -550,7 +552,7 @@
 
 
                             <span style="width: 100%; text-align: center">
-                                <h5>Quality Control</h5>
+                                <h3>Quality Control</h3>
                             </span>
                             <table class="table table-sm">
                                 <tr>

@@ -10,8 +10,13 @@ class QualityCheck(models.Model):
     _inherit = 'quality.check'
 
     def get_worksheet(self):
-        worksheet = self.env[self.worksheet_template_id.model_id.sudo().model].search(
-            [('x_quality_check_id', '=', self.id)])
-        print(worksheet.read(), "\n Worksheet ===================")
+        worksheet = False
+        try:
+            worksheet = self.env[self.worksheet_template_id.model_id.sudo().model].search(
+                [('x_quality_check_id', '=', self.id)])
+            print(worksheet.read(), "\n Worksheet ===================",self.worksheet_template_id.model_id.sudo().model)
+        except:
+            print("ok")
         return worksheet
+
 

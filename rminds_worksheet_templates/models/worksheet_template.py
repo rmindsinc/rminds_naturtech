@@ -312,3 +312,30 @@ class MRPProduction(models.Model):
                 pass
 
         return res
+
+
+class SaleOrder(models.Model):
+    _inherit = 'sale.order'
+
+    def action_confirm(self):
+        res = super(SaleOrder, self).action_confirm()
+        for mo in self.env['mrp.production'].sudo().search([('origin', '=', self.name)]):
+            for ch in mo:
+                ch.x_checklist_ids_mo = [(5, 0, 0)]
+            if mo.bom_id:
+                ch_ids = []
+                for item in mo.bom_id.x_checklist_ids:
+                    checklist_data = {
+                        'x_step': item.x_step,
+                        'x_name': item.x_name,
+                        'x_sequence': item.x_sequence,
+                        'display_type': item.display_type,
+                        'name': item.name,
+                    }
+                    ch_id = self.env['mo.checklist'].create(checklist_data)
+                    ch_ids.append(ch_id.id)
+                mo.x_checklist_ids_mo = [(6, 0, ch_ids)]
+                mo.x_revision_memo_mo = mo.bom_id.x_revision_memo
+
+
+        return res

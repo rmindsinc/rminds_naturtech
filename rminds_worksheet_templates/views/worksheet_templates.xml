@@ -64,7 +64,7 @@
                     </field>
                 </page>
                 <page name="revision_memo" string="Revision">
-                    <group name="revision_memo" string="Memo">
+                    <group name="revision_memo" string="Revision History">
                         <field name="x_revision_memo" nolabel="1"></field>
                     </group>
                 </page>

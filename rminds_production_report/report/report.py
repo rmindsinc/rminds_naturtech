@@ -57,6 +57,15 @@ class MRPProduction(models.Model):
         return action
 
     def generate_production_workorder_report(self):
+        # verify first template is created
+        quality_checks = self.env['quality.check'].sudo().search([('production_id', '=', self.id)])
+        for quality_check in quality_checks:
+            try:
+                quality_check.action_quality_worksheet()
+            except Exception as e:
+                pass
+
+
         report_file = "/tmp/worksheet%s.pdf" % self.id
         files = [report_file]
         report = self.env.ref('rminds_production_report.action_report_production_workorder_report')._render_qweb_pdf(self.id)

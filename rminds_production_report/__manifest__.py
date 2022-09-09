@@ -10,7 +10,8 @@ MO Production Report'
     'data': [
         'security/ir.model.access.csv',
         'views/worksheet_templates.xml',
-        "report/report.xml",
+        "report/mixing_report.xml",
+        # "report/report.xml",
         "report/production_workorder.xml",
     ],
     'demo': [],

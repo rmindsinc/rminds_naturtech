@@ -21,5 +21,19 @@
 
         </field>
     </record>
+    <record id="mo_percentage_form" model="ir.ui.view">
+        <field name="name">mo.mrp_mo_form_view</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//page[@name='components']//field[@name='location_id']" position="after">
+
+                <field name="mo_percentage" widget="percentage" />
+
+            </xpath>
+
+        </field>
+    </record>
 
 </odoo>
