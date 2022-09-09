@@ -11,6 +11,7 @@ class QualityCheck(models.Model):
 
     def get_worksheet(self):
         worksheet = False
+        return worksheet
         try:
             worksheet = self.env[self.worksheet_template_id.model_id.sudo().model].search(
                 [('x_quality_check_id', '=', self.id)])

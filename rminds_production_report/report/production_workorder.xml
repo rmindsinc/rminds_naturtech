@@ -209,6 +209,8 @@
                             <br></br>
 
 
+                            <h5>Equipments Used:</h5>
+                            <br></br>
                             <table class="table table-sm" t-if="o.move_raw_ids">
                                 <thead>
                                     <tr>
@@ -337,6 +339,8 @@
                             <br></br>
 
 
+                            <h5>Scales Used:</h5>
+                            <br></br>
                             <table class="table table-sm" t-if="o.move_raw_ids">
                                 <thead>
                                     <tr>
@@ -532,6 +536,67 @@
                             </t>
 
 
+
+                            <t t-if="not worksheet">
+                                <t t-foreach="o.x_checklist_ids_mo" t-as="instruction_line">
+                                    <t t-if="instruction_line.display_type">
+                                        <h4><t t-esc="instruction_line.name"></t></h4>
+                                    </t>
+                                    <t t-if="not instruction_line.display_type">
+                                        <table class="table table-sm" style="margin-top: 10px;">
+                                            <tr>
+                                                <td class=""
+                                                    style="margin-right: 0px!important; margin-left: 0px!important; margin-bottom: -1px!important; text-align: left; border: 1px solid #dee2e6; width: 100%; ">
+                                                    <span t-field="instruction_line.x_step"
+                                                          style="padding: 5px;"/>.
+                                                    <span t-field="instruction_line.x_name"
+                                                          style="padding: 5px;"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="display: inline-flex; text-align: left; width: 100%; padding: 0px!important">
+                                                    <table class="table table-sm" style="">
+                                                        <tr>
+                                                            <td style="vertical-align: middle; text-align: left; border: 1px solid #dee2e6; width: 25%; ">
+                                                                <strong>Production</strong>
+                                                            </td>
+                                                            <td style="vertical-align: middle; text-align: left; border: 1px solid #dee2e6; width: 25%; ">
+<!--                                                                <span t-field="instruction_line.x_completed_by"-->
+<!--                                                                      style="padding: 10px; display: block; "/>-->
+                                                            </td>
+                                                            <td style="vertical-align: middle; text-align: left; border: 1px solid #dee2e6; width: 25%; ">
+                                                                <strong>Date</strong>
+                                                            </td>
+                                                            <td style="vertical-align: middle; text-align: left; border: 1px solid #dee2e6; width: 25%; ">
+<!--                                                                <span t-field="instruction_line.x_completed_date"-->
+<!--                                                                      style="padding: 10px; display: block; "/>-->
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="vertical-align: middle; text-align: left; border: 1px solid #dee2e6; width: 25%; ">
+                                                                <strong>Quality Control</strong>
+                                                            </td>
+                                                            <td style="vertical-align: middle; text-align: left; border: 1px solid #dee2e6; width: 25%; ">
+<!--                                                                <span t-field="instruction_line.x_verified_by"-->
+<!--                                                                      style="padding: 10px; display: block; "/>-->
+                                                            </td>
+                                                            <td style="vertical-align: middle; text-align: left; border: 1px solid #dee2e6; width: 25%; ">
+                                                                <strong>Date</strong>
+                                                            </td>
+                                                            <td style="vertical-align: middle; text-align: left; border: 1px solid #dee2e6; width: 25%; ">
+<!--                                                                <span t-field="instruction_line.x_verified_date"-->
+<!--                                                                      style="padding: 10px; display: block; "/>-->
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </t>
+                                </t>
+                            </t>
+
+
                             <br></br>
                             <br></br>
                             <h3>BOM revision history</h3>
@@ -625,7 +690,7 @@
     <template id="internal_layout_inherit" inherit_id="web.internal_layout">
         <xpath expr="//div[@class='header']/div[@class='row']" position="replace">
             <t t-set="report_name" t-value="xmlid"/>
-            <t t-if="report_name == 'rminds_production_report.report_mrpproduction'">
+            <t t-if="report_name == 'rminds_production_report.report_mrpproduction' or report_name == 'rminds_production_report.report_mrpreport'">
                 <div class="row">
                     <div class="col-3">
                         <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
