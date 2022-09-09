@@ -11,18 +11,19 @@ class QualityCheck(models.Model):
 
     def get_worksheet(self):
         worksheet = False
-        wk_records = self.production_id.related_captured_templates
-        wk_records = wk_records.split("@@")
-        for item in wk_records:
-            if item:
-                try:
-                    data = item.split('##')
-                    model, id, template_for = data[0], data[1], data[2]
-                    rec = self.env[model].sudo().browse(int(id))
-                    if template_for == 'mixing':
-                        worksheet = rec
-                except:
-                    pass
+        if self.production_id.related_captured_templates:
+            wk_records = self.production_id.related_captured_templates
+            wk_records = wk_records.split("@@")
+            for item in wk_records:
+                if item:
+                    try:
+                        data = item.split('##')
+                        model, id, template_for = data[0], data[1], data[2]
+                        rec = self.env[model].sudo().browse(int(id))
+                        if template_for == 'mixing':
+                            worksheet = rec
+                    except:
+                        pass
 
         if not worksheet:
             try:

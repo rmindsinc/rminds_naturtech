@@ -318,6 +318,14 @@ class MRPProduction(models.Model):
 
         return res
 
+    def _generate_backorder_productions(self, close_mo=True):
+        backorders = super(MRPProduction, self)._generate_backorder_productions(close_mo)
+        for mo in backorders:
+            new_ids = [item.copy().id for item in self.x_checklist_ids_mo]
+            mo.x_checklist_ids_mo = new_ids
+            mo.x_revision_memo_mo = self.x_revision_memo_mo
+        return backorders
+
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
