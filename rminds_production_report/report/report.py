@@ -116,7 +116,8 @@ class MRPProduction(models.Model):
         percentage = 0
         for item in self.move_raw_ids:
             if item.product_id.id == product_id.id:
-                percentage = item.mo_percentage
+                percentage = item.mo_percentage * 100
+                percentage = round(percentage, 4)
         if not percentage:
             percentage = ''
         return percentage

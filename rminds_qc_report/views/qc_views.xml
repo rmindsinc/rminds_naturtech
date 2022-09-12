@@ -59,7 +59,7 @@
 										<field name="unit_id"/>
 										<field name="min_value"/>
 										<field name="test_type"/>
-										<field name="idle"/>
+<!--										<field name="idle"/>-->
 										<field name="target"/>
 										<field name="max_value"/>
 										<field name="qc_report_template" invisible="1"/>

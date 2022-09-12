@@ -15,7 +15,7 @@ class QCExternalTesting(models.Model):
             ('confirm','Confirmed')
         ], default='draft', track_visibility="always")
     attach = fields.Binary("Attachment",)
-    customer = fields.Many2one("res.partner","Customer", required=True, track_visibility="always")
+    customer = fields.Many2one("res.partner","Customer", track_visibility="always")
     spc = fields.Char("Serving Per Container")
     lot = fields.Char("Lot", required=True, track_visibility="always")
     mfg = fields.Date("MFG", required=True, track_visibility="always")
@@ -206,8 +206,22 @@ class MrpProduction(models.Model):
             so = self.env['sale.order'].search([('name', '=', self.origin)])
             if so:
                 customer = so.partner_id.id
+            else:
+                mo = self.env['mrp.production'].search([('name', '=', self.origin)])
+                if mo:
+                    so = self.env['sale.order'].search([('name', '=', mo.origin)])
+                    if so:
+                        customer = so.partner_id.id
+                    else:
+                        customer = False
+                else:
+                    customer = False
         else:
+
             customer = False
+
+        # else:
+        #     customer = False
         active_id = self._context.get('active_id')
         print(active_id,"rohit")
         return {
