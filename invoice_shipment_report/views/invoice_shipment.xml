@@ -57,7 +57,7 @@
         <template id="invoice_report_detail" inherit_id="stock_account.stock_account_report_invoice_document">
             <xpath expr="//table/tbody/t/tr/td[2]" position="replace">
                 <td class="text-right">
-                    <t t-esc="int(float(snln_line['quantity']))"/>
+                    <t t-esc="int(float(snln_line['quantity'].replace(',','')))"/>
                     <t t-esc="snln_line['uom_name']" groups="uom.group_uom"/>
                 </td>
             </xpath>
