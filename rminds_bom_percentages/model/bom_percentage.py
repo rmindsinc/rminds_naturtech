@@ -47,7 +47,8 @@ class MrpBomLine(models.Model):
 class MrpProduction(models.Model):
     _inherit = 'stock.move'
 
-    mo_percentage = fields.Float(string="Percentage", compute="change_result")
+    #mo_percentage = fields.Float(string="Percentage", compute="change_result")
+    mo_percentage = fields.Float(string="Percentage")
 
     @api.depends('product_uom_qty','raw_material_production_id.product_qty')
     def change_result(self):

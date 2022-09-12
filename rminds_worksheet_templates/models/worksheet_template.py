@@ -316,6 +316,29 @@ class MRPProduction(models.Model):
             except Exception as e:
                 pass
 
+        for mo in self:
+            for ch in mo:
+                ch.x_checklist_ids_mo = [(5, 0, 0)]
+            if mo.bom_id:
+                ch_ids = []
+                for item in mo.bom_id.x_checklist_ids:
+                    checklist_data = {
+                        'x_step': item.x_step,
+                        'x_name': item.x_name,
+                        'x_sequence': item.x_sequence,
+                        'display_type': item.display_type,
+                        'name': item.name,
+                    }
+                    ch_id = self.env['mo.checklist'].create(checklist_data)
+                    ch_ids.append(ch_id.id)
+                mo.x_checklist_ids_mo = [(6, 0, ch_ids)]
+                mo.x_revision_memo_mo = mo.bom_id.x_revision_memo
+
+            for sm in mo.move_raw_ids:
+                for bom_item in mo.bom_id.bom_line_ids:
+                    if sm.product_id.id == bom_item.product_id.id:
+                        sm.mo_percentage = bom_item.bom_percentage
+
         return res
 
     def _generate_backorder_productions(self, close_mo=True):
@@ -330,7 +353,7 @@ class MRPProduction(models.Model):
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    def action_confirm(self):
+    def action_confirm123(self):
         res = super(SaleOrder, self).action_confirm()
         for mo in self.env['mrp.production'].sudo().search([('origin', '=', self.name)]):
             for ch in mo:
@@ -349,5 +372,35 @@ class SaleOrder(models.Model):
                     ch_ids.append(ch_id.id)
                 mo.x_checklist_ids_mo = [(6, 0, ch_ids)]
                 mo.x_revision_memo_mo = mo.bom_id.x_revision_memo
+
+            # for child MO
+            chlid_mo = mo.procurement_group_id.stock_move_ids.created_production_id.procurement_group_id.mrp_production_ids - mo
+            for child in chlid_mo:
+                for ch in child:
+                    ch.x_checklist_ids_mo = [(5, 0, 0)]
+                if child.bom_id:
+                    ch_ids = []
+                    for item in child.bom_id.x_checklist_ids:
+                        checklist_data = {
+                            'x_step': item.x_step,
+                            'x_name': item.x_name,
+                            'x_sequence': item.x_sequence,
+                            'display_type': item.display_type,
+                            'name': item.name,
+                        }
+                        ch_id = self.env['mo.checklist'].create(checklist_data)
+                        ch_ids.append(ch_id.id)
+                    child.x_checklist_ids_mo = [(6, 0, ch_ids)]
+                    child.x_revision_memo_mo = child.bom_id.x_revision_memo
+
+            for sm in mo.move_raw_ids:
+                for bom_item in mo.bom_id.bom_line_ids:
+                    if sm.product_id.id == bom_item.product_id.id:
+                        sm.mo_percentage = bom_item.bom_percentage
+
+            for sm in chlid_mo.move_raw_ids:
+                for bom_item in chlid_mo.bom_id.bom_line_ids:
+                    if sm.product_id.id == bom_item.product_id.id:
+                        sm.mo_percentage = bom_item.bom_percentage
 
         return res

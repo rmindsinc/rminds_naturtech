@@ -114,9 +114,11 @@ class MRPProduction(models.Model):
 
     def get_percentage(self, product_id):
         percentage = 0
-        for item in self.bom_id.bom_line_ids:
+        for item in self.move_raw_ids:
             if item.product_id.id == product_id.id:
-                percentage = item.bom_percentage
+                percentage = item.mo_percentage
+        if not percentage:
+            percentage = ''
         return percentage
 
     def get_customer(self):
