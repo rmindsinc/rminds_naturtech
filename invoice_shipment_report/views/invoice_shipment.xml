@@ -2,7 +2,7 @@
 <odoo>
     <data>
         <template id="invoice_report_ship_detail" inherit_id="account.report_invoice_document">
-            <xpath expr="//div[@id='informations']" position="inside">
+            <!--<xpath expr="//div[@id='informations']" position="inside">
                 <t t-foreach="request.env['stock.picking'].search([('origin', '=', o.invoice_origin),('state','=','done'),('name','like', 'OUT')])"
                    t-as="obj">
                     <div class="col-auto mw-100 mb-2" t-if="obj.carrier_id" id="carrier_id">
@@ -14,6 +14,44 @@
                          <p class="m-0" t-field="obj.carrier_tracking_ref"/>
                     </div>
                 </t>
+            </xpath>-->
+            <xpath expr="//div[@id='informations']" position="replace">
+                <div id="informations" class="row mt32 mb32">
+                        <div class="col-auto col-3 mw-100 mb-2" t-if="o.invoice_date" name="invoice_date">
+                            <strong>Invoice Date:</strong>
+                            <p class="m-0" t-field="o.invoice_date"/>
+                        </div>
+                        <div class="col-auto col-3 mw-100 mb-2" t-if="o.invoice_date_due and o.move_type == 'out_invoice' and o.state == 'posted'" name="due_date">
+                            <strong>Due Date:</strong>
+                            <p class="m-0" t-field="o.invoice_date_due"/>
+                        </div>
+                        <div class="col-auto col-3 mw-100 mb-2" t-if="o.invoice_origin" name="origin">
+                            <strong>Order #</strong>
+                            <p class="m-0" t-field="o.invoice_origin"/>
+                        </div>
+                        <div class="col-auto col-3 mw-100 mb-2" t-if="o.partner_id.ref" name="customer_code">
+                            <strong>Customer Code:</strong>
+                            <p class="m-0" t-field="o.partner_id.ref"/>
+                        </div>
+                        <div class="col-auto col-3 mw-100 mb-2" t-if="o.ref" name="reference">
+                            <strong>PO #</strong>
+                            <p class="m-0" t-field="o.ref"/>
+                        </div>
+                        <t t-foreach="request.env['stock.picking'].search([('origin', '=', o.invoice_origin),('state','=','done'),('name','like', 'OUT')])"
+                   t-as="obj">
+                    <div class="col-auto mw-100 mb-2" t-if="obj.carrier_id" id="carrier_id">
+                        <strong>Carrier</strong>
+                        <p class="m-0" t-field="obj.carrier_id"/>
+                    </div>
+                    <div class="col-auto mw-100 mb-2" t-if="obj.carrier_tracking_ref" id="tracking_no">
+                        <strong>Tracking No:</strong>
+                         <p class="m-0" t-field="obj.carrier_tracking_ref"/>
+                    </div>
+                </t>
+                </div>
+            </xpath>
+            <xpath expr="//span[@t-field='line.quantity']" position="replace">
+                <span t-esc="int(float(line.quantity))"/>
             </xpath>
         </template>
     </data>

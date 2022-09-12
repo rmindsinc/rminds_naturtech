@@ -48,7 +48,7 @@ class QCReportTemplate(models.Model):
             res.line_ids = [(5,0,0)]
         for lines in self.gen_table_ids:
             for line in lines.line_ids:
-                vals = {'param': line.param.id,'min_value':line.min_value,'max_value': line.max_value,'unit_id': line.unit_id.id, 'method': line.method,'spec': line.spec, 'test_type': line.test_type.id}
+                vals = {'param': line.param.id,'min_value':line.min_value,'max_value': line.max_value,'unit_id': line.unit_id.id, 'method': line.method,'spec': line.spec, 'test_type': line.test_type.id,'target': line.target}
                 if line.min_value > 0:
                     vals.update({'spec': str(line.min_value) + ' - ' + str(line.max_value)})
                 else:
@@ -83,6 +83,7 @@ class QCTestLine(models.Model):
 
     param = fields.Many2one("test.attribute","Attribute", required=True)
     idle = fields.Char("Target")
+    target = fields.Char("Target")
     min_value = fields.Float("Min Value")
     method = fields.Char("Method Reference")
     test_type = fields.Many2one("test.type", "Type")

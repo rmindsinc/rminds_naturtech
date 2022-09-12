@@ -11,6 +11,7 @@
 		# "views/physical_chemical_views.xml",
 		# "views/micro_views.xml",
 		"views/testing_unit_views.xml",
+		"views/coa_checks.xml",
 	],
 	"installable": True,
 }

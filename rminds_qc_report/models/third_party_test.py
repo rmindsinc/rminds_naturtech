@@ -43,6 +43,11 @@ class QCExternalTesting(models.Model):
                 raise UserError(_("Result Value not given."))
         self.write({'state': 'confirm'})
 
+
+    def action_reset(self):
+        if self.state == 'confirm':
+            self.write({'state': 'draft'})
+
     @api.model_create_multi
     def create(self,vals):
         result = super(QCExternalTesting,self).create(vals)
@@ -93,7 +98,7 @@ class QCExternalTesting(models.Model):
         temp_rec = self.env['qc.report.template'].search([('product_id', '=', self.product_id.id)])
         if temp_rec:
             for rec in temp_rec[0].line_ids:
-                vals = {'param': rec.param,'min_value': rec.min_value, 'max_value': rec.max_value,'idle': rec.idle, 'unit': rec.unit_id.id,'method': rec.method, 'test_type': rec.test_type.id}
+                vals = {'param': rec.param,'min_value': rec.min_value, 'max_value': rec.max_value,'idle': rec.idle, 'unit': rec.unit_id.id,'method': rec.method, 'test_type': rec.test_type.id,'target': rec.target}
                 if rec.min_value > 0:
                     vals.update({'spec': str(rec.min_value) + ' - ' + str(rec.max_value)})
                 else:
@@ -106,6 +111,17 @@ class QCExternalTesting(models.Model):
             # for rec in temp_rec[0].micro_testing_ids:
             #     micro_vals = {'param': rec.param,'spec': rec.spec,'method': rec.method}
             #     self.write({'micro_testing_ids' : [(0,0,micro_vals)]})
+
+
+
+        # # check_ids = sorted(self.ids)
+        # action = self.env["ir.actions.actions"]._for_xml_id("qc_external_testing.qc_external_testing_form")
+        # action['context'] = self.env.context.copy()
+        # # action['context'].update({
+        # #     'default_check_ids': check_ids,
+        # #     'default_current_check_id': current_check_id or check_ids[0],
+        # # })
+        # return action
 
 
 
@@ -170,6 +186,85 @@ class MicroBiologiclTesting(models.Model):
     method = fields.Char("Method", required=True)
     date_tested = fields.Date("Date Tested", required=True)
     qc_report_template = fields.Many2one('qc.external.testing','qc report testing' )
+
+
+
+class MrpProduction(models.Model):
+    _inherit = "mrp.production"
+
+    coa_ids = fields.One2many('qc.external.testing', 'mo_id', string="Checks")
+    coa_check_todo = fields.Boolean(compute='_compute_coa_check')
+
+
+    def check_coa(self):
+        self.ensure_one()
+
+        return self.action_coa_check()
+
+    def action_coa_check(self):
+        if self.origin:
+            so = self.env['sale.order'].search([('name', '=', self.origin)])
+            if so:
+                customer = so.partner_id.id
+        else:
+            customer = False
+        active_id = self._context.get('active_id')
+        print(active_id,"rohit")
+        return {
+            'name': _("Certificate of Analysis"),
+            'res_model': 'qc.external.testing',
+            'type': 'ir.actions.act_window',
+            'context': {
+                'default_mo_id': self.id,
+                'default_lot': self.lot_producing_id.name,
+                'default_mfg': self.date_planned_start,
+                'default_product_size': self.product_qty,
+                'default_fill_date': self.date_planned_start,
+                'default_exp_date': self.lot_producing_id.expiration_date,
+                'default_formula': self.bom_id.code,
+                'default_customer': customer,
+            },
+            'view_mode': 'form',
+            'view_type': 'form',
+            'view_id': self.env.ref("rminds_qc_report.qc_external_testing_form").id,
+            'target': 'new'
+        }
+
+    def coa_views(self):
+        self.ensure_one()
+        domain = [
+            ('mo_id', '=', self.id)]
+        return {
+            'name': ('Certificate of Analysis'),
+            'domain': domain,
+            'res_model': 'qc.external.testing',
+            'type': 'ir.actions.act_window',
+            'view_id': False,
+            'view_mode': 'tree,form',
+            'view_type': 'form',
+            'limit': 80,
+            'context': "{'default_mo_id': '%s'}" % self.id
+        }
+
+
+
+
+
+    def _compute_coa_check(self):
+        for production in self:
+            todo = False
+            for check in production.coa_ids:
+                if check.state == 'confirm':
+                    todo = True
+                elif check.state == 'draft':
+                    todo = True
+
+            production.coa_check_todo = todo
+
+
+
+
+
 
 
 
