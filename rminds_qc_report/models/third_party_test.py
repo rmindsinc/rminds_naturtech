@@ -195,10 +195,8 @@ class MrpProduction(models.Model):
     coa_ids = fields.One2many('qc.external.testing', 'mo_id', string="Checks")
     coa_check_todo = fields.Boolean(compute='_compute_coa_check')
 
-
     def check_coa(self):
         self.ensure_one()
-
         return self.action_coa_check()
 
     def action_coa_check(self):

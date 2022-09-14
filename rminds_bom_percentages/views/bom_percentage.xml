@@ -7,16 +7,15 @@
         <field name="arch" type="xml">
             <xpath expr="//page[@name='miscellaneous']//field[@name='consumption']" position="after">
 
-                <field name="is_percentage" />
+                <field name="is_percentage"/>
 
             </xpath>
             <xpath expr="//page[@name='components']//field[@name='attachments_count']" position="after">
 
-                <field name="bom_percentage" widget="percentage"  attrs="{'column_invisible': [('parent.is_percentage', '!=', True)],'readonly': [('parent.is_percentage', '!=', True)]}" />
+                <field name="bom_percentage" widget="percentage"
+                       attrs="{'column_invisible': [('parent.is_percentage', '!=', True)],'readonly': [('parent.is_percentage', '!=', True)]}"/>
 
             </xpath>
-
-
 
 
         </field>
@@ -26,13 +25,15 @@
         <field name="model">mrp.production</field>
         <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
         <field name="arch" type="xml">
-
-            <xpath expr="//page[@name='components']//field[@name='location_id']" position="after">
-
-                <field name="mo_percentage" widget="percentage" />
-
+            <xpath expr="//page[@name='miscellaneous']//field[@name='location_dest_id']" position="after">
+                <field name="is_percentage" readonly="1"/>
             </xpath>
 
+            <xpath expr="//page[@name='components']//field[@name='location_id']" position="after">
+                <field name="mo_percentage" widget="percentage"
+                       attrs="{'column_invisible': [('parent.is_percentage', '!=', True)],
+                            'readonly': [('parent.is_percentage', '!=', True)]}"/>
+            </xpath>
         </field>
     </record>
 

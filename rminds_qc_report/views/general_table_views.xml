@@ -43,6 +43,7 @@
 											<field name="max_value"/>
 											<field name="unit_id"/>
 											<field name="target"/>
+											<field name="actual_result"/>
 											<field name="general_table_id" invisible="1"/>
 										</tree>
 									</field>

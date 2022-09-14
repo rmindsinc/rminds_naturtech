@@ -305,6 +305,7 @@ class MRPProduction(models.Model):
                 ch_ids.append(ch_id.id)
             self.x_checklist_ids_mo = [(6, 0, ch_ids)]
             self.x_revision_memo_mo = self.bom_id.x_revision_memo
+            self.is_percentage = self.bom_id.is_percentage
         return res
 
     def action_confirm(self):

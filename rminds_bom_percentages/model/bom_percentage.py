@@ -60,4 +60,8 @@ class MrpProduction(models.Model):
                     record.mo_percentage = 0
 
 
+class MRPProduction(models.Model):
+    _inherit = 'mrp.production'
+
+    is_percentage = fields.Boolean("Compound by %")
 

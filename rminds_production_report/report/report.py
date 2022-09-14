@@ -9,6 +9,16 @@ class MRPProduction(models.Model):
     x_checklist_ids_mo = fields.One2many('mo.checklist', 'x_checklist_id_mo', "Checklist")
     x_revision_memo_mo = fields.Text("BOM revision history")
 
+    def has_qc_check(self):
+        if self.env['qc.external.testing'].search([('mo_id', '=', self.id)]):
+            print ("Found ================")
+            return True
+        else:
+            False
+
+    def get_qc_check(self):
+        return self.env['qc.external.testing'].search([('mo_id', '=', self.id)])
+
     def generate_production_report(self):
         report_file = "/tmp/worksheet%s.pdf" % self.id
         files = [report_file]
@@ -117,7 +127,7 @@ class MRPProduction(models.Model):
         for item in self.move_raw_ids:
             if item.product_id.id == product_id.id:
                 percentage = item.mo_percentage * 100
-                percentage = round(percentage, 4)
+                percentage = format(percentage, '.4f')
         if not percentage:
             percentage = ''
         return percentage
@@ -137,3 +147,14 @@ class MRPProduction(models.Model):
             if so:
                 customer_ref = so.client_order_ref  or ''
         return customer_ref
+
+
+class StockMove(models.Model):
+    _inherit = 'stock.move'
+
+    def get_lots(self):
+        lots = []
+        for ml in self.move_line_ids:
+            if ml.lot_id:
+                lots.append(ml.lot_id.name)
+        return ",".join(lots)

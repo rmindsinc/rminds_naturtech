@@ -130,6 +130,7 @@ class GeneralTableLine(models.Model):
     spec = fields.Char("Specification", required=True)
     unit_id = fields.Many2one('testing.unit', 'Testing Unit')
     target = fields.Char("Target")
+    actual_result = fields.Char("Actual Result")
     general_table_id = fields.Many2one('qc.general.table','general table id' )
 
 
