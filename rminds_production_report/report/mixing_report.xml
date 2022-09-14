@@ -107,7 +107,7 @@
                         <br></br>
                         <br></br>
 
-                        <div style="page-break-inside: avoid!important;">
+                        <div style="page-break-inside: inherit!important;">
                             <strong>
                                 <h5>Bill of Material / Components</h5>
                             </strong>
@@ -178,7 +178,7 @@
                         <br></br>
                         <br></br>
 
-                        <div style="page-break-inside: avoid!important;">
+                        <div style="page-break-inside: inherit!important;">
                             <strong>
                                 <h5>Equipment’s Used:</h5>
                             </strong>
@@ -329,7 +329,7 @@
                         <br></br>
 
 
-                        <div style="page-break-inside: avoid!important;">
+                        <div style="page-break-inside: inherit!important;">
                             <strong>
                                 <h5>Scales Used:</h5>
                             </strong>
@@ -453,25 +453,22 @@
                         <br></br>
 
 
-                        <div style="page-break-inside: avoid!important;">
+                        <div style="">
                             <strong>
                                 <h5>Compounding Mixing Instructions</h5>
                             </strong>
-                            <table class="table table-sm">
+                            <table class="table table-condensed" style="">
                                 <thead>
-                                    <tr>
+                                    <tr style="page-break-before: avoid !important; ">
                                         <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
                                             <strong>Step</strong>
                                         </th>
-                                        <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
+                                        <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle; ">
                                             <strong>Instruction</strong>
                                         </th>
                                         <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
                                             <strong>Performed By</strong>
                                         </th>
-                                        <!--                                            <th style="vertical-align: middle;">-->
-                                        <!--                                                <strong>Date</strong>-->
-                                        <!--                                            </th>-->
                                         <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
                                             <strong>Verified by</strong>
                                         </th>
@@ -480,33 +477,24 @@
                                 </thead>
                                 <tbody>
                                     <t t-foreach="o.x_checklist_ids_mo" t-as="info">
-                                        <!--                                        <t t-foreach="process.check_ids" t-as="check_list">-->
                                         <t t-if="info.display_type">
-                                            <tr>
-                                                <td colspan="4" style="border: 1px solid #dee2e6">
-                                                    <span style="font-weight: bold" t-field="info.name"/>
+                                            <tr style="page-break-before: avoid !important; ">
+                                                <td colspan="4"
+                                                    style="border: 1px solid #dee2e6; page-break-inside: avoid !important; white-space: break-spaces;">
+                                                    <span style="font-weight: bold; white-space: break-spaces;"
+                                                          t-field="info.name"/>
                                                 </td>
-                                                <!--                                            <td style="border: 1px solid #dee2e6">-->
-                                                <!--                                                <span />-->
-                                                <!--                                            </td>-->
-                                                <!--                                            <td style="border: 1px solid #dee2e6">-->
-                                                <!--                                                <span></span>-->
-                                                <!--                                            </td>-->
-                                                <!--                                            <td style="border: 1px solid #dee2e6">-->
-                                                <!--                                                <span></span>-->
-                                                <!--                                            </td>-->
-
                                             </tr>
                                         </t>
                                         <t t-if="not info.display_type">
-                                            <tr>
-                                                <td style="border: 1px solid #dee2e6">
-                                                    <span t-field="info.x_step"
-                                                    />
+                                            <tr style="page-break-before: avoid !important; ">
+                                                <td style="border: 1px solid #dee2e6;">
+                                                    <span t-field="info.x_step" />
                                                 </td>
-                                                <td style="border: 1px solid #dee2e6">
-                                                    <span t-field="info.x_name"
-                                                    />
+                                                <td style="border: 1px solid #dee2e6;">
+                                                    <span t-field="info.x_name" style=""/>
+                                                    <br></br>
+                                                    <span style="height: 40px !important; "></span>
                                                 </td>
                                                 <td style="border: 1px solid #dee2e6">
                                                     <span></span>
@@ -534,7 +522,7 @@
                         <br></br>
 
 
-                        <div style="page-break-inside: avoid!important;">
+                        <div style="page-break-inside: inherit!important;">
                             <span style="width: 100%; text-align: center">
                                 <strong>
                                     <h5>TOTAL YIELD</h5>
@@ -570,7 +558,7 @@
                         <br></br>
 
 
-                        <div style="page-break-inside: avoid!important;">
+                        <div style="page-break-inside: inherit!important;">
                             <span>Provide explanation if Yield is less than 90.0% or greater than 110.0%</span>
                             <br></br>
                             <table class="table table-sm" style="empty-cells: show;;border: 1px solid #dee2e6">
@@ -634,7 +622,7 @@
                             <br></br>
 
 
-                            <div style="page-break-inside: avoid!important;">
+                            <div style="page-break-inside: inherit!important;">
                                 <strong>
                                     <h5>Additional Materials used to modify batch:</h5>
                                 </strong>
@@ -777,7 +765,7 @@
                             <br></br>
 
 
-                            <div style="page-break-inside: avoid!important;">
+                            <div style="page-break-inside: inherit!important;">
                                 <strong>
                                     <h5>BOM Revision History:</h5>
                                 </strong>
@@ -799,7 +787,7 @@
                             <br></br>
                             <br></br>
 
-                            <div style="page-break-inside: avoid!important;">
+                            <div style="page-break-inside: inherit!important;">
                                 <strong>
                                     <h5>Quality Control – Certificate of Analysis</h5>
                                     <br></br>

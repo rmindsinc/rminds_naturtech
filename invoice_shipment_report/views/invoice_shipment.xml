@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        <record id="paperformat_invoices" model="report.paperformat">
+            <field name="name">Invoice Paperformat Report</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">20</field>
+            <field name="margin_bottom">25</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">10</field>
+            <field name="dpi">90</field>
+        </record>
+        <record id="account.account_invoices" model="ir.actions.report">
+            <field name="name">Invoices</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">account.report_invoice_with_payments</field>
+            <field name="report_file">account.report_invoice_with_payments</field>
+            <field name="print_report_name">(object._get_report_base_filename())</field>
+            <field name="paperformat_id" ref="invoice_shipment_report.paperformat_invoices" />
+            <field name="attachment">(object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')</field>
+            <field name="binding_type">report</field>
+            <field name="groups_id" eval="[(4, ref('account.group_account_invoice')),
+ (4, ref('account.group_account_readonly'))]"/>
+        </record>
         <template id="invoice_report_ship_detail" inherit_id="account.report_invoice_document">
             <!--<xpath expr="//div[@id='informations']" position="inside">
                 <t t-foreach="request.env['stock.picking'].search([('origin', '=', o.invoice_origin),('state','=','done'),('name','like', 'OUT')])"
@@ -52,6 +78,23 @@
             </xpath>
             <xpath expr="//span[@t-field='line.quantity']" position="replace">
                 <span t-esc="int(float(line.quantity))"/>
+            </xpath>
+            <xpath expr="//div/table[1]/thead/tr/th[5]" position="replace">
+                <t t-set="counter" t-value="0"/>
+                <t t-set="lines" t-value="o.invoice_line_ids.sorted(key=lambda l: (-l.sequence, l.date, l.move_name, -l.id), reverse=True)"/>
+                <t t-foreach="lines" t-as="line">
+                    <t t-if="line.tax_ids">
+                        <t t-set="counter" t-value="counter+1"/>
+                    </t>
+                </t>
+                <t t-if="counter &gt; 0">
+                <th name="th_taxes" t-attf-class="text-left {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}"><span>Taxes</span></th>
+                </t>
+            </xpath>
+            <xpath expr="//div/table[1]/tbody/t/tr/t/td[5]" position="replace">
+                <td t-if="line.tax_ids" t-attf-class="text-left {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                    <span t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_ids))" id="line_tax_ids"/>
+                </td>
             </xpath>
         </template>
         <template id="invoice_report_detail" inherit_id="stock_account.stock_account_report_invoice_document">

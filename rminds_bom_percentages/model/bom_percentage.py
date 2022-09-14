@@ -63,5 +63,12 @@ class MrpProduction(models.Model):
 class MRPProduction(models.Model):
     _inherit = 'mrp.production'
 
-    is_percentage = fields.Boolean("Compound by %")
+    is_percentage = fields.Boolean("Compound by %", compute='check_if_percentage')
+
+    def check_if_percentage(self):
+        for mo in self:
+            if mo.bom_id.is_percentage:
+                mo.is_percentage = True
+            else:
+                mo.is_percentage = False
 
