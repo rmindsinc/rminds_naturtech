@@ -482,7 +482,7 @@
                                     <t t-set="worksheet" t-value="check_list.get_worksheet()"></t>
                                 </t>
                             </t>
-                            <t t-if="worksheet">
+                            <t t-if="worksheet and worksheet.x_checklist_line_ids">
                                 <table class="table table-condensed" style="">
                                     <thead>
                                         <tr style="page-break-before: avoid !important; ">
@@ -537,7 +537,7 @@
                                     </tbody>
                                 </table>
                             </t>
-                            <t t-if="not worksheet">
+                            <t t-if="not worksheet or (worksheet and not worksheet.x_checklist_line_ids)">
                                 <table class="table table-condensed" style="">
                                     <thead>
                                         <tr style="page-break-before: avoid !important; ">
