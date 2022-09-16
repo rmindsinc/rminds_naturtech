@@ -29,8 +29,25 @@ class BOMChecklist(models.Model):
         ('line_note', "Note")], default=False, help="Technical field for UX purpose.")
     name = fields.Char("Name")
 
+    # @api.onchange('x_sequence')
+    # def onchange_sequence(self):
+    #     for item in self:
+    #         item.x_step = item.x_sequence
+    #
+    # def write(self, vals):
+    #     res = super(BOMChecklist, self).write(vals)
+    #     for item in self:
+    #         self._cr.execute("update bom_checklist set x_step=%s where id=%s" % (item.x_sequence, item.id))
+    #     return res
+    #
+    # def create(self, vals):
+    #     res = super(BOMChecklist, self).create(vals)
+    #     for item in self:
+    #         item.x_step = item.x_sequence
+    #     return res
 
-class BOMChecklist(models.Model):
+
+class MOChecklist(models.Model):
     _name = 'mo.checklist'
     _description = "Checklist in MO"
 
@@ -57,7 +74,7 @@ class MRPBOM(models.Model):
     _inherit = 'mrp.bom'
 
     x_checklist_ids = fields.One2many('bom.checklist', 'x_checklist_id', "Checklist")
-    x_revision_memo = fields.Text("BOM revision history")
+    x_revision_memo = fields.Text("BOM revision history", track_visibility="always")
 
 
 class WorksheetTemplate(models.Model):
@@ -74,6 +91,7 @@ class WorksheetChecklist(models.Model):
 
     x_sequence = fields.Integer("Sr. No.")
     x_step = fields.Integer("Step")
+    x_step_dummy = fields.Char("Step Dummy")
     x_name = fields.Text("Instructions")
     x_completed_by = fields.Many2one('res.users', "Completed by")
     x_completed_date = fields.Date("Date")
@@ -255,6 +273,7 @@ class QualityCheckInherit(models.Model):
                                         'x_' + m2o_field: worksheet.sudo().id,
                                         'x_sequence': item.x_sequence,
                                         'x_step': 98765,
+                                        'x_step_dummy': 'zzzz',
                                     }
                                 else:
                                     data = {
@@ -282,7 +301,7 @@ class MRPProduction(models.Model):
     _inherit = 'mrp.production'
 
     x_checklist_ids_mo = fields.One2many('mo.checklist', 'x_checklist_id_mo', "Checklist")
-    x_revision_memo_mo = fields.Text("BOM revision history")
+    x_revision_memo_mo = fields.Text("BOM revision history", track_visibility="always")
 
     related_captured_templates = fields.Char("Related captured worksheet templates")
 
@@ -405,3 +424,10 @@ class SaleOrder(models.Model):
                         sm.mo_percentage = bom_item.bom_percentage
 
         return res
+
+
+class Attachments(models.Model):
+    _inherit = 'ir.attachment'
+
+    # def create(self, vals):
+    #     print (self._context, "\n\n contextttttttttttttttttttttt")

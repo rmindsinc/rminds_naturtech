@@ -7,7 +7,7 @@
     "author": "Manoj Parmar",
     "maintainers": ["Manoj Parmar"],
     "website": "www.rminds.com",
-    "depends": ["base","purchase","mail"],
+    "depends": ["base","account","purchase","mail"],
     "data": [
         "security/ir.model.access.csv",
         "views/res_partner.xml",
@@ -15,6 +15,7 @@
         "views/res_config_settings_view.xml",
         "data/vendor_review_cron.xml",
         "data/vendor_review_mail_template.xml",
+        "data/vendor_reminder_mail_template.xml"
         
     ],
     "installable": True,

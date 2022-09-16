@@ -126,12 +126,38 @@ class GeneralTableLine(models.Model):
     method = fields.Char("Method Reference",)
     min_value = fields.Float("Min Value")
     max_value = fields.Float("Max Value")
-    test_type = fields.Many2one("test.type", "Type")
-    spec = fields.Char("Specification", required=True)
+    test_type = fields.Many2one("test.type", "Type", required=True)
+    spec = fields.Char("Specification")
     unit_id = fields.Many2one('testing.unit', 'Testing Unit')
     target = fields.Char("Target")
     actual_result = fields.Char("Actual Result")
     general_table_id = fields.Many2one('qc.general.table','general table id' )
+    test = fields.Char("test")
+
+    method_1 = fields.Boolean("Method Reference",compute='_field_compute')
+    spec_1 = fields.Boolean("Specification",compute='_field_compute')
+    # res = fields.Boolean("Result")
+    min_value_1 = fields.Boolean("Min Value",compute='_field_compute')
+    max_value_1 = fields.Boolean("Max Value",compute='_field_compute')
+    target_1 = fields.Boolean("Target",compute='_field_compute')
+    # date_tested = fields.Boolean("Date Tested")
+    unit_id_1 = fields.Boolean('Testing Unit',compute='_field_compute')
+
+    @api.depends('test_type')
+    def _field_compute(self):
+        for rec in self:
+            if rec.test_type:
+                if rec.test_type.name:
+                    rec.method_1 = rec.test_type.method
+                    rec.spec_1 = rec.test_type.spec
+                    rec.min_value_1 = rec.test_type.min_value
+                    rec.max_value_1 = rec.test_type.max_value
+                    rec.target_1 = rec.test_type.target
+                    rec.unit_id_1 = rec.test_type.unit_id
+
+
+
+
 
 
 class MRPBOM(models.Model):
@@ -262,4 +288,36 @@ class TestAttributes(models.Model):
 class TestType(models.Model):
     _name = 'test.type'
 
+
+
+    def _default_sequence(self):
+        cat = self.search([], limit=1, order="sequence DESC")
+        if cat:
+            return cat.sequence + 1
+        return 100
+
     name = fields.Char("Name")
+    sequence = fields.Integer("Sequence",required=True,default=_default_sequence)
+    # param = fields.Boolean("Attribute")
+    method = fields.Boolean("Method Reference")
+    spec = fields.Boolean("Specification")
+    res = fields.Boolean("Result")
+    min_value = fields.Boolean("Min Value")
+    max_value = fields.Boolean("Max Value")
+    target = fields.Boolean("Target")
+    date_tested = fields.Boolean("Date Tested")
+    unit_id = fields.Boolean('Testing Unit')
+
+    _sql_constraints = [
+        ('sequence', 'unique(sequence)', "Another Test already exists with this sequence number!"),
+    ]
+
+    # param = fields.Many2one("test.attribute", "Attribute", required=True)
+    # method = fields.Char("Method Reference", )
+    # min_value = fields.Float("Min Value")
+    # max_value = fields.Float("Max Value")
+    # test_type = fields.Many2one("test.type", "Type")
+    # spec = fields.Char("Specification", required=True)
+    # unit_id = fields.Many2one('testing.unit', 'Testing Unit')
+    # target = fields.Char("Target")
+    # general_table_id = fields.Many2one('qc.general.table', 'general table id')

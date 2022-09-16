@@ -36,14 +36,27 @@
 									<field name="line_ids" nolabel="1" >
 										<tree editable="top">
 											<field name="param"/>
-											<field name="method"/>
-											<field name="spec"/>
+											<field name="method" attrs="{'readonly':[('method_1', '!=', True)],'required':[('method_1', '=', True)]}"/>
+											<field name="method_1"  invisible="1"/>
+											<field name="spec" attrs="{'readonly':[('spec_1', '!=', True)],'required':[('spec_1', '=', True)]}"/>
+											<field name="spec_1"  invisible="1"/>
 											<field name="test_type"/>
-											<field name="min_value"/>
-											<field name="max_value"/>
-											<field name="unit_id"/>
-											<field name="target"/>
+
+											<field name="min_value"  attrs="{'readonly':[('min_value_1', '!=', True)],'required':[('min_value_1', '=', True)]}"/>
+											<field name="min_value_1"  invisible="1"/>
+											<field name="max_value" attrs="{'readonly':[('max_value_1', '!=', True)],'required':[('max_value_1', '=', True)]}"/>
+											<field name="max_value_1"  invisible="1"/>
+											<field name="unit_id" attrs="{'readonly':[('unit_id_1', '!=', True)],'required':[('unit_id_1', '=', True)]}"/>
+											<field name="unit_id_1"  invisible="1"/>
+											<field name="target" attrs="{'readonly':[('target_1', '!=', True)],'required':[('target_1', '=', True)]}"/>
+											<field name="target_1"  invisible="1"/>
+
+<!--											<field name="min_value"/>-->
+<!--											<field name="max_value"/>-->
+<!--											<field name="unit_id"/>-->
+<!--											<field name="target"/>-->
 											<field name="actual_result"/>
+
 											<field name="general_table_id" invisible="1"/>
 										</tree>
 									</field>

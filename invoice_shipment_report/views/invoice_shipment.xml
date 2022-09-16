@@ -6,14 +6,15 @@
             <field name="default" eval="True"/>
             <field name="format">A4</field>
             <field name="orientation">Portrait</field>
-            <field name="margin_top">20</field>
+            <field name="margin_top">25</field>
             <field name="margin_bottom">25</field>
             <field name="margin_left">5</field>
             <field name="margin_right">5</field>
             <field name="header_line" eval="False"/>
-            <field name="header_spacing">10</field>
+            <field name="header_spacing">20</field>
             <field name="dpi">90</field>
         </record>
+
         <record id="account.account_invoices" model="ir.actions.report">
             <field name="name">Invoices</field>
             <field name="model">account.move</field>
@@ -27,6 +28,33 @@
             <field name="groups_id" eval="[(4, ref('account.group_account_invoice')),
  (4, ref('account.group_account_readonly'))]"/>
         </record>
+
+        <template id="report_invoice_inherit_res_company_boxed" inherit_id="web.external_layout_boxed">
+            <xpath expr="//div[@t-attf-class='header o_company_#{company.id}_layout']" position="replace">
+                <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+                <div class="o_boxed_header">
+                <div class="row mb8">
+                    <div class="col-6 mb-2">
+                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo"/>
+                    </div>
+                    <div class="col-6 text-right mb-2">
+                        <!--<h4 class="mt0" t-field="company.report_header"/>-->
+                        <div name="company_address" class="float-right">
+                            <!--<span t-if="company.company_details" t-field="company.company_details"></span>-->
+                            <div t-if="company.name" t-field="company.name"></div>
+                            <div t-if="company.street" t-field="company.street"></div>
+                            <div t-if="company.street2" t-field="company.street2"></div>
+                            <div><span t-if="company.city" t-esc="company.city"/><span class="ml-1" t-if="company.state_id" t-esc="company.state_id.code"/><span class="ml-1" t-if="company.zip" t-esc="company.zip"/></div>
+                            <div t-if="company.country_id" t-field="company.country_id.name"></div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            </xpath>
+        </template>
+
         <template id="invoice_report_ship_detail" inherit_id="account.report_invoice_document">
             <!--<xpath expr="//div[@id='informations']" position="inside">
                 <t t-foreach="request.env['stock.picking'].search([('origin', '=', o.invoice_origin),('state','=','done'),('name','like', 'OUT')])"
@@ -51,7 +79,7 @@
                             <strong>Due Date:</strong>
                             <p class="m-0" t-field="o.invoice_date_due"/>
                         </div>
-                        <div class="col-auto col-3 mw-100 mb-2" t-if="o.invoice_origin" name="origin">
+                        <div class="col-auto col-3 mw-100 mb-2" name="origin">
                             <strong>Order #</strong>
                             <p class="m-0" t-field="o.invoice_origin"/>
                         </div>
@@ -59,21 +87,29 @@
                             <strong>Customer Code:</strong>
                             <p class="m-0" t-field="o.partner_id.ref"/>
                         </div>
-                        <div class="col-auto col-3 mw-100 mb-2" t-if="o.ref" name="reference">
+                        <div class="col-auto col-3 mw-100 mb-2" name="reference">
                             <strong>PO #</strong>
                             <p class="m-0" t-field="o.ref"/>
                         </div>
-                        <t t-foreach="request.env['stock.picking'].search([('origin', '=', o.invoice_origin),('state','=','done'),('name','like', 'OUT')])"
-                   t-as="obj">
-                    <div class="col-auto mw-100 mb-2" t-if="obj.carrier_id" id="carrier_id">
-                        <strong>Carrier</strong>
-                        <p class="m-0" t-field="obj.carrier_id"/>
-                    </div>
-                    <div class="col-auto mw-100 mb-2" t-if="obj.carrier_tracking_ref" id="tracking_no">
-                        <strong>Tracking No:</strong>
-                         <p class="m-0" t-field="obj.carrier_tracking_ref"/>
-                    </div>
-                </t>
+<!--                        <t t-foreach="request.env['stock.picking'].search([('origin', '=', o.invoice_origin),('state','=','done'),('name','like', 'OUT')])"-->
+<!--                   t-as="obj">-->
+<!--                            <div class="col-auto mw-100 mb-2" id="carrier_id">-->
+<!--                                <strong>Carrier:</strong>-->
+<!--                                <p class="m-0" t-field="obj.carrier_id"/>-->
+<!--                            </div>-->
+<!--                            <div class="col-auto mw-100 mb-2" id="tracking_no">-->
+<!--                                <strong>Tracking No:</strong>-->
+<!--                                 <p class="m-0" t-field="obj.carrier_tracking_ref"/>-->
+<!--                            </div>-->
+<!--                </t>-->
+                        <div class="col-auto mw-100 mb-2" t-if="carrier['car']">
+                            <strong>Carrier</strong>
+                            <p class="m-0" t-esc="carrier['car']"/>
+                        </div>
+                        <div class="col-auto mw-100 mb-2" t-if="carrier['trac']">
+                            <strong>Tracking</strong>
+                            <p class="m-0" t-esc="carrier['trac']"/>
+                        </div>
                 </div>
             </xpath>
             <xpath expr="//span[@t-field='line.quantity']" position="replace">

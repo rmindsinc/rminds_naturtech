@@ -33,3 +33,18 @@ class AccountMoveLine(models.Model):
     # def compute_state(self):
     #     for res in self:
     #         res.state = res.move_id.state
+
+class AccountMove(models.Model):
+    _inherit = "account.move"
+
+    def get_payment_request_url(self):
+        vals = {
+            'res_id': self.id,
+            'res_model': 'account.move',
+            'description': self.payment_reference,
+            'amount': self.amount_residual,
+            'currency_id': self.currency_id.id,
+            'partner_id': self.partner_id.id,
+        }
+        plw = self.env['payment.link.wizard'].sudo().create(vals)
+        return plw.link

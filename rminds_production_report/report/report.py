@@ -6,12 +6,8 @@ from PyPDF2 import PdfFileMerger, PdfFileReader
 class MRPProduction(models.Model):
     _inherit = 'mrp.production'
 
-    x_checklist_ids_mo = fields.One2many('mo.checklist', 'x_checklist_id_mo', "Checklist")
-    x_revision_memo_mo = fields.Text("BOM revision history")
-
     def has_qc_check(self):
         if self.env['qc.external.testing'].search([('mo_id', '=', self.id)]):
-            print ("Found ================")
             return True
         else:
             False

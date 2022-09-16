@@ -128,14 +128,14 @@ class QCExternalTesting(models.Model):
 class QCTestLine(models.Model):
     _name = 'qc.external.testing.line'
 
-    param = fields.Many2one("test.attribute","Attribute")
+    param = fields.Many2one("test.attribute","Attribute", required=True)
     idle = fields.Char("Target",)
     res = fields.Char("Reported Result")
     min_value = fields.Float("Min Value", )
     max_value = fields.Float("Max Value", )
     method = fields.Char("Method Reference")
     spec = fields.Char("Specification")
-    test_type = fields.Many2one("test.type", "Type")
+    test_type = fields.Many2one("test.type", "Type",required=True)
     unit = fields.Many2one('testing.unit')
     # measure = fields.Selection([
     #     ('range','Range'),
@@ -146,6 +146,7 @@ class QCTestLine(models.Model):
         ('fail','Fail')
     ], string="Pass/Fail", compute="change_result")
     target = fields.Char("Target")
+    date_tested = fields.Date("Date Tested")
     qc_external_testing_id = fields.Many2one('qc.external.testing','qc external testing' )
 
     # @api.onchange('res')

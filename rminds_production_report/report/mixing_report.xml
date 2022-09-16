@@ -6,17 +6,13 @@
             <t t-foreach="docs" t-as="o">
                 <t t-call="web.internal_layout">
                     <div class="page">
-
-
-                        <br></br>
                         <center>
-                            <h5>
+                            <h4>
                                 <strong>
                                     <span>Mixing Work Order</span>
                                 </strong>
-                            </h5>
+                            </h4>
                         </center>
-                        <br></br>
                         <br></br>
                         <div style="border: 1px solid #dee2e6; padding-left: 5px; padding-right: 5px; padding-top: 20px; padding-bottom: 30px">
                             <div>
@@ -105,15 +101,21 @@
                             </span>
                         </div>
                         <br></br>
-                        <br></br>
 
-                        <div style="page-break-inside: inherit!important;">
-                            <strong>
-                                <h5>Bill of Material / Components</h5>
-                            </strong>
+
+                        <div style="page-break-inside: initial!important;">
+                            <!--                            <strong>-->
+                            <!--                                <h5>Bill of Material / Components</h5>-->
+                            <!--                            </strong>-->
                             <table class="table table-sm">
                                 <thead>
                                     <tr>
+                                        <tr>
+                                            <th colspan="9"
+                                                style="border: none; font-weight: bold; font-size: 19px; text-align: left;">
+                                                Bill of Material / Components
+                                            </th>
+                                        </tr>
                                         <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
                                             Item
                                         </th>
@@ -128,6 +130,12 @@
                                         </th>
                                         <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
                                             Qty Used
+                                        </th>
+                                        <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
+                                            Existing Lot
+                                        </th>
+                                        <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
+                                            Lot used
                                         </th>
                                         <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
                                             Added by
@@ -152,14 +160,20 @@
                                                     <span t-esc="o.get_percentage(component.product_id)"></span>
                                                 </td>
                                                 <td style="border: 1px solid #dee2e6;">
-                                                    <span t-field="component.product_uom_qty"/>
+                                                    <span t-esc="'%.2f'% component.product_uom_qty"/>
                                                     <span t-field="component.product_uom" groups="uom.group_uom"/>
                                                 </td>
                                                 <td style="border: 1px solid #dee2e6;">
                                                     <t t-if="component.quantity_done > 0">
-                                                        <span t-field="component.quantity_done"/>
+                                                        <span t-escs="'%.2f'% component.quantity_done"/>
                                                         <span t-field="component.product_uom" groups="uom.group_uom"/>
                                                     </t>
+                                                </td>
+                                                <td style="border: 1px solid #dee2e6;" class="text-center">
+                                                    <span t-esc="component.get_lots()"/>
+                                                </td>
+                                                <td style="border: 1px solid #dee2e6;" class="text-center">
+
                                                 </td>
                                                 <td style="border: 1px solid #dee2e6;">
                                                     <span></span>
@@ -178,12 +192,15 @@
                         <br></br>
                         <br></br>
 
-                        <div style="page-break-inside: inherit!important;">
-                            <strong>
-                                <h5>Equipment’s Used:</h5>
-                            </strong>
-                            <table class="table table-sm" style="empty-cells: show;border: 1px solid">
+                        <div style="page-break-inside: initial;">
+<!--                            <strong>-->
+<!--                                <h5>Equipment’s Used:</h5>-->
+<!--                            </strong>-->
+                            <table class="table table-sm" style="">
                                 <thead>
+                                    <tr>
+                                        <th colspan="4" style="border: none!important; font-weight: bold; font-size: 19px; text-align: left;">Equipment’s Used:</th>
+                                    </tr>
                                     <tr style="height:30px;border: 1px solid #dee2e6">
                                         <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
                                             <strong>Equipment Used</strong>
@@ -202,7 +219,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr style="height:30px;border: 1px solid #dee2e6">
+                                    <tr style="height:30px;border: 1px solid #dee2e6; page-break-before: initial!important;">
                                         <td style="border: 1px solid #dee2e6">
                                             <span></span>
                                         </td>
@@ -329,12 +346,15 @@
                         <br></br>
 
 
-                        <div style="page-break-inside: inherit!important;">
-                            <strong>
-                                <h5>Scales Used:</h5>
-                            </strong>
-                            <table class="table table-sm" style="empty-cells: show;border: 1px solid #dee2e6">
+                        <div style="page-break-inside: initial!important;">
+<!--                            <strong>-->
+<!--                                <h5>Scales Used:</h5>-->
+<!--                            </strong>-->
+                            <table class="table table-sm" style="">
                                 <thead>
+                                    <tr>
+                                        <th colspan="4" style="border: none !important; font-weight: bold; font-size: 19px; text-align: left;">Scales Used:</th>
+                                    </tr>
                                     <tr style="height:30px;border: 1px solid #dee2e6 ">
                                         <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
                                             <strong>Scales Used</strong>
@@ -453,60 +473,122 @@
                         <br></br>
 
 
-                        <div style="">
+                        <div style="page-break-inside: avoid!important;">
                             <strong>
                                 <h5>Compounding Mixing Instructions</h5>
                             </strong>
-                            <table class="table table-condensed" style="">
-                                <thead>
-                                    <tr style="page-break-before: avoid !important; ">
-                                        <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
-                                            <strong>Step</strong>
-                                        </th>
-                                        <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle; ">
-                                            <strong>Instruction</strong>
-                                        </th>
-                                        <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
-                                            <strong>Performed By</strong>
-                                        </th>
-                                        <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
-                                            <strong>Verified by</strong>
-                                        </th>
+                            <t t-foreach="o.workorder_ids" t-as="process">
+                                <t t-foreach="process.check_ids" t-as="check_list">
+                                    <t t-set="worksheet" t-value="check_list.get_worksheet()"></t>
+                                </t>
+                            </t>
+                            <t t-if="worksheet">
+                                <table class="table table-condensed" style="">
+                                    <thead>
+                                        <tr style="page-break-before: avoid !important; ">
+                                            <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
+                                                <strong>Step</strong>
+                                            </th>
+                                            <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle; ">
+                                                <strong>Instruction</strong>
+                                            </th>
+                                            <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
+                                                <strong>Performed By</strong>
+                                            </th>
+                                            <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
+                                                <strong>Verified by</strong>
+                                            </th>
 
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <t t-foreach="o.x_checklist_ids_mo" t-as="info">
-                                        <t t-if="info.display_type">
-                                            <tr style="page-break-before: avoid !important; ">
-                                                <td colspan="4"
-                                                    style="border: 1px solid #dee2e6; page-break-inside: avoid !important; white-space: break-spaces;">
-                                                    <span style="font-weight: bold; white-space: break-spaces;"
-                                                          t-field="info.name"/>
-                                                </td>
-                                            </tr>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!--                                    <t t-foreach="o.x_checklist_ids_mo" t-as="info">-->
+                                        <t t-foreach="worksheet.x_checklist_line_ids" t-as="info">
+                                            <!--                                        <t t-if="info.display_type">-->
+                                            <t t-if="info.x_step == 98765">
+                                                <tr style="page-break-before: avoid !important; ">
+                                                    <td colspan="4"
+                                                        style="border: 1px solid #dee2e6; page-break-inside: avoid !important; white-space: break-spaces;">
+                                                        <span style="font-weight: bold; white-space: break-spaces;"
+                                                              t-field="info.x_name"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                            <!--                                        <t t-if="not info.display_type">-->
+                                            <t t-if="info.x_step != 98765">
+                                                <tr style="page-break-before: avoid !important; ">
+                                                    <td style="border: 1px solid #dee2e6;">
+                                                        <span t-field="info.x_step"/>
+                                                    </td>
+                                                    <td style="border: 1px solid #dee2e6;">
+                                                        <span t-field="info.x_name" style=""/>
+                                                        <br></br>
+                                                        <span style="height: 40px !important; "></span>
+                                                    </td>
+                                                    <td style="border: 1px solid #dee2e6">
+                                                        <span t-field="info.x_completed_by"></span>
+                                                    </td>
+                                                    <td style="border: 1px solid #dee2e6">
+                                                        <span t-field="info.x_verified_by"></span>
+                                                    </td>
+                                                </tr>
+                                            </t>
                                         </t>
-                                        <t t-if="not info.display_type">
-                                            <tr style="page-break-before: avoid !important; ">
-                                                <td style="border: 1px solid #dee2e6;">
-                                                    <span t-field="info.x_step" />
-                                                </td>
-                                                <td style="border: 1px solid #dee2e6;">
-                                                    <span t-field="info.x_name" style=""/>
-                                                    <br></br>
-                                                    <span style="height: 40px !important; "></span>
-                                                </td>
-                                                <td style="border: 1px solid #dee2e6">
-                                                    <span></span>
-                                                </td>
-                                                <td style="border: 1px solid #dee2e6">
-                                                    <span></span>
-                                                </td>
-                                            </tr>
+                                    </tbody>
+                                </table>
+                            </t>
+                            <t t-if="not worksheet">
+                                <table class="table table-condensed" style="">
+                                    <thead>
+                                        <tr style="page-break-before: avoid !important; ">
+                                            <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
+                                                <strong>Step</strong>
+                                            </th>
+                                            <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle; ">
+                                                <strong>Instruction</strong>
+                                            </th>
+                                            <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
+                                                <strong>Performed By</strong>
+                                            </th>
+                                            <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
+                                                <strong>Verified by</strong>
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="o.x_checklist_ids_mo" t-as="info">
+                                            <t t-if="info.display_type">
+                                                <tr style="page-break-before: avoid !important; ">
+                                                    <td colspan="4"
+                                                        style="border: 1px solid #dee2e6; page-break-inside: avoid !important; white-space: break-spaces;">
+                                                        <span style="font-weight: bold; white-space: break-spaces;"
+                                                              t-field="info.name"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                            <t t-if="not info.display_type">
+                                                <tr style="page-break-before: avoid !important; ">
+                                                    <td style="border: 1px solid #dee2e6;">
+                                                        <span t-field="info.x_step"/>
+                                                    </td>
+                                                    <td style="border: 1px solid #dee2e6;">
+                                                        <span t-field="info.x_name" style=""/>
+                                                        <br></br>
+                                                        <span style="height: 40px !important; "></span>
+                                                    </td>
+                                                    <td style="border: 1px solid #dee2e6">
+                                                        <span></span>
+                                                    </td>
+                                                    <td style="border: 1px solid #dee2e6">
+                                                        <span></span>
+                                                    </td>
+                                                </tr>
+                                            </t>
                                         </t>
-                                    </t>
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </t>
                         </div>
                         <br></br>
                         <br></br>
@@ -522,7 +604,7 @@
                         <br></br>
 
 
-                        <div style="page-break-inside: inherit!important;">
+                        <div style="page-break-inside: avoid!important;">
                             <span style="width: 100%; text-align: center">
                                 <strong>
                                     <h5>TOTAL YIELD</h5>
@@ -558,7 +640,7 @@
                         <br></br>
 
 
-                        <div style="page-break-inside: inherit!important;">
+                        <div style="page-break-inside: avoid!important;">
                             <span>Provide explanation if Yield is less than 90.0% or greater than 110.0%</span>
                             <br></br>
                             <table class="table table-sm" style="empty-cells: show;;border: 1px solid #dee2e6">
@@ -765,7 +847,7 @@
                             <br></br>
 
 
-                            <div style="page-break-inside: inherit!important;">
+                            <div style="page-break-inside: avoid!important;">
                                 <strong>
                                     <h5>BOM Revision History:</h5>
                                 </strong>
@@ -787,7 +869,7 @@
                             <br></br>
                             <br></br>
 
-                            <div style="page-break-inside: inherit!important;">
+                            <div style="page-break-inside: avoid!important;">
                                 <strong>
                                     <h5>Quality Control – Certificate of Analysis</h5>
                                     <br></br>
@@ -914,6 +996,7 @@
         <field name="report_file">rminds_production_report.report_mrpreport</field>
         <field name="print_report_name">'Mixing Report - %s' % object.name</field>
         <field name="binding_model_id" eval="False"/>
+        <!--        <field name="binding_model_id" ref="mrp.model_mrp_production"/>-->
         <field name="binding_type">report</field>
     </record>
 

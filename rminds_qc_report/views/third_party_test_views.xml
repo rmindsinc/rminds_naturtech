@@ -76,13 +76,14 @@
 										<field name="param" force_save="1" options="{'no_create': True, 'no_create_edit':True}" />
 										<field name="unit" options="{'no_create': True, 'no_create_edit':True}"/>
 										<field name="method"/>
-										<!-- <field name="test_type"/> -->
+										 <field name="test_type"/>
 										<field name="spec" force_save="1" />
 										 <field name="min_value"/>
 										<!-- <field name="idle" force_save="1" /> -->
 										<field name="max_value"/>
 										<field name="target" attrs="{'readonly': True}"/>
 										<field name="res"/>
+										<field name="date_tested"/>
 										<!-- <field name="measure" invisible="1"/> -->
 										<field name="summary" force_save="1" invisible="1"/>
 

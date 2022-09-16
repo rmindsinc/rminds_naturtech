@@ -31,4 +31,47 @@
         parent="quality_control.menu_quality_configuration"
         sequence="29"/>
 
+	<record id="testing_type_config" model="ir.actions.act_window">
+        <field name="name">Test Types</field>
+        <field name="res_model">test.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+	<record id="testing_unit_form" model="ir.ui.view">
+		<field name="name">testing.type.form</field>
+		<field name="model">test.type</field>
+		<field name="arch" type="xml">
+			<form string="">
+				<sheet>
+					<group>
+						<group>
+
+							<field name="name"/>
+							<field name="sequence"/>
+<!--							<field name="param"/>-->
+							<field name="method"/>
+							<field name="min_value"/>
+							<field name="max_value"/>
+<!--							<field name="test_type"/>-->
+							<field name="spec"/>
+							<field name="res"/>
+							<field name="target"/>
+							<field name="unit_id"/>
+							<field name="date_tested"/>
+						</group>
+					</group>
+
+            	</sheet>
+			</form>
+		</field>
+	</record>
+
+	<menuitem
+        id="menu_testing_type"
+        name="Testing Type"
+        action="testing_type_config"
+        parent="quality_control.menu_quality_configuration"
+        sequence="30"/>
+
+
 </odoo>
