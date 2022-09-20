@@ -102,6 +102,11 @@
                         </div>
                         <br></br>
 
+                        <t t-foreach="o.workorder_ids" t-as="process">
+                            <t t-foreach="process.check_ids" t-as="check_list">
+                                <t t-set="worksheet" t-value="check_list.get_worksheet()"></t>
+                            </t>
+                        </t>
 
                         <div style="page-break-inside: initial!important;">
                             <!--                            <strong>-->
@@ -193,264 +198,399 @@
                         <br></br>
 
                         <div style="page-break-inside: initial;">
-<!--                            <strong>-->
-<!--                                <h5>Equipment’s Used:</h5>-->
-<!--                            </strong>-->
-                            <table class="table table-sm" style="">
-                                <thead>
-                                    <tr>
-                                        <th colspan="4" style="border: none!important; font-weight: bold; font-size: 19px; text-align: left;">Equipment’s Used:</th>
-                                    </tr>
-                                    <tr style="height:30px;border: 1px solid #dee2e6">
-                                        <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
-                                            <strong>Equipment Used</strong>
-                                        </th>
-                                        <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
-                                            <strong>Cleaned By</strong>
-                                        </th>
+                            <t t-if="not worksheet or (worksheet and not worksheet.x_equipment_line_ids)">
+                                <table class="table table-sm" style="">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="4"
+                                                style="border: none!important; font-weight: bold; font-size: 19px; text-align: left;">
+                                                Equipment’s Used:
+                                            </th>
+                                        </tr>
+                                        <tr style="height:30px;border: 1px solid #dee2e6">
+                                            <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
+                                                <strong>Equipments Used</strong>
+                                            </th>
+                                            <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
+                                                <strong>Cleaned By</strong>
+                                            </th>
 
-                                        <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
-                                            <strong>Checked By</strong>
-                                        </th>
-                                        <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
-                                            <strong>Date</strong>
-                                        </th>
+                                            <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
+                                                <strong>Checked By</strong>
+                                            </th>
+                                            <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
+                                                <strong>Date</strong>
+                                            </th>
 
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr style="height:30px;border: 1px solid #dee2e6; page-break-before: initial!important;">
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="height:30px;border: 1px solid #dee2e6; page-break-before: initial!important;">
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
 
-                                    </tr>
-                                    <tr style="height:30px;border: 1px solid #dee2e6">
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
+                                        </tr>
+                                        <tr style="height:30px;border: 1px solid #dee2e6">
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
 
-                                    </tr>
-                                    <tr style="height:30px;border: 1px solid #dee2e6">
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
+                                        </tr>
+                                        <tr style="height:30px;border: 1px solid #dee2e6">
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
 
-                                    </tr>
-                                    <tr style="height:30px;border: 1px solid #dee2e6">
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
+                                        </tr>
+                                        <tr style="height:30px;border: 1px solid #dee2e6">
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
 
-                                    </tr>
-                                    <tr style="height:30px;border: 1px solid #dee2e6">
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
+                                        </tr>
+                                        <tr style="height:30px;border: 1px solid #dee2e6">
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
 
-                                    </tr>
-                                    <tr style="height:30px;border: 1px solid #dee2e6">
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
+                                        </tr>
+                                        <tr style="height:30px;border: 1px solid #dee2e6">
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
 
-                                    </tr>
-                                    <tr style="height:30px;border: 1px solid #dee2e6">
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
+                                        </tr>
+                                        <tr style="height:30px;border: 1px solid #dee2e6">
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
 
-                                    </tr>
-                                    <tr style="height:30px;border: 1px solid #dee2e6">
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
+                                        </tr>
+                                        <tr style="height:30px;border: 1px solid #dee2e6">
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
 
-                                    </tr>
-                                </tbody>
-                            </table>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </t>
+                            <t t-if="worksheet and worksheet.x_equipment_line_ids">
+                                <t t-set="row_count" t-value="0"></t>
+                                <table class="table table-sm" style="">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="4"
+                                                style="border: none!important; font-weight: bold; font-size: 19px; text-align: left;">
+                                                Equipment’s Used:
+                                            </th>
+                                        </tr>
+                                        <tr style="height:30px;border: 1px solid #dee2e6">
+                                            <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
+                                                <strong>Equipment Used</strong>
+                                            </th>
+                                            <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
+                                                <strong>Cleaned By</strong>
+                                            </th>
+
+                                            <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
+                                                <strong>Checked By</strong>
+                                            </th>
+                                            <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
+                                                <strong>Date</strong>
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="worksheet.x_equipment_line_ids" t-as="equipment_line">
+                                            <t t-set="row_count" t-value="row_count+1"></t>
+                                            <tr style="height:30px;border: 1px solid #dee2e6; page-break-before: initial!important;">
+                                                <td style="border: 1px solid #dee2e6">
+                                                    <span t-field="equipment_line.x_name"></span>
+                                                </td>
+                                                <td style="border: 1px solid #dee2e6">
+                                                    <span t-field="equipment_line.x_cleaned_by"></span>
+                                                </td>
+                                                <td style="border: 1px solid #dee2e6">
+                                                    <span t-field="equipment_line.x_checked_by"></span>
+                                                </td>
+                                                <td style="border: 1px solid #dee2e6">
+                                                    <span t-field="equipment_line.x_date"></span>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <t t-set="row_count" t-value="8-row_count"></t>
+                                        <t t-foreach="range(row_count)" t-as="row">
+                                            <tr style="height:30px;border: 1px solid #dee2e6">
+                                                <td style="border: 1px solid #dee2e6">
+                                                    <span></span>
+                                                </td>
+                                                <td style="border: 1px solid #dee2e6">
+                                                    <span></span>
+                                                </td>
+                                                <td style="border: 1px solid #dee2e6">
+                                                    <span></span>
+                                                </td>
+                                                <td style="border: 1px solid #dee2e6">
+                                                    <span></span>
+                                                </td>
+
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </t>
                         </div>
                         <br></br>
                         <br></br>
 
 
                         <div style="page-break-inside: initial!important;">
-<!--                            <strong>-->
-<!--                                <h5>Scales Used:</h5>-->
-<!--                            </strong>-->
-                            <table class="table table-sm" style="">
-                                <thead>
-                                    <tr>
-                                        <th colspan="4" style="border: none !important; font-weight: bold; font-size: 19px; text-align: left;">Scales Used:</th>
-                                    </tr>
-                                    <tr style="height:30px;border: 1px solid #dee2e6 ">
-                                        <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
-                                            <strong>Scales Used</strong>
-                                        </th>
-                                        <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
-                                            <strong>Next Calibration Due Date</strong>
-                                        </th>
+                            <t t-if="not worksheet or (worksheet and not worksheet.x_scale_line_ids)">
+                                <table class="table table-sm" style="">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="4"
+                                                style="border: none !important; font-weight: bold; font-size: 19px; text-align: left;">
+                                                Scales Used:
+                                            </th>
+                                        </tr>
+                                        <tr style="height:30px;border: 1px solid #dee2e6 ">
+                                            <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
+                                                <strong>Scales Used</strong>
+                                            </th>
+                                            <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
+                                                <strong>Next Calibration Due Date</strong>
+                                            </th>
 
-                                        <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
-                                            <strong>Checked By</strong>
-                                        </th>
-                                        <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
-                                            <strong>Date</strong>
-                                        </th>
+                                            <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
+                                                <strong>Checked By</strong>
+                                            </th>
+                                            <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
+                                                <strong>Date</strong>
+                                            </th>
 
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr style="height:30px;border: 1px solid #dee2e6">
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="height:30px;border: 1px solid #dee2e6">
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
 
-                                    </tr>
-                                    <tr style="height:30px;border: 1px solid #dee2e6">
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
+                                        </tr>
+                                        <tr style="height:30px;border: 1px solid #dee2e6">
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
 
-                                    </tr>
-                                    <tr style="height:30px;border: 1px solid #dee2e6">
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
+                                        </tr>
+                                        <tr style="height:30px;border: 1px solid #dee2e6">
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
 
-                                    </tr>
-                                    <tr style="height:30px;border: 1px solid #dee2e6">
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
+                                        </tr>
+                                        <tr style="height:30px;border: 1px solid #dee2e6">
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
 
-                                    </tr>
-                                    <tr style="height:30px;border: 1px solid #dee2e6">
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
-                                        <td style="border: 1px solid #dee2e6">
-                                            <span></span>
-                                        </td>
+                                        </tr>
+                                        <tr style="height:30px;border: 1px solid #dee2e6">
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
+                                            <td style="border: 1px solid #dee2e6">
+                                                <span></span>
+                                            </td>
 
-                                    </tr>
-                                </tbody>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </t>
+                            <t t-if="worksheet and worksheet.x_scale_line_ids">
+                                <t t-set="row_count" t-value="0"></t>
+                                <table class="table table-sm" style="">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="4"
+                                                style="border: none !important; font-weight: bold; font-size: 19px; text-align: left;">
+                                                Scales Used:
+                                            </th>
+                                        </tr>
+                                        <tr style="height:30px;border: 1px solid #dee2e6 ">
+                                            <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
+                                                <strong>Scales Used</strong>
+                                            </th>
+                                            <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
+                                                <strong>Next Calibration Due Date</strong>
+                                            </th>
 
-                            </table>
+                                            <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
+                                                <strong>Checked By</strong>
+                                            </th>
+                                            <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
+                                                <strong>Date</strong>
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="worksheet.x_scale_line_ids" t-as="scale_line">
+                                            <t t-set="row_count" t-value="row_count+1"></t>
+                                            <tr style="height:30px;border: 1px solid #dee2e6">
+                                                <td style="border: 1px solid #dee2e6">
+                                                    <span t-field="scale_line.x_name"></span>
+                                                </td>
+                                                <td style="border: 1px solid #dee2e6">
+                                                    <span t-field="scale_line.x_next_calibration_due_date"></span>
+                                                </td>
+                                                <td style="border: 1px solid #dee2e6">
+                                                    <span t-field="scale_line.x_checked_by"></span>
+                                                </td>
+                                                <td style="border: 1px solid #dee2e6">
+                                                    <span t-field="scale_line.x_date"></span>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <t t-set="row_count" t-value="5-row_count"></t>
+                                        <t t-foreach="range(row_count)" t-as="row">
+                                            <tr style="height:30px;border: 1px solid #dee2e6">
+                                                <td style="border: 1px solid #dee2e6">
+                                                    <span></span>
+                                                </td>
+                                                <td style="border: 1px solid #dee2e6">
+                                                    <span></span>
+                                                </td>
+                                                <td style="border: 1px solid #dee2e6">
+                                                    <span></span>
+                                                </td>
+                                                <td style="border: 1px solid #dee2e6">
+                                                    <span></span>
+                                                </td>
+
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </t>
                         </div>
                         <br></br>
                         <br></br>
@@ -477,11 +617,6 @@
                             <strong>
                                 <h5>Compounding Mixing Instructions</h5>
                             </strong>
-                            <t t-foreach="o.workorder_ids" t-as="process">
-                                <t t-foreach="process.check_ids" t-as="check_list">
-                                    <t t-set="worksheet" t-value="check_list.get_worksheet()"></t>
-                                </t>
-                            </t>
                             <t t-if="worksheet and worksheet.x_checklist_line_ids">
                                 <table class="table table-condensed" style="">
                                     <thead>

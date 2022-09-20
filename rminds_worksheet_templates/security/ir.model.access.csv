@@ -3,3 +3,5 @@ access_mixing_lines,mixing.lines,model_mixing_lines,,1,1,1,1
 access_worksheet_checklist,worksheet.checklist,model_worksheet_checklist,,1,1,1,1
 access_bom_checklist,bom.checklist,model_bom_checklist,,1,1,1,1
 access_mo_checklist,mo.checklist,model_mo_checklist,,1,1,1,1
+access_worksheet_equipment,worksheet.equipment,model_worksheet_equipment,,1,1,1,1
+access_worksheet_scale,worksheet.scale,model_worksheet_scale,,1,1,1,1

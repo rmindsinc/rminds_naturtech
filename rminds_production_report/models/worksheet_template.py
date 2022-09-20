@@ -30,9 +30,8 @@ class QualityCheck(models.Model):
                 worksheet = self.env[self.worksheet_template_id.model_id.sudo().model].search(
                     [('x_quality_check_id', '=', self.id)])
             except:
-                print("ok")
+                print(" ")
 
-        print (worksheet, 'WORKSHEET =======================')
         return worksheet
 
 

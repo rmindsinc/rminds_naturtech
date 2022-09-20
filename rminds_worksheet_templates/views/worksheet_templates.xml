@@ -135,6 +135,68 @@
         </field>
     </record>
 
+    <record id="view_worksheet_equipment_tree" model="ir.ui.view">
+        <field name="name">worksheet.equipment.tree</field>
+        <field name="model">worksheet.equipment</field>
+        <field name="arch" type="xml">
+            <tree string="Equipments" editable="bottom" create="false" delete="false">
+                <field name="x_name" readonly="1"/>
+                <field name="x_cleaned_by" />
+                <field name="x_checked_by" />
+                <field name="x_date" />
+            </tree>
+        </field>
+    </record>
+    <record id="view_worksheet_equipment_fprm" model="ir.ui.view">
+        <field name="name">worksheet.equipment.form</field>
+        <field name="model">worksheet.equipment</field>
+        <field name="arch" type="xml">
+            <form string="Equipments">
+                <sheet>
+                    <group>
+                        <field name="x_name" readonly="1"/>
+                        <field name="x_cleaned_by" />
+                        <field name="x_checked_by" />
+                        <field name="x_date" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+    <record id="view_worksheet_scale_tree" model="ir.ui.view">
+        <field name="name">worksheet.scale.tree</field>
+        <field name="model">worksheet.scale</field>
+        <field name="arch" type="xml">
+            <tree string="Scales" editable="bottom" create="false" delete="false">
+                <field name="x_name" readonly="1"/>
+                <field name="x_next_calibration_due_date" />
+                <field name="x_checked_by" />
+                <field name="x_date" />
+            </tree>
+        </field>
+    </record>
+    <record id="view_worksheet_scale_fprm" model="ir.ui.view">
+        <field name="name">worksheet.scale.form</field>
+        <field name="model">worksheet.scale</field>
+        <field name="arch" type="xml">
+            <form string="Scales">
+                <sheet>
+                    <group>
+                        <field name="x_name" readonly="1"/>
+                        <field name="x_next_calibration_due_date" />
+                        <field name="x_checked_by" />
+                        <field name="x_date" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
 
 
     <record id="view_mixing_lines_tree" model="ir.ui.view">
@@ -224,7 +286,41 @@
         </field>
     </record>
 
+    <record id="maintenance_equipment_view_form_inherit_scale" model="ir.ui.view">
+        <field name="name">maintenance.equipment.view.form.inherit.scale</field>
+        <field name="model">maintenance.equipment</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='owner_user_id']" position="after">
+                <field name="is_scale" />
+            </xpath>
+        </field>
+    </record>
 
+    <record id="mrp_workcenter_view_form_inherit_maintenance_equipment" model="ir.ui.view">
+        <field name="name">mrp.workcenter.form.inherit.maintenance.equipment</field>
+        <field name="model">mrp.workcenter</field>
+        <field name="inherit_id" ref="mrp_maintenance.mrp_workcenter_view_form_inherit_maintenance"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='equipment_ids']" position="attributes">
+                <attribute name="domain">[('is_scale', '=', False)]</attribute>
+            </xpath>
+            <xpath expr="//page[@name='equipment']" position="after">
+                <page string="Scale" name="scale">
+                    <field name="scale_ids" widget="many2many" domain="[('is_scale', '=', True)]">
+                        <tree string="Scales">
+                            <field name="name" string="Scale Name"/>
+                            <field name="technician_user_id"/>
+                            <field name="category_id"/>
+                            <field name="mtbf"/>
+                            <field name="mttr"/>
+                            <field name="estimated_next_failure" string="Est. Next Failure"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
 
 
 
