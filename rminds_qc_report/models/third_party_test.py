@@ -75,16 +75,16 @@ class QCExternalTesting(models.Model):
                 raise UserError(_('You cannot have expiry date before mfg'))
         return result
 
-    @api.depends('min_value', 'max_value')
-    def change_result(self):
-        if self.min_value > 0 or self.max_value > 0:
-            if self.res >= self.min_value and self.max_value <= self.max_value:
-                self.summary = 'pass'
-            else:
-                self.summary = 'fail'
-        elif self.res == self.spec:
-            self.summary = 'pass'
-        else: self.summary = 'fail'
+    # @api.depends('min_value', 'max_value')
+    # def change_result(self):
+    #     if self.min_value > 0 or self.max_value > 0:
+    #         if self.res >= self.min_value and self.max_value <= self.max_value:
+    #             self.summary = 'pass'
+    #         else:
+    #             self.summary = 'fail'
+    #     elif self.res == self.spec:
+    #         self.summary = 'pass'
+    #     else: self.summary = 'fail'
 
 
     @api.onchange('product_id')
@@ -159,15 +159,17 @@ class QCTestLine(models.Model):
     @api.depends('res')
     def change_result(self):
         for record in self:
-            if record.min_value > 0 or record.max_value > 0:
-                if float(record.res) >= record.min_value and float(record.res) <= record.max_value:
-                    record.summary = 'pass'
-                else:
-                    record.summary = 'fail'
-            elif record.res == record.spec:
+            if record:
                 record.summary = 'pass'
-            else:
-                record.summary = 'fail'
+            # if record.min_value > 0 or record.max_value > 0:
+            #     if float(record.res) >= record.min_value and float(record.res) <= record.max_value:
+            #         record.summary = 'pass'
+            #     else:
+            #         record.summary = 'fail'
+            # elif record.res == record.spec:
+            #     record.summary = 'pass'
+            # else:
+            #     record.summary = 'fail'
 
 
 class GeneralTable(models.Model):
