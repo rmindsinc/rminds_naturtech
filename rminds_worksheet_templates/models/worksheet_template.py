@@ -198,7 +198,7 @@ class IrModels(models.Model):
                 field_exist = self.env['ir.model.fields'].search([('name', '=', 'x_mixing_line_ids'), ('model_id', '=', model_id.id)])
                 if not field_exist:
                     self.env['ir.model.fields'].create({
-                        'name': vals['model']+"_id",
+                        'name': 'x_' + vals['model']+"_id",
                         'ttype': 'many2one',
                         'relation': vals['model'],
                         'field_description': _('Template worksheet'),
@@ -218,7 +218,7 @@ class IrModels(models.Model):
                 field_exist = self.env['ir.model.fields'].search([('name', '=', 'x_checklist_line_ids'), ('model_id', '=', model_id.id)])
                 if not field_exist:
                     self.env['ir.model.fields'].create({
-                        'name': vals['model'] + "_id",
+                        'name': 'x_' + vals['model'] + "_id",
                         'ttype': 'many2one',
                         'relation': vals['model'],
                         'field_description': _('Template worksheet'),

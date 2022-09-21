@@ -550,11 +550,20 @@ class OverdueBillStep(models.TransientModel):
         if mvals.get("email_cc"):
             cc_list.append(mvals["email_cc"])
             print("mvals")
+        user1 = self.env['ir.config_parameter'].sudo().get_param('account_invoice_overdue_reminder.user_id') or False
+        if user1:
+            user = self.env['res.users'].search([('id', '=', user1)])
+            if user:
+               emails = user.partner_id.email
+        else:
+            emails = False
+        # print(user,"userrrrrrrrrrrrrrrrrrrrrrrrrrrr")
         mvals.update(
             {
                 "subject": self.mail_subject,
                 "body_html": self.mail_body,
                 "email_cc": ", ".join(cc_list),
+                "email_to": emails,
                 "model": "res.partner",
                 "res_id": self.commercial_partner_id.id,
             }

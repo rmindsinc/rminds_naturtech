@@ -119,6 +119,17 @@
                                     class="col-md-1"
                                 /> days
                             </div>
+                            <div class="row" name="user_id">
+                                <label
+                                    for="user_id"
+                                    class="col-md-5"
+                                    string="Default User To Get Notification"
+                                />
+                                <field
+                                    name="user_id"
+                                    class="col-md-3"
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>

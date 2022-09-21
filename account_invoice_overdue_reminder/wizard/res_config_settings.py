@@ -26,6 +26,7 @@ class ResConfigSettings(models.TransientModel):
 
     overdue_limit_counter = fields.Integer(string="Counter Limit", readonly=False)
     mail_reminder_days = fields.Integer(string="Mail Reminder After Days", readonly=False)
+    user_id = fields.Many2one('res.users', string='Approval Name', config_parameter="account_invoice_overdue_reminder.user_id",require=True)
 
     @api.model
     def get_values(self):

@@ -1,5 +1,4 @@
 /** @odoo-module **/
-
 import MrpDocumentsControllerMixin from '@mrp/js/mrp_documents_controller_mixin';
 
 /**
@@ -31,3 +30,4 @@ MrpDocumentsControllerMixin._onClickMrpDocumentsUpload = function _onClickMrpDoc
     });
     $uploadInput.click();
 }
+

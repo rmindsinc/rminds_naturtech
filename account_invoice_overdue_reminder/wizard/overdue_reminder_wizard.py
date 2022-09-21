@@ -640,6 +640,7 @@ class OverdueReminderStep(models.TransientModel):
             }
         )
         for inv in self.invoice_ids:
+            inv.last_reminder_mail = datetime.datetime.now()
             rvals = {"invoice_id": inv.id}
             if self.reminder_type != "phone":
                 rvals["counter"] = inv.overdue_reminder_counter + 1

@@ -297,6 +297,20 @@
         </field>
     </record>
 
+    <record id="maintenance_equipment_view_tree_inherit_scale" model="ir.ui.view">
+        <field name="name">maintenance.equipment.view.tree.inherit.scale</field>
+        <field name="model">maintenance.equipment</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="string">Name</attribute>
+            </xpath>
+            <xpath expr="//field[@name='category_id']" position="attributes">
+                <attribute name="string">Category</attribute>
+            </xpath>
+        </field>
+    </record>
+
     <record id="mrp_workcenter_view_form_inherit_maintenance_equipment" model="ir.ui.view">
         <field name="name">mrp.workcenter.form.inherit.maintenance.equipment</field>
         <field name="model">mrp.workcenter</field>
@@ -307,7 +321,7 @@
             </xpath>
             <xpath expr="//page[@name='equipment']" position="after">
                 <page string="Scale" name="scale">
-                    <field name="scale_ids" widget="many2many" domain="[('is_scale', '=', True)]">
+                    <field name="scale_ids" widget="many2many" domain="[('is_scale', '=', True)]" >
                         <tree string="Scales">
                             <field name="name" string="Scale Name"/>
                             <field name="technician_user_id"/>
