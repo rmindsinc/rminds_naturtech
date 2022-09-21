@@ -85,7 +85,7 @@
                             <t t-foreach="bom_list" t-as="bom">
                                 <t t-set="po_lines" t-value="request.env['purchase.order.line'].sudo().search([('product_id', '=', bom.product_tmpl_id.product_variant_id.id)])"/>
                                 <tr t-foreach="po_lines" t-as="po_line">
-                                    <t t-if="date_from &lt; po_line.order_id.date_order and date_to &gt; po_line.order_id.date_order">
+                                    <t t-if="date_from &lt; po_line.order_id.date_approve and date_to &gt; po_line.order_id.date_approve">
                                     <td class="text-center" width="10%">
                                         <span t-esc="i"/>
                                         <t t-set="i" t-value="i+1"/>
