@@ -22,8 +22,8 @@ class MrpBom(models.Model):
 class MrpBomLine(models.Model):
     _inherit = 'mrp.bom.line'
 
-    bom_percentage = fields.Float(string="Percentage",default=0,
-                                       help='The percentage in between 1 and 100')
+    bom_percentage = fields.Float(string="Percentage",default=0, digits=(16, 4), help='The percentage in between 1 and 100')
+    percent_sign = fields.Char("", default="%")
 
 
     @api.onchange('bom_percentage')
@@ -48,7 +48,8 @@ class MrpProduction(models.Model):
     _inherit = 'stock.move'
 
     #mo_percentage = fields.Float(string="Percentage", compute="change_result")
-    mo_percentage = fields.Float(string="Percentage")
+    mo_percentage = fields.Float(string="Percentage", digits=(16, 4))
+    percent_sign = fields.Char("", default="%")
 
     @api.depends('product_uom_qty','raw_material_production_id.product_qty')
     def change_result(self):

@@ -69,6 +69,9 @@
                     </group>
                 </page>
             </xpath>
+<!--            <xpath expr="//field[@name='product_qty']" position="attributes">-->
+<!--                <attribute name="digits">[16,4]</attribute>-->
+<!--            </xpath>-->
         </field>
     </record>
 
@@ -93,7 +96,7 @@
                             <field name="x_step" string="Step" class="class_step"></field>
                             <field name="x_name"></field>
                             <field name="display_type" invisible="1"/>
-                            <field name="name" widget="section_and_note_text" optional="show"/>
+                            <field name="name" widget="section_and_note_text" optional="show" />
                         </tree>
                         <form>
                             <group>
@@ -139,8 +142,9 @@
         <field name="name">worksheet.equipment.tree</field>
         <field name="model">worksheet.equipment</field>
         <field name="arch" type="xml">
-            <tree string="Equipments" editable="bottom" create="false" delete="false">
-                <field name="x_name" readonly="1"/>
+<!--            <tree string="Equipments" editable="bottom" create="false" delete="false">-->
+            <tree string="Equipments" editable="bottom">
+                <field name="x_name" readonly="0"/>
                 <field name="x_cleaned_by" />
                 <field name="x_checked_by" />
                 <field name="x_date" />
@@ -170,8 +174,9 @@
         <field name="name">worksheet.scale.tree</field>
         <field name="model">worksheet.scale</field>
         <field name="arch" type="xml">
-            <tree string="Scales" editable="bottom" create="false" delete="false">
-                <field name="x_name" readonly="1"/>
+<!--            <tree string="Scales" editable="bottom" create="false" delete="false">-->
+            <tree string="Scales" editable="bottom" >
+                <field name="x_name" readonly="0"/>
                 <field name="x_next_calibration_due_date" />
                 <field name="x_checked_by" />
                 <field name="x_date" />

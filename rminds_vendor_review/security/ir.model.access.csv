@@ -1,3 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_vendor_review_log,access_vendor_review_log,model_vendor_review_log,base.group_user,1,1,1,1
 access_vendor_review_master_log,access_vendor_review_master_log,model_vendor_review_master_log,base.group_user,1,1,1,1
+access_vendor_review_config,access_vendor_review_config,model_vendor_review_config,base.group_user,1,1,1,1

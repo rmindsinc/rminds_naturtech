@@ -12,9 +12,9 @@
             </xpath>
             <xpath expr="//page[@name='components']//field[@name='attachments_count']" position="after">
 
-                <field name="bom_percentage" widget="percentage"
+                <field name="bom_percentage" sum="Total"
                        attrs="{'column_invisible': [('parent.is_percentage', '!=', True)],'readonly': [('parent.is_percentage', '!=', True)]}"/>
-
+                <field name="percent_sign" string=" " readonly="1"></field>
             </xpath>
 
 
@@ -28,12 +28,18 @@
             <xpath expr="//page[@name='miscellaneous']//field[@name='location_dest_id']" position="after">
                 <field name="is_percentage" readonly="1"/>
             </xpath>
-
+            <xpath expr="//page[@name='components']/field[@name='move_raw_ids']/tree/field[@name='product_uom_qty']" position="attributes">
+                <attribute name="sum">Total</attribute>
+            </xpath>
+            <xpath expr="//page[@name='components']//field[@name='product_uom_qty']" position="replace">
+            </xpath>
             <xpath expr="//page[@name='components']//field[@name='location_id']" position="after">
-                <field name="mo_percentage" widget="percentage"
+                <field name="mo_percentage" sum="Total"
                        attrs="{'column_invisible': [('parent.is_percentage', '!=', True)],
                             'readonly': [('parent.is_percentage', '!=', True)]}"/>
+                <field name="percent_sign" string=" " readonly="1"></field>
             </xpath>
+
         </field>
     </record>
 

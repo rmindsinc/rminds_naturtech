@@ -6,12 +6,13 @@
         <field name="auto_delete" eval="False" />
         <field name="lang">{{object.lang}}</field>
         <field name="email_from">{{object.company_id.email}}</field>
-        <field name="email_to">{{object.email}}</field>
-        <field name="subject">{{object.company_id}}</field>
+        <field name="email_to"></field>
+        <field name="subject">Review Pending For {{object.name}}</field>
+<!--        <field name="subject">{{object.company_id}}</field>-->
         <field name="body_html">
             <![CDATA[
                  <div style="margin: 0px; padding: 0px; font-size: 13px;">
-                    <p style="margin:0px 0 12px 0;box-sizing:border-box;">Dear vendor,</p>
+                    <p style="margin:0px 0 12px 0;box-sizing:border-box;">Dear,</p>
                     
                     <p style="margin:0px 0 12px 0;box-sizing:border-box;"><t t-out="object.name" data-oe-t-inline="true" contenteditable="false"></t> are due for the supplier evaluation.</p>
                     
@@ -34,8 +35,9 @@
                             
                             </tbody>
                         </table>
+                        <br></br>
 
-                    <p style="margin:0px 0 12px 0;box-sizing:border-box;">If you get your feedback already, please ignore this email.</p>
+                    <p style="margin:0px 0 12px 0;box-sizing:border-box;">If you get notification already, please ignore this email.</p>
 
                     <p style="margin:0px 0 12px 0;box-sizing:border-box;">Regards,</p>
                     <p style="margin:0px 0 12px 0;box-sizing:border-box;"><t t-out="user.signature" data-oe-t-inline="true" contenteditable="false"></t></p>    

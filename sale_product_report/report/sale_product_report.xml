@@ -19,7 +19,7 @@
                     <t t-call="web.external_layout">
                         <div class="page">
                             <center>
-                                <h4>Products Require For Sale Order No :<span t-esc="docs.display_name"/></h4>
+                                <h4>Products Required For Sale Order No: <span t-esc="docs.display_name"/></h4>
                             </center>
                             <h5>Customer: <span t-esc="docs.partner_id.name"/></h5>
                             <h5>Order date: <span t-esc="docs.date_order"/></h5>

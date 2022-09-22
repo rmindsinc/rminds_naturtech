@@ -76,13 +76,17 @@ class MRPBOM(models.Model):
     x_checklist_ids = fields.One2many('bom.checklist', 'x_checklist_id', "Checklist")
     x_revision_memo = fields.Text("BOM revision history", track_visibility="always")
 
+    # field is redefined to add 4 decimal places
+    product_qty = fields.Float('Quantity', default=1.0, digits=(16, 4), required=True)
+
 
 class WorksheetTemplate(models.Model):
     _inherit = 'worksheet.template'
     _description = "For which kind of process this template will be used (Mixing, Filling, Packaging etc.)"
 
-    x_template_for = fields.Selection([('mixing', 'Mixing'), ('filling', 'Filling'), ('packing', 'Packaging')], string="Template for")
-    
+    x_template_for = fields.Selection([('mixing', 'Mixing'), ('filling', 'Filling'), ('packing', 'Packaging')],
+                                      string="Template for")
+
     def get_x_model_form_action(self):
         if self.x_template_for == 'mixing':
             action = self.action_id.read()[0]
@@ -135,7 +139,7 @@ class MixingLines(models.Model):
 class WorksheetEquipments(models.Model):
     _name = 'worksheet.equipment'
 
-    x_name = fields.Many2one("maintenance.equipment", "Equipment Name")
+    x_name = fields.Many2one("maintenance.equipment", "Equipment Name", domain=[('is_scale', '=', False)])
     x_cleaned_by = fields.Many2one('res.users', string="Cleaned by")
     x_checked_by = fields.Many2one('res.users', string="Checked by")
     x_date = fields.Datetime("Date")
@@ -144,15 +148,13 @@ class WorksheetEquipments(models.Model):
 class WorksheetScales(models.Model):
     _name = 'worksheet.scale'
 
-    x_name = fields.Many2one("maintenance.equipment", "Scale Name")
+    x_name = fields.Many2one("maintenance.equipment", "Scale Name", domain=[('is_scale', '=', True)])
     x_next_calibration_due_date = fields.Datetime(string="Next Calibration Due Date")
     x_checked_by = fields.Many2one('res.users', string="Checked by")
     x_date = fields.Datetime("Date")
 
 
-
 class IrModels(models.Model):
-
     _inherit = 'ir.model'
 
     def create_fields_in_template_table(self, vals, current_worksheet_template):
@@ -174,7 +176,8 @@ class IrModels(models.Model):
                 ]
                 model_id = self.env['ir.model'].search([('model', '=', vals['model'])])
                 for item in new_fields:
-                    field_exist = self.env['ir.model.fields'].search([('name', '=', item[0]), ('model_id', '=', model_id.id)])
+                    field_exist = self.env['ir.model.fields'].search(
+                        [('name', '=', item[0]), ('model_id', '=', model_id.id)])
                     if not field_exist:
                         if item[1] == 'many2one':
                             self.env['ir.model.fields'].create({
@@ -195,10 +198,11 @@ class IrModels(models.Model):
                             })
 
                 # Create mixing lines O2M field === start ===
-                field_exist = self.env['ir.model.fields'].search([('name', '=', 'x_mixing_line_ids'), ('model_id', '=', model_id.id)])
+                field_exist = self.env['ir.model.fields'].search(
+                    [('name', '=', 'x_mixing_line_ids'), ('model_id', '=', model_id.id)])
                 if not field_exist:
                     self.env['ir.model.fields'].create({
-                        'name': 'x_' + vals['model']+"_id",
+                        'name': 'x_' + vals['model'] + "_id",
                         'ttype': 'many2one',
                         'relation': vals['model'],
                         'field_description': _('Template worksheet'),
@@ -209,13 +213,14 @@ class IrModels(models.Model):
                         'name': 'x_mixing_line_ids',
                         'ttype': 'one2many',
                         'relation': 'mixing.lines',
-                        'relation_field': 'x_' + vals['model']+"_id",
+                        'relation_field': 'x_' + vals['model'] + "_id",
                         'field_description': "BOM Lines",
                     })
                     # === end ===
 
                 # Create checklist/instructions lines O2M field === start ===
-                field_exist = self.env['ir.model.fields'].search([('name', '=', 'x_checklist_line_ids'), ('model_id', '=', model_id.id)])
+                field_exist = self.env['ir.model.fields'].search(
+                    [('name', '=', 'x_checklist_line_ids'), ('model_id', '=', model_id.id)])
                 if not field_exist:
                     self.env['ir.model.fields'].create({
                         'name': 'x_' + vals['model'] + "_id",
@@ -235,7 +240,8 @@ class IrModels(models.Model):
                     # === end ===
 
                 # Create Equipments lines O2M field === start ===
-                field_exist = self.env['ir.model.fields'].search([('name', '=', 'x_equipment_line_ids'), ('model_id', '=', model_id.id)])
+                field_exist = self.env['ir.model.fields'].search(
+                    [('name', '=', 'x_equipment_line_ids'), ('model_id', '=', model_id.id)])
                 if not field_exist:
                     self.env['ir.model.fields'].create({
                         'name': vals['model'] + "_id",
@@ -251,7 +257,7 @@ class IrModels(models.Model):
                         'field_description': 'Equipments',
                         'ttype': 'one2many',
                         'relation': 'worksheet.equipment',
-                        #'relation_field': 'x_' + vals['model'] + "_id",
+                        # 'relation_field': 'x_' + vals['model'] + "_id",
                         'relation_field': vals['model'] + "_id",
                     })
 
@@ -296,12 +302,10 @@ class IrModels(models.Model):
 
         self.create_fields_in_template_table(vals, current_worksheet_template)
 
-
         return res
 
 
 class QualityCheckInherit(models.Model):
-
     _inherit = 'quality.check'
 
     def action_quality_worksheet(self):
@@ -313,16 +317,20 @@ class QualityCheckInherit(models.Model):
         if self.worksheet_template_id:
             m2o_field = self.worksheet_template_id.model_id.sudo().model + "_id"
             work_order = self.production_id
-            worksheet = self.env[self.worksheet_template_id.model_id.sudo().model].search([('x_quality_check_id', '=', self.id)])
+            worksheet = self.env[self.worksheet_template_id.model_id.sudo().model].search(
+                [('x_quality_check_id', '=', self.id)])
             if not worksheet:
-                worksheet = self.env[self.worksheet_template_id.model_id.sudo().model].sudo().create({'x_quality_check_id': self.id})
+                worksheet = self.env[self.worksheet_template_id.model_id.sudo().model].sudo().create(
+                    {'x_quality_check_id': self.id})
 
             exist = work_order.related_captured_templates or ''
-            work_order.related_captured_templates = exist + '@@' + self.worksheet_template_id.model_id.sudo().model + '##' + str(worksheet.id) + "##" + self.worksheet_template_id.x_template_for
+            work_order.related_captured_templates = exist + '@@' + self.worksheet_template_id.model_id.sudo().model + '##' + str(
+                worksheet.id) + "##" + self.worksheet_template_id.x_template_for
 
             if 'mixing_line_ids' in str(worksheet.read()):
                 mixing_lines = worksheet.x_mixing_line_ids
-                if 1==1 or 'from_manufacturing_order' in self._context and self._context['from_manufacturing_order'] is True:
+                if 1 == 1 or 'from_manufacturing_order' in self._context and self._context[
+                    'from_manufacturing_order'] is True:
                     lines_data = []
                     if not mixing_lines:
                         for item in work_order.move_raw_ids:
@@ -334,7 +342,7 @@ class QualityCheckInherit(models.Model):
                                 'x_added_by': False,
                                 'x_verify_by': False,
                                 'x_qc_name': worksheet.x_name,
-                                'x_'+m2o_field: worksheet.sudo().id,
+                                'x_' + m2o_field: worksheet.sudo().id,
                             }))
                         if lines_data: worksheet.x_mixing_line_ids = lines_data
 
@@ -349,7 +357,8 @@ class QualityCheckInherit(models.Model):
                 for item in items_to_delete:
                     item.unlink()
 
-                if 1==1 or 'from_manufacturing_order' in self._context and self._context['from_manufacturing_order'] is True:
+                if 1 == 1 or 'from_manufacturing_order' in self._context and self._context[
+                    'from_manufacturing_order'] is True:
                     if 1 == 1 or not checklist_lines:
                         for item in work_order.x_checklist_ids_mo:
                             lines_data = []
@@ -365,7 +374,7 @@ class QualityCheckInherit(models.Model):
                                 else:
                                     data = {
                                         'x_name': item.x_name,
-                                        'x_'+m2o_field: worksheet.sudo().id,
+                                        'x_' + m2o_field: worksheet.sudo().id,
                                         'x_sequence': item.x_sequence,
                                         'x_step': item.x_step,
                                     }
@@ -377,9 +386,11 @@ class QualityCheckInherit(models.Model):
                                 lines_data.append((0, 0, data))
                                 if lines_data: worksheet.x_checklist_line_ids = lines_data
 
-            if 'equipment_line_ids' in str(worksheet.read()):
+            if 'equipment_line_ids_NOT_USED' in str(worksheet.read()):
+                # code block not used: don't populate any data default, let user select and save data
                 equipment_lines = worksheet.x_equipment_line_ids
-                if 1 == 1 or 'from_manufacturing_order' in self._context and self._context['from_manufacturing_order'] is True:
+                if 1 == 1 or 'from_manufacturing_order' in self._context and self._context[
+                    'from_manufacturing_order'] is True:
                     lines_data = []
                     if not equipment_lines:
                         for item in self.workcenter_id.equipment_ids:
@@ -390,9 +401,11 @@ class QualityCheckInherit(models.Model):
                             }))
                         if lines_data: worksheet.x_equipment_line_ids = lines_data
 
-            if 'scale_line_ids' in str(worksheet.read()):
+            if 'scale_line_ids_NOT_USED' in str(worksheet.read()):
+                # code block not used: don't populate any data default, let user select and save data
                 scale_lines = worksheet.x_scale_line_ids
-                if 1 == 1 or 'from_manufacturing_order' in self._context and self._context['from_manufacturing_order'] is True:
+                if 1 == 1 or 'from_manufacturing_order' in self._context and self._context[
+                    'from_manufacturing_order'] is True:
                     lines_data = []
                     if not scale_lines:
                         for item in self.workcenter_id.scale_ids:
@@ -405,7 +418,8 @@ class QualityCheckInherit(models.Model):
 
             try:
                 worksheet.x_main_qty = work_order.product_qty
-            except Exception as e: pass
+            except Exception as e:
+                pass
 
         return super(QualityCheckInherit, self).action_quality_worksheet()
 
@@ -422,7 +436,7 @@ class MRPProduction(models.Model):
     def _onchange_bom_id(self):
         res = super(MRPProduction, self)._onchange_bom_id()
         for ch in self:
-            ch.x_checklist_ids_mo = [(5,0,0)]
+            ch.x_checklist_ids_mo = [(5, 0, 0)]
         if self.bom_id:
             ch_ids = []
             for item in self.bom_id.x_checklist_ids:
@@ -437,7 +451,7 @@ class MRPProduction(models.Model):
                 ch_ids.append(ch_id.id)
             self.x_checklist_ids_mo = [(6, 0, ch_ids)]
             self.x_revision_memo_mo = self.bom_id.x_revision_memo
-            #self.is_percentage = self.bom_id.is_percentage
+            # self.is_percentage = self.bom_id.is_percentage
         return res
 
     def action_confirm(self):

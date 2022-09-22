@@ -18,10 +18,19 @@ class MRPProduction(models.Model):
     def generate_production_report(self):
         report_file = "/tmp/worksheet%s.pdf" % self.id
         files = [report_file]
+        paper_format = self.env['report.paperformat'].sudo().search([('name', 'ilike', 'US Letter')], limit=1)
+        if paper_format:
+            exist_margin_top = paper_format.margin_top
+            exist_header_spacing = paper_format.header_spacing
+            paper_format.margin_top = 60
+            paper_format.header_spacing = 55
         report = self.env.ref('rminds_production_report.action_report_production_report')._render_qweb_pdf(self.id)
         f = open(report_file, 'wb+')
         f.write(report[0])
         f.close()
+        if paper_format:
+            paper_format.margin_top = exist_margin_top
+            paper_format.header_spacing = exist_header_spacing
 
         for bom_line in self.bom_id.bom_line_ids:
             domain = [
@@ -71,13 +80,24 @@ class MRPProduction(models.Model):
             except Exception as e:
                 pass
 
+        paper_format = self.env['report.paperformat'].sudo().search([('name', 'ilike', 'US Letter')], limit=1)
+        if paper_format:
+            exist_margin_top = paper_format.margin_top
+            exist_header_spacing = paper_format.header_spacing
+            paper_format.margin_top = 60
+            paper_format.header_spacing = 55
 
         report_file = "/tmp/worksheet%s.pdf" % self.id
         files = [report_file]
         report = self.env.ref('rminds_production_report.action_report_production_workorder_report')._render_qweb_pdf(self.id)
+
         f = open(report_file, 'wb+')
         f.write(report[0])
         f.close()
+
+        if paper_format:
+            paper_format.margin_top = exist_margin_top
+            paper_format.header_spacing = exist_header_spacing
 
         for bom_line in self.bom_id.bom_line_ids:
             domain = [
@@ -134,6 +154,12 @@ class MRPProduction(models.Model):
             so = self.env['sale.order'].search([('name', '=', self.origin)])
             if so:
                 customer = so.partner_id.name
+            if not so:
+                mo = self.env['mrp.production'].search([('name', '=', self.origin)])
+                if mo:
+                    so = self.env['sale.order'].search([('name', '=', mo.origin)])
+                    if so:
+                        customer = so.partner_id.name
         return customer
 
     def get_customer_ref(self):
@@ -141,7 +167,13 @@ class MRPProduction(models.Model):
         if self.origin:
             so = self.env['sale.order'].search([('name', '=', self.origin)])
             if so:
-                customer_ref = so.client_order_ref  or ''
+                customer_ref = so.partner_id.name
+            if not so:
+                mo = self.env['mrp.production'].search([('name', '=', self.origin)])
+                if mo:
+                    so = self.env['sale.order'].search([('name', '=', mo.origin)])
+                    if so:
+                        customer_ref = so.partner_id.name
         return customer_ref
 
 

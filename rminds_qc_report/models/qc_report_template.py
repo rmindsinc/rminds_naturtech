@@ -48,11 +48,11 @@ class QCReportTemplate(models.Model):
             res.line_ids = [(5,0,0)]
         for lines in self.gen_table_ids:
             for line in lines.line_ids:
-                vals = {'param': line.param.id,'min_value':line.min_value,'max_value': line.max_value,'unit_id': line.unit_id.id, 'method': line.method,'spec': line.spec, 'test_type': line.test_type.id,'target': line.target}
-                if line.min_value > 0:
-                    vals.update({'spec': str(line.min_value) + ' - ' + str(line.max_value)})
-                else:
-                    vals.update({'spec': line.spec})
+                vals = {'param': line.param.id,'min_value':line.min_value,'max_value': line.max_value,'unit_id': line.unit_id.id, 'method': line.method,'spec': line.spec, 'test_type': line.test_type.id,'target': line.target,'spec': line.spec}
+                # if line.min_value > 0:
+                #     vals.update({'spec': str(line.min_value) + ' - ' + str(line.max_value)})
+                # else:
+                #     vals.update({'spec': line.spec})
                 general_id = self.env['qc.test.line'].create(vals)
                 self.line_ids =   [(4,general_id.id)]
 
@@ -84,12 +84,12 @@ class QCTestLine(models.Model):
     param = fields.Many2one("test.attribute","Attribute", required=True)
     idle = fields.Char("Target")
     target = fields.Char("Target")
-    min_value = fields.Float("Min Value")
+    min_value = fields.Char("Min Value")
     method = fields.Char("Method Reference")
     test_type = fields.Many2one("test.type", "Type")
     spec = fields.Char("Specification")
     unit_id = fields.Many2one('testing.unit', 'Testing Unit')
-    max_value = fields.Float("Max Value")
+    max_value = fields.Char("Max Value")
     qc_report_template = fields.Many2one('qc.report.template','qc report template' )
 
 
@@ -124,8 +124,8 @@ class GeneralTableLine(models.Model):
 
     param = fields.Many2one("test.attribute","Attribute", required=True)
     method = fields.Char("Method Reference",)
-    min_value = fields.Float("Min Value")
-    max_value = fields.Float("Max Value")
+    min_value = fields.Char("Min Value")
+    max_value = fields.Char("Max Value")
     test_type = fields.Many2one("test.type", "Type", required=True)
     spec = fields.Char("Specification")
     unit_id = fields.Many2one('testing.unit', 'Testing Unit')

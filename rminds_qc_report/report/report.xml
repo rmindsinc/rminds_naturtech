@@ -21,7 +21,7 @@
 	                	<div class="row" style="padding-top:-5px;">
 							<div class="col-4"></div>
 <!--		                    <div class="col-4"><img height="80" width="200" src="/qc_report_templates/static/src/images/logo.png"/></div>-->
-		                    <div class="5"><h1>Certificate of Analysis</h1></div>
+		                    <div class="5"><h1>Certificate Of Analysis</h1></div>
 		                    <div class="3 ml-4">
 		                    	<span>REV: <t t-esc="rev"/></span><br/>
 		                    	<!-- <span> Issue Date: <span t-esc="issue_date.strftime('%m/%d/%Y')"/></span> -->
@@ -40,15 +40,10 @@
 						      <th style="border: 1px solid">Country</th>
 						      <td style="border: 1px solid"><t t-if="o.country_id"><t t-esc="o.country_id.name"/></t> <t t-else=""><span>Not Specified</span></t></td>
 						      <th style="border: 1px solid">Product Size</th>
-						      <td style="border: 1px solid"></td>
-<!--						      <td style="border: 1px solid"><t t-esc="o.product_size"/></td>-->
+<!--						      <td style="border: 1px solid"></td>-->
+								<td style="border: 1px solid"><t t-esc="o.product_size"/>&amp;nbsp;<t t-if="o.uom_id"><t t-esc="o.uom_id.name"/></t></td>
 						    </tr>
-						    <tr style="border: 1px solid">
-						      <th style="border: 1px solid">Serving Per Container</th>
-						      <td style="border: 1px solid"><t t-esc="o.spc"/></td>
-						      <th style="border: 1px solid">Master Formula</th>
-						      <td style="border: 1px solid"><t t-esc="o.formula"/></td>
-						    </tr>
+
 						    <tr style="border: 1px solid">
 						      <th style="border: 1px solid">Lot#</th>
 						      <td style="border: 1px solid"><t t-esc="o.lot"/></td>
@@ -61,6 +56,15 @@
 						      <th style="border: 1px solid">Fill Date</th>
 						      <td style="border: 1px solid"><span t-field="o.fill_date" t-options='{"format": "MM/dd/yyyy"}'/></td>
 						    </tr>
+							<tr style="border: 1px solid">
+								<th style="border: 1px solid">Master Formula</th>
+								<td style="border: 1px solid"><t t-esc="o.formula"/></td>
+								<th style="border: 1px solid"></th>
+								<td style="border: 1px solid"></td>
+								<!--						      <th style="border: 1px solid">Serving Per Container</th>-->
+								<!--						      <td style="border: 1px solid"><t t-esc="o.spc"/></td>-->
+
+							</tr>
 						</table>
 						
 
@@ -107,9 +111,9 @@
 						<t t-foreach="set(sequence)" t-as="seq">
 							<t t-foreach="request.env['test.type'].search([('sequence', '=', seq)])"
 							   t-as="obj">
-								<div>
-									<center><h5><strong t-esc="obj.name"/></h5></center>
-								</div>
+<!--								<div>-->
+<!--									<center><h5><strong t-esc="obj.name"/></h5></center>-->
+<!--								</div>-->
 <!--								<br></br>-->
 								<table class="table table-sm o_main_table" style="border: 1px solid;margin-top: 7px;">
 									<thead>

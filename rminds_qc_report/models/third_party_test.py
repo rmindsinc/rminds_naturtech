@@ -16,12 +16,13 @@ class QCExternalTesting(models.Model):
         ], default='draft', track_visibility="always")
     attach = fields.Binary("Attachment",)
     customer = fields.Many2one("res.partner","Customer", track_visibility="always")
-    spc = fields.Char("Serving Per Container")
+    # spc = fields.Char("Serving Per Container")
     lot = fields.Char("Lot", required=True, track_visibility="always")
     mfg = fields.Date("MFG", required=True, track_visibility="always")
     # rev = fields.Char("Revision")
     country_id = fields.Many2one("res.country", "Country",default=lambda self: self.env['res.country'].search([('code','=','US')],limit=1), required=True)
     product_size = fields.Char( "Product Size", required=True, track_visibility="always")
+    uom_id = fields.Many2one('uom.uom', string="UOM")
     formula = fields.Char("Master Formula", required=True)
     exp_date = fields.Date("Expiry Date", required=True, track_visibility="always")
     fill_date = fields.Date("Fill Date", required=True)
@@ -40,7 +41,7 @@ class QCExternalTesting(models.Model):
     def approve_button(self):
         for line in self.line_ids:
             if not line.res:
-                raise UserError(_("Result Value not given."))
+                raise UserError(_("Please input reported result for all test line."))
         self.write({'state': 'confirm'})
 
 
@@ -55,7 +56,7 @@ class QCExternalTesting(models.Model):
             if res.name == 'New':
                 res.name = self.env['ir.sequence'].next_by_code('qc.external.testing') or 'New'
             if not len(res.line_ids):
-                raise UserError(_("Please add atleast One Test Line"))
+                raise UserError(_("Please add atleast one test line"))
             if res.exp_date < res.mfg:
                 raise UserError(_('You cannot have expiry date before mfg'))
         return result
@@ -87,7 +88,7 @@ class QCExternalTesting(models.Model):
     #     else: self.summary = 'fail'
 
 
-    @api.onchange('product_id')
+    @api.onchange('mo_id')
     def onchange_product(self):
         if len(self.line_ids):
             self.line_ids = [(5,0,0)]
@@ -95,14 +96,16 @@ class QCExternalTesting(models.Model):
         #     self.general_table_ids = [(5,0,0)]
         # if len(self.micro_testing_ids):
         #     self.micro_testing_ids = [(5,0,0)]
-        temp_rec = self.env['qc.report.template'].search([('product_id', '=', self.product_id.id)])
+        temp_rec = self.env['qc.general.table'].search([('id', '=', self.mo_id.bom_id.x_test_id.id)])
+        # temp_rec = self.env['qc.report.template'].search([('product_id', '=', self.product_id.id)])
         if temp_rec:
             for rec in temp_rec[0].line_ids:
-                vals = {'param': rec.param,'min_value': rec.min_value, 'max_value': rec.max_value,'idle': rec.idle, 'unit': rec.unit_id.id,'method': rec.method, 'test_type': rec.test_type.id,'target': rec.target}
-                if rec.min_value > 0:
-                    vals.update({'spec': str(rec.min_value) + ' - ' + str(rec.max_value)})
-                else:
-                    vals.update({'spec': rec.spec})
+                vals = {'param': rec.param,'min_value': rec.min_value, 'max_value': rec.max_value, 'unit': rec.unit_id.id,'method': rec.method, 'test_type': rec.test_type.id,'target': rec.target,'spec':rec.spec}
+                # if rec.min_value > 0:
+                #     vals.update({'spec': str(rec.min_value) + ' - ' + str(rec.max_value)})
+                # else:
+                #     vals.update({'spec': rec.spec})
+
 
                 self.line_ids = [(0,0,vals)]
             # for rec in temp_rec[0].general_table_ids:
@@ -131,12 +134,12 @@ class QCTestLine(models.Model):
     param = fields.Many2one("test.attribute","Attribute", required=True)
     idle = fields.Char("Target",)
     res = fields.Char("Reported Result")
-    min_value = fields.Float("Min Value", )
-    max_value = fields.Float("Max Value", )
+    min_value = fields.Char("Min Value", )
+    max_value = fields.Char("Max Value", )
     method = fields.Char("Method Reference")
     spec = fields.Char("Specification")
     test_type = fields.Many2one("test.type", "Type",required=True)
-    unit = fields.Many2one('testing.unit')
+    unit = fields.Many2one('testing.unit',"Testing Unit")
     # measure = fields.Selection([
     #     ('range','Range'),
     #     ('fixed','Fixed Value')

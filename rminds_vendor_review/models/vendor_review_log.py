@@ -8,6 +8,7 @@ class VendorReviewLog(models.Model):
     _name = "vendor.review.log"
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = "Vendor Review Log  History"
+    _rec_name = 'id'
 
     vendor_id = fields.Many2one("res.partner",tracking=True)
     master_id = fields.Many2one("vendor.review.master.log",tracking=True)
@@ -23,6 +24,10 @@ class VendorReviewLog(models.Model):
     def auto_vendor_review(self):
         mail_obj = self.env['mail.mail']        
         vender_result = self.env["res.partner"].search([("review_required","=",True)])
+        receipt_id = []
+        recip_obj = self.env['vendor.review.config'].sudo().search([])
+        for rec in recip_obj.user_id:
+            receipt_id.append(rec.partner_id.id)
     
         template_xmlid = "rminds_vendor_review.vendor_review_log_mail_template"
         mail_tpl = self.env.ref(template_xmlid)
@@ -34,14 +39,25 @@ class VendorReviewLog(models.Model):
                     rec.id, ['subject', 'body_html', 'email_from', 'email_to',
                     'email_cc', 'reply_to', 'scheduled_date', 'attachment_ids'])
                 vals={
-                    "subject": self.env.company.name,
+                    "subject": 'Review Pending For '+ rec.name,
                     "body_html": mail_data.get('body_html'),
                     'email_from': self.env.company.partner_id.email,
                     # 'email_to': rec.email,
-                    'recipient_ids': [rec.id],
+                    'recipient_ids': [(4, i) for i in receipt_id],
                     'model':'res.partner',
                     'res_id':rec.id,
                     'record_name':rec.name
                 }
+
                 mail_id = mail_obj.create(vals)
                 mail_obj.send(mail_id)
+                if mail_id:
+                    log_detail={
+                        'vendor_id':rec.id,
+                        'mail_triggered_date': date.today(),
+                        'last_reviewed_date': rec.last_reviewed,
+                        'status': 'draft'
+
+                    }
+                if len(log_detail):
+                    self.create(log_detail)

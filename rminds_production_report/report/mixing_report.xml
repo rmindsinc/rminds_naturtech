@@ -32,13 +32,13 @@
                                             border-bottom: 1px solid #dee2e6;"></input>
                                 </span>
                             </div>
-                            <div style="margin-top: 10px">
-                                <span>
-                                    Total number of personal to complete order:
-                                    <input type="text" style="border:none;
-                                            border-bottom: 1px solid #dee2e6;"></input>
-                                </span>
-                            </div>
+                            <!--                            <div style="margin-top: 10px">-->
+                            <!--                                <span>-->
+                            <!--                                    Total number of personal to complete order:-->
+                            <!--                                    <input type="text" style="border:none;-->
+                            <!--                                            border-bottom: 1px solid #dee2e6;"></input>-->
+                            <!--                                </span>-->
+                            <!--                            </div>-->
                             <div style="margin-top: 10px">Downtime</div>
                             <div>
                                 <span>
@@ -115,16 +115,16 @@
                             <table class="table table-sm">
                                 <thead>
                                     <tr>
-                                        <tr>
-                                            <th colspan="9"
-                                                style="border: none; font-weight: bold; font-size: 19px; text-align: left;">
-                                                Bill of Material / Components
-                                            </th>
-                                        </tr>
+                                        <th colspan="9"
+                                            style="border: none; font-weight: bold; font-size: 19px; text-align: left;">
+                                            Bill of Material / Components
+                                        </th>
+                                    </tr>
+                                    <tr>
                                         <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
                                             Item
                                         </th>
-                                        <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle; width: 50%;">
+                                        <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle; width: 25%;">
                                             Description
                                         </th>
                                         <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
@@ -162,15 +162,16 @@
                                                     <span t-field="component.product_id.display_name"/>
                                                 </td>
                                                 <td style="border: 1px solid #dee2e6;">
-                                                    <span t-esc="o.get_percentage(component.product_id)"></span>
+                                                    <!--                                                    <span t-esc="o.get_percentage(component.product_id)"></span>-->
+                                                    <span t-esc="'%.4f'% component.mo_percentage"></span>
                                                 </td>
                                                 <td style="border: 1px solid #dee2e6;">
-                                                    <span t-esc="'%.2f'% component.product_uom_qty"/>
+                                                    <span t-esc="'%.4f'% component.product_uom_qty"/>
                                                     <span t-field="component.product_uom" groups="uom.group_uom"/>
                                                 </td>
                                                 <td style="border: 1px solid #dee2e6;">
-                                                    <t t-if="component.quantity_done > 0">
-                                                        <span t-escs="'%.2f'% component.quantity_done"/>
+                                                    <t t-if="component.quantity_done &gt; 0">
+                                                        <span t-esc="'%.4f'% component.quantity_done"/>
                                                         <span t-field="component.product_uom" groups="uom.group_uom"/>
                                                     </t>
                                                 </td>
@@ -188,6 +189,22 @@
                                                 </td>
                                             </tr>
                                         </t>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                <strong>
+                                                    <t t-esc="'%.4f'%  (sum(component.mo_percentage for component in o.move_raw_ids) * 100)"/>
+                                                </strong>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+
+                                        </tr>
                                     </t>
                                 </tbody>
                             </table>
@@ -605,9 +622,9 @@
                         </div>
                         <br></br>
                         <br></br>
-                        <span>Compound Start: TIME: _________________________DATE: _________________</span>
+                        <span>Compound Start: Time: _________________________Date: _________________</span>
                         <br></br>
-                        <span>Compound End: &amp;nbsp;TIME: _________________________DATE: _________________</span>
+                        <span>Compound End: &amp;nbsp;Time: _________________________Date: _________________</span>
                         <br></br>
                         <br></br>
                         <br></br>
@@ -1002,47 +1019,56 @@
 
                             <br></br>
                             <br></br>
-                            <br></br>
 
-                            <div style="page-break-inside: avoid!important;">
-                                <strong>
-                                    <h5>Quality Control – Certificate of Analysis</h5>
-                                    <br></br>
-                                </strong>
+                            <div style="page-break-inside: initial!important;">
                                 <span style="width: 100%; text-align: center">
                                     <center>
-                                        <h7>Quality Control</h7>
+                                        <h5>Quality Control</h5>
                                     </center>
                                 </span>
                                 <br></br>
-                                <div class="row-6">
-                                    <strong>Part No.:</strong>
-                                    <span t-field="o.product_id.default_code" style="margin-left: 10px;"/>
-                                    &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;
-                                    &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;
-                                    <span style="margin-left: 300px;">
-                                        <strong>Description:</strong>
-                                    </span>
-                                    <span t-field="o.product_id.name" style="margin-left: 10px;"/>
+                                <div class="row"
+                                     style="padding-left: 15px; padding-right: 15px; page-break-inside: initial!important;">
+                                    <div class="column" style="width: 50%;">
+                                        <strong>Part No.:</strong>
+                                        <span t-field="o.product_id.default_code" style="margin-left: 10px;"/>
+                                    </div>
+                                    <div class="column" style="width: 50%;">
+                                        <table class="table" style="border: none; margin: 0px !important;">
+                                            <tr>
+                                                <td style="border: none !important; width: 1%; padding: 0px;">
+                                                    <strong>Description:</strong>
+                                                </td>
+                                                <td style="border: none !important; padding: 0px; padding-left: 10px;">
+                                                    <span t-field="o.product_id.name" style=""/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <!--                                        <span style="">-->
+                                        <!--                                            <strong>Description:</strong>-->
+                                        <!--                                        </span>-->
+                                        <!--                                        <span t-field="o.product_id.name" style="margin-left: 10px;"/>Image Skincare-->
+                                        <!--                                        Yana Daily Collagen HALAL-->
+                                    </div>
                                 </div>
                                 <br></br>
 
-                                <table class="table table-sm">
+                                <table class="table table-sm" style="page-break-inside: initial!important;">
                                     <thead>
                                         <tr>
-                                            <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
+                                            <th style="border: 1px solid #dee2e6; text-align: left; vertical-align: middle;">
                                                 <strong>Test name</strong>
                                             </th>
-                                            <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
+                                            <th style="border: 1px solid #dee2e6; text-align: left; vertical-align: middle;">
                                                 <strong>Minimum</strong>
                                             </th>
-                                            <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
+                                            <th style="border: 1px solid #dee2e6; text-align: left; vertical-align: middle;">
                                                 <strong>Maximum</strong>
                                             </th>
-                                            <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
+                                            <th style="border: 1px solid #dee2e6; text-align: left; vertical-align: middle;">
                                                 <strong>Target</strong>
                                             </th>
-                                            <th style="border: 1px solid #dee2e6; text-align: center; vertical-align: middle;">
+                                            <th style="border: 1px solid #dee2e6; text-align: left; vertical-align: middle;">
                                                 <strong>Actual Result</strong>
                                             </th>
                                         </tr>
@@ -1130,8 +1156,8 @@
         <field name="report_name">rminds_production_report.report_mrpreport</field>
         <field name="report_file">rminds_production_report.report_mrpreport</field>
         <field name="print_report_name">'Mixing Report - %s' % object.name</field>
-        <field name="binding_model_id" eval="False"/>
-        <!--        <field name="binding_model_id" ref="mrp.model_mrp_production"/>-->
+        <!--        <field name="binding_model_id" eval="False"/>-->
+        <field name="binding_model_id" ref="mrp.model_mrp_production"/>
         <field name="binding_type">report</field>
     </record>
 

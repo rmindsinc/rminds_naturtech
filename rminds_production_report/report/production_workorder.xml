@@ -532,7 +532,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="row">
+                <div class="">
                     <table class="table table-sm">
                         <tr>
                             <td style="width: 75%; border: 1px solid #dee2e6; padding: 0px !important">
@@ -623,7 +623,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="row">
+                <div class="">
                     <table class="table table-sm">
                         <tr>
                             <td style="width: 75%; border: 1px solid #dee2e6; padding: 0px !important">

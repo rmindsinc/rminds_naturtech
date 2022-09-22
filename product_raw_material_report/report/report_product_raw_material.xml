@@ -50,19 +50,19 @@
                                 <th width="16%"><strong>SO Date</strong></th>
                             </tr>
                             </thead>
-                            <t t-foreach="bom_list" t-as="bom">
-                                <t t-set="so_lines" t-value="request.env['sale.order.line'].sudo().search([('product_id', '=', bom.product_tmpl_id.product_variant_id.id)])"/>
-                                <tr t-foreach="so_lines" t-as="so_line">
+<!--                            <t t-foreach="bom_list" t-as="bom">-->
+<!--                                <t t-set="so_lines" t-value="request.env['sale.order.line'].sudo().search([('product_id', '=', bom.product_tmpl_id.product_variant_id.id)])"/>-->
+                                <tr t-foreach="final_so" t-as="so_line">
                                     <td class="text-center" width="10%">
                                         <span t-esc="i"/>
                                         <t t-set="i" t-value="i+1"/>
                                     </td>
-                                    <td width="26%"><span t-esc="bom.product_tmpl_id.display_name"></span></td>
-                                    <td width="16%"><span t-esc="so_line.order_id.name"></span></td>
-                                    <td width="16%"><span t-esc="so_line.order_id.partner_id.name"></span></td>
-                                    <td width="16%"><span t-esc="so_line.order_id.date_order.strftime('%m.%d.%Y')"></span></td>
+                                    <td width="26%"><span t-esc="product_name"></span></td>
+                                    <td width="16%"><span t-esc="so_line.name"></span></td>
+                                    <td width="16%"><span t-esc="so_line.partner_id.name"></span></td>
+                                    <td width="16%"><span t-esc="so_line.date_order.strftime('%m.%d.%Y')"></span></td>
                                 </tr>
-                            </t>
+<!--                            </t>-->
                         </table>
                     </div>
 
@@ -74,18 +74,19 @@
                             <t t-set="i" t-value="1"/>
                             <thead>
                             <tr style="font-weight: bold;">
-                                <td class="text-center" width="10%"><strong>SL No.</strong></td>
-                                <td width="16%"><strong>PO Number</strong></td>
-                                <td width="16%"><strong>PO Date</strong></td>
-                                <td width="16%"><strong>Qty</strong></td>
-                                <td width="16%"><strong>Price</strong></td>
-                                <td width="26%"><strong>Vendor</strong></td>
+                                <th class="text-center" width="10%"><strong>SL No.</strong></th>
+                                <th width="16%"><strong>PO Number</strong></th>
+                                <th width="16%"><strong>PO Date</strong></th>
+                                <th width="16%"><strong>Qty</strong></th>
+                                <th width="16%"><strong>Price</strong></th>
+                                <th width="26%"><strong>Vendor</strong></th>
                             </tr>
                             </thead>
-                            <t t-foreach="bom_list" t-as="bom">
-                                <t t-set="po_lines" t-value="request.env['purchase.order.line'].sudo().search([('product_id', '=', bom.product_tmpl_id.product_variant_id.id)])"/>
-                                <tr t-foreach="po_lines" t-as="po_line">
-                                    <t t-if="date_from &lt; po_line.order_id.date_approve and date_to &gt; po_line.order_id.date_approve">
+<!--                            <t t-foreach="bom_list" t-as="bom">-->
+<!--                                <t t-set="po_lines" t-value="request.env['purchase.order.line'].sudo().search([('product_id', '=', bom.product_tmpl_id.product_variant_id.id)])"/>-->
+<!--                                <t t-esc="po_lines"/>-->
+                                <tr t-foreach="final_po" t-as="po_line">
+<!--                                    <t t-if="date_from &lt; po_line.order_id.date_approve and date_to &gt; po_line.order_id.date_approve">-->
                                     <td class="text-center" width="10%">
                                         <span t-esc="i"/>
                                         <t t-set="i" t-value="i+1"/>
@@ -95,10 +96,10 @@
                                     <td width="16%"><span t-esc="po_line.product_qty"></span></td>
                                     <td width="16%"><span t-esc="po_line.price_unit"></span></td>
                                     <td width="26%"><span t-esc="po_line.order_id.partner_id.name"></span></td>
-                                    </t>
+<!--                                    </t>-->
                                 </tr>
 
-                            </t>
+<!--                            </t>-->
                         </table>
                     </div>
                 </div>
