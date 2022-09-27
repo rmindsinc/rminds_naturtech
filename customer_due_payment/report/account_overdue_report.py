@@ -2,6 +2,7 @@
 
 import time
 from odoo import api, fields, models
+from datetime import datetime
 
 
 class ReportOverdue(models.AbstractModel):
@@ -69,7 +70,7 @@ class ReportOverdue(models.AbstractModel):
             'time': time,
             'Lines': lines_to_display,
             'Totals': totals,
-            'Date': fields.date.today(),
+            'Date': datetime.now(),
         }
         # print(docargs)
         # return docargs

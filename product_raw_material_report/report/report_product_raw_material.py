@@ -25,8 +25,9 @@ class ReportProductRaw(models.AbstractModel):
         po_lines = self.env['purchase.order.line'].search([('product_id', '=', data['product_id'])])
         final_po = []
         for i in po_lines:
-            if i.order_id.date_approve >= datetime.strptime(data['date_from'],'%Y-%m-%d') and i.order_id.date_approve <= datetime.strptime(data['date_to'],'%Y-%m-%d'):
-                final_po.append(i)
+            if i.order_id.state in ('purchase', 'done'):
+                if i.order_id.date_approve >= datetime.strptime(data['date_from'],'%Y-%m-%d') and i.order_id.date_approve <= datetime.strptime(data['date_to'],'%Y-%m-%d'):
+                    final_po.append(i)
         return {
             'doc_ids': wiz_rec,
             'docs': wiz_rec,

@@ -6,7 +6,7 @@
         <field name="type">ir.actions.server</field>
         <field name="state">code</field>
         <field name="code">model.auto_vendor_review()</field>
-        <field name="interval_number">1</field>
+        <field name="interval_number">15</field>
         <field name="interval_type">days</field>
         <field name="numbercall">-1</field>
         <field name="nextcall" eval="(DateTime.now().replace(hour=2, minute=0) + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')" />

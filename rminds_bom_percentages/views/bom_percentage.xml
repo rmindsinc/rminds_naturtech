@@ -12,9 +12,9 @@
             </xpath>
             <xpath expr="//page[@name='components']//field[@name='attachments_count']" position="after">
 
-                <field name="bom_percentage" sum="Total"
+                <field name="bom_percentage" sum="Total" widget="percentage"
                        attrs="{'column_invisible': [('parent.is_percentage', '!=', True)],'readonly': [('parent.is_percentage', '!=', True)]}"/>
-                <field name="percent_sign" string=" " readonly="1"></field>
+<!--                <field name="percent_sign" string=" " readonly="1" attrs="{'column_invisible': [('parent.is_percentage', '!=', True)]}"></field>-->
             </xpath>
 
 
@@ -34,10 +34,10 @@
             <xpath expr="//page[@name='components']//field[@name='product_uom_qty']" position="replace">
             </xpath>
             <xpath expr="//page[@name='components']//field[@name='location_id']" position="after">
-                <field name="mo_percentage" sum="Total"
+                <field name="mo_percentage" sum="Total" widget="percentage"
                        attrs="{'column_invisible': [('parent.is_percentage', '!=', True)],
                             'readonly': [('parent.is_percentage', '!=', True)]}"/>
-                <field name="percent_sign" string=" " readonly="1"></field>
+<!--                <field name="percent_sign" string=" " readonly="1" attrs="{'column_invisible': [('parent.is_percentage', '!=', True)]}"></field>-->
             </xpath>
 
         </field>

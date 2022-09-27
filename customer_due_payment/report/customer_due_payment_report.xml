@@ -5,6 +5,7 @@
             <t t-call="web.external_layout">
                 <t t-set="o" t-value="o.with_context(lang=lang)" />
                 <div class="page">
+                    <div class="text-center"><h3>Customer Due Payment Report</h3></div>
 <!--                    <div class="row">-->
                         <div class="col-xs-5 col-xs-offset-7">
                             <t t-if="o.company_type == 'person'">
@@ -20,8 +21,8 @@
                             <span t-field="o.vat"/>
                         </div>
                         <p>
-                            Document: Customer account statement<br/>
-                            Date: <span t-esc="Date.strftime('%m-%d-%Y')"/><br/>
+                            <!--Document: Customer account statement<br/>-->
+                            Date: <span t-esc="Date.strftime('%m-%d-%Y %H:%M:%S')"/><br/>
                             <t t-if="o.ref">Customer ref: <span t-field="o.ref"/></t>
                         </p>
 
@@ -33,10 +34,10 @@
                                         <th>Reference number</th>
                                         <th class="text-center">Date</th>
                                         <th class="text-center">Due Date</th>
-                                        <th>Communication</th>
+                                        <!--<th>Communication</th>-->
                                         <th class="text-right">Total</th>
-                                        <th class="text-right">Due</th>
                                         <th class="text-right">Paid</th>
+                                        <th class="text-right">Due</th>
                                         <!--<th class="text-center">Litigation</th>-->
                                     </tr>
                                 </thead>
@@ -46,42 +47,46 @@
                                 <tr t-foreach="Lines[o.id][currency]" t-as="line">
                                     <t t-if="not line['move_id']== '/'">
                                         <t t-set="invoice" t-value="env['account.move'].search([('name','=',line['move_id'])])"/>
-                                        <td>
-                                            <span t-esc="line['move_id']"/>
-                                        </td>
-                                        <td>
-                                            <span t-esc="line['date'].strftime('%m-%d-%Y')"/>
-                                        </td>
-                                        <td>
-                                            <span t-esc="line['date_maturity'].strftime('%m-%d-%Y')"/>
-                                        </td>
-                                        <td>
-                                            <t t-if="line['name'] != '/'"><span t-esc="line['name']"/></t>
-                                            <span t-esc="line['ref']"/>
-                                        </td>
-                                        <td class="text-right">
-                                            <span t-esc="invoice.amount_total" t-options="{'widget': 'monetary', 'display_currency': currency}"/>
-                                        </td>
-                                        <td class="text-right">
-                                            <span t-esc="invoice.amount_residual" t-options="{'widget': 'monetary', 'display_currency': currency}"/>
-                                        </td>
-                                        <td class="text-right">
-                                            <span t-esc="invoice.amount_total - invoice.amount_residual" t-options="{'widget': 'monetary', 'display_currency': currency}"/>
-                                        </td>
+                                            <t t-if="invoice.amount_residual &gt; 0.0">
+                                                <td>
+                                                    <span t-esc="line['move_id']"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="line['date'].strftime('%m-%d-%Y')"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="line['date_maturity'].strftime('%m-%d-%Y')"/>
+                                                </td>
+                                                <!--<td>
+                                                    <t t-if="line['name'] != '/'"><span t-esc="line['name']"/></t>
+                                                    <span t-esc="line['ref']"/>
+                                                </td>-->
+                                                <td class="text-right">
+                                                    <span t-esc="invoice.amount_total" t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span t-esc="invoice.amount_total - invoice.amount_residual" t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span t-esc="invoice.amount_residual" t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                                </td>
+
                                         <!--<td class="text-center">
                                             <span t-if="line['blocked']">x</span>
                                         </td>-->
-                                        <t t-set="total_due" t-value="total_due + invoice.amount_residual"/>
-                                        <t t-set="total_paid" t-value="total_paid + (invoice.amount_total - invoice.amount_residual)"/>
-                                        <t t-set="total" t-value="total + invoice.amount_total"/>
+                                                <t t-set="total_due" t-value="total_due + invoice.amount_residual"/>
+                                                <t t-set="total_paid" t-value="total_paid + (invoice.amount_total - invoice.amount_residual)"/>
+                                                <t t-set="total" t-value="total + invoice.amount_total"/>
+                                            </t>
                                     </t>
                                 </tr>
-                                <tr>
-                                    <td colspan="3"></td>
+                                <tr style="border-top:1p solid black;">
+                                    <td colspan="2"></td>
                                     <td><strong>Subtotal :</strong></td>
                                     <td class="text-right"><span t-esc="total" t-options="{'widget': 'monetary', 'display_currency': currency}"/></td>
-                                    <td class="text-right"><span t-esc="total_due" t-options="{'widget': 'monetary', 'display_currency': currency}"/></td>
                                     <td class="text-right"><span t-esc="total_paid" t-options="{'widget': 'monetary', 'display_currency': currency}"/></td>
+                                    <td class="text-right"><span t-esc="total_due" t-options="{'widget': 'monetary', 'display_currency': currency}"/></td>
+
                                     <!--<td></td>-->
                                 </tr>
                                 <!--<tr>

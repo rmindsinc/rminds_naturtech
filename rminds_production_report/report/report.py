@@ -13,7 +13,7 @@ class MRPProduction(models.Model):
             False
 
     def get_qc_check(self):
-        return self.env['qc.external.testing'].search([('mo_id', '=', self.id)])
+        return self.env['qc.external.testing'].search([('mo_id', '=', self.id)], limit=1)
 
     def generate_production_report(self):
         report_file = "/tmp/worksheet%s.pdf" % self.id

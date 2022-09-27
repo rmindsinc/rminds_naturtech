@@ -13,7 +13,7 @@
 		<field name="name">qc.external.testing.tree</field>
 		<field name="model">qc.external.testing</field>
 		<field name="arch" type="xml">
-			<tree string="Third Party Testing">
+			<tree string="Third Party Testing" create="false">
 				<field name="name"/>
 				<field name="mo_id"/>
 				<field name="product_id"/>

@@ -186,8 +186,6 @@
                         </t>
 
                         <div style="page-break-inside: initial;">
-                            <!--                            <h5>Equipments Used:</h5>-->
-
                             <t t-if="not worksheet or (worksheet and not worksheet.x_equipment_line_ids)">
                                 <table class="table table-sm" t-if="o.move_raw_ids">
                                     <thead>
@@ -198,63 +196,63 @@
                                             </th>
                                         </tr>
                                         <tr>
-                                            <th style="border: none; padding: 4px; text-align: left; vertical-align: middle;">
+                                            <th style="border: none !important; padding: 4px; text-align: left; vertical-align: middle;">
                                                 Equipment name
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td style="height: 36px;">
+                                        <tr style="">
+                                            <td style="height: 36px; border-top: none; border-bottom: 1px solid #dee2e6;">
+                                                <span style="white-space: break-spaces;">
+
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr style="">
+                                            <td style="height: 36px; border-top: none; border-bottom: 1px solid #dee2e6;">
                                                 <span style="white-space: break-spaces;">
 
                                                 </span>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="height: 36px;">
+                                            <td style="height: 36px; border-top: none; border-bottom: 1px solid #dee2e6;">
                                                 <span style="white-space: break-spaces;">
 
                                                 </span>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="height: 36px;">
+                                            <td style="height: 36px; border-top: none; border-bottom: 1px solid #dee2e6;">
                                                 <span style="white-space: break-spaces;">
 
                                                 </span>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="height: 36px;">
+                                            <td style="height: 36px; border-top: none; border-bottom: 1px solid #dee2e6;">
                                                 <span style="white-space: break-spaces;">
 
                                                 </span>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="height: 36px;">
+                                            <td style="height: 36px; border-top: none; border-bottom: 1px solid #dee2e6;">
                                                 <span style="white-space: break-spaces;">
 
                                                 </span>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="height: 36px;">
+                                            <td style="height: 36px; border-top: none; border-bottom: 1px solid #dee2e6;">
                                                 <span style="white-space: break-spaces;">
 
                                                 </span>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="height: 36px;">
-                                                <span style="white-space: break-spaces;">
-
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="height: 36px;">
+                                            <td style="height: 36px; border-top: none; border-bottom: 1px solid #dee2e6;">
                                                 <span style="white-space: break-spaces;">
 
                                                 </span>
@@ -274,7 +272,7 @@
                                             </th>
                                         </tr>
                                         <tr>
-                                            <th style="border: none; padding: 4px; text-align: left; vertical-align: middle;">
+                                            <th style="border: none!important; padding: 4px; text-align: left; vertical-align: middle;">
                                                 Equipment name
                                             </th>
                                         </tr>
@@ -282,8 +280,8 @@
                                     <tbody>
                                         <t t-foreach="worksheet.x_equipment_line_ids" t-as="equipment_line">
                                             <t t-set="row_count" t-value="row_count+1"></t>
-                                            <tr>
-                                                <td style="height: 36px;">
+                                            <tr style="">
+                                                <td style="height: 36px;  border-top: none; border-bottom: 1px solid #dee2e6;">
                                                     <span style="white-space: break-spaces;">
                                                         <span t-field="equipment_line.x_name"></span>
                                                     </span>
@@ -292,8 +290,8 @@
                                         </t>
                                         <t t-set="row_count" t-value="5-row_count"></t>
                                         <t t-foreach="range(row_count)" t-as="row">
-                                            <tr>
-                                                <td style="height: 36px;">
+                                            <tr style="">
+                                                <td style="height: 36px; border-top: none; border-bottom: 1px solid #dee2e6;">
                                                 </td>
                                             </tr>
                                         </t>
@@ -311,9 +309,9 @@
                             <t t-if="worksheet and worksheet.x_checklist_line_ids">
                                 <t t-foreach="worksheet.x_checklist_line_ids" t-as="instruction_line">
                                     <t t-if="instruction_line.x_step == 98765">
-                                        <h5 style="">
+                                        <h6 style="">
                                             <t t-esc="instruction_line.x_name"></t>
-                                        </h5>
+                                        </h6>
                                     </t>
 
                                     <t t-if="instruction_line.x_step != 98765">
@@ -434,7 +432,6 @@
                                 </div>
                             </div>
                         </div>
-                        <br></br>
                         <br></br>
                         <br></br>
 

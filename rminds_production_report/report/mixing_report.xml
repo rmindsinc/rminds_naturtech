@@ -152,6 +152,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <t t-set="per_total" t-value="0"></t>
                                     <t t-if="o.move_raw_ids">
                                         <t t-foreach="o.move_raw_ids" t-as="component">
                                             <tr>
@@ -164,6 +165,7 @@
                                                 <td style="border: 1px solid #dee2e6;">
                                                     <!--                                                    <span t-esc="o.get_percentage(component.product_id)"></span>-->
                                                     <span t-esc="'%.4f'% component.mo_percentage"></span>
+                                                    <t t-set="per_total" t-value="per_total+component.mo_percentage"></t>
                                                 </td>
                                                 <td style="border: 1px solid #dee2e6;">
                                                     <span t-esc="'%.4f'% component.product_uom_qty"/>
@@ -194,10 +196,14 @@
                                             <td></td>
                                             <td>
                                                 <strong>
-                                                    <t t-esc="'%.4f'%  (sum(component.mo_percentage for component in o.move_raw_ids) * 100)"/>
+                                                    <t t-esc="'%.4f'%  (sum(component.mo_percentage for component in o.move_raw_ids))"/>
                                                 </strong>
                                             </td>
-                                            <td></td>
+                                            <td>
+                                                <strong>
+                                                    <t t-esc="'%.4f'%  (sum(component.product_uom_qty for component in o.move_raw_ids))"/>
+                                                </strong>
+                                            </td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -1021,12 +1027,14 @@
                             <br></br>
 
                             <div style="page-break-inside: initial!important;">
-                                <span style="width: 100%; text-align: center">
+                                <span style="width: 100%; text-align: left">
                                     <center>
                                         <h5>Quality Control</h5>
                                     </center>
                                 </span>
+
                                 <br></br>
+
                                 <div class="row"
                                      style="padding-left: 15px; padding-right: 15px; page-break-inside: initial!important;">
                                     <div class="column" style="width: 50%;">
@@ -1057,19 +1065,19 @@
                                     <thead>
                                         <tr>
                                             <th style="border: 1px solid #dee2e6; text-align: left; vertical-align: middle;">
-                                                <strong>Test name</strong>
+                                                Test name
                                             </th>
                                             <th style="border: 1px solid #dee2e6; text-align: left; vertical-align: middle;">
-                                                <strong>Minimum</strong>
+                                                Minimum
                                             </th>
                                             <th style="border: 1px solid #dee2e6; text-align: left; vertical-align: middle;">
-                                                <strong>Maximum</strong>
+                                                Maximum
                                             </th>
                                             <th style="border: 1px solid #dee2e6; text-align: left; vertical-align: middle;">
-                                                <strong>Target</strong>
+                                                Target
                                             </th>
                                             <th style="border: 1px solid #dee2e6; text-align: left; vertical-align: middle;">
-                                                <strong>Actual Result</strong>
+                                                Actual Result
                                             </th>
                                         </tr>
                                     </thead>
@@ -1079,23 +1087,23 @@
                                                 <tr t-foreach="qc.line_ids" t-as="test">
                                                     <td style="border: 1px solid #dee2e6;">
                                                         <span t-field="test.param.name"
-                                                              style="padding: 10px; display: block;"/>
+                                                              style="padding: 10px;"/>
                                                     </td>
                                                     <td style="border: 1px solid #dee2e6;">
                                                         <span t-field="test.min_value"
-                                                              style="padding: 10px; display: block;"/>
+                                                              style="padding: 10px;"/>
                                                     </td>
                                                     <td style="border: 1px solid #dee2e6;">
                                                         <span t-field="test.max_value"
-                                                              style="padding: 10px; display: block;"/>
+                                                              style="padding: 10px;"/>
                                                     </td>
                                                     <td style="border: 1px solid #dee2e6;">
                                                         <span t-field="test.target"
-                                                              style="padding: 10px; display: block;"/>
+                                                              style="padding: 10px;"/>
                                                     </td>
                                                     <td style="border: 1px solid #dee2e6;">
                                                         <span t-field="test.res"
-                                                              style="padding: 10px; display: block;"/>
+                                                              style="padding: 10px;"/>
                                                     </td>
                                                 </tr>
 
@@ -1107,23 +1115,23 @@
                                                 t-if="o.bom_id.x_test_id">
                                                 <td style="border: 1px solid #dee2e6;">
                                                     <span t-field="test.param.name"
-                                                          style="padding: 10px; display: block;"/>
+                                                          style="padding: 10px;"/>
                                                 </td>
                                                 <td style="border: 1px solid #dee2e6;">
                                                     <span t-field="test.min_value"
-                                                          style="padding: 10px; display: block;"/>
+                                                          style="padding: 10px;"/>
                                                 </td>
                                                 <td style="border: 1px solid #dee2e6;">
                                                     <span t-field="test.max_value"
-                                                          style="padding: 10px; display: block;"/>
+                                                          style="padding: 10px;"/>
                                                 </td>
                                                 <td style="border: 1px solid #dee2e6;">
                                                     <span t-field="test.target"
-                                                          style="padding: 10px; display: block;"/>
+                                                          style="padding: 10px;"/>
                                                 </td>
                                                 <td style="border: 1px solid #dee2e6;">
                                                     <span t-field="test.actual_result"
-                                                          style="padding: 10px; display: block;"/>
+                                                          style="padding: 10px;"/>
                                                 </td>
                                             </tr>
                                         </t>

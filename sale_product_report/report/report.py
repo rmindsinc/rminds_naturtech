@@ -12,7 +12,7 @@ class SaleProductReport(models.AbstractModel):
         sale_line_data = []
         for line in docs.order_line:
 
-            if manu_route_id in line.product_id.route_ids:
+            if manu_route_id in line.product_id.route_ids or line.product_id.detailed_type == 'service':
                 pass
 
             else:
@@ -58,6 +58,8 @@ class SaleProductReport(models.AbstractModel):
                     'total_qty': r.product_uom_qty,
                     'unit': r.product_uom.name,
                     'origin': r.reference,
+                    'onhand':r.product_id.qty_available,
+                    'unit_2':r.product_id.uom_id.name
 
                 }
             else:

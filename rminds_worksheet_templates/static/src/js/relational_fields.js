@@ -14,6 +14,16 @@ var scale_title = relational_fields.FieldMany2Many.include({
     }
 });
 
+
+$(document).on('click', '.nav-item', function () {
+    if($(this).text().indexOf('Checklist/Instructions') !=-1){
+        var element_id = $(this).find('a').attr('href')
+        $(element_id).find('th[data-name="name"]').css('color', 'white')
+    }
+
+});
+
+
 return {
     scale_title: scale_title,
 };
