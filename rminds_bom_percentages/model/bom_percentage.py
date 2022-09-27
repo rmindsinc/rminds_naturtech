@@ -8,15 +8,20 @@ class MrpBom(models.Model):
 
     is_percentage = fields.Boolean("Component By %")
 
+    def reset_percentage(self):
+        for bom in self.sudo().search([]):
+            for line in bom.bom_line_ids:
+                line.bom_percentage = line.bom_percentage * 100
+        for mo in self.env['mrp.production'].sudo().search([]):
+            for component in mo.move_raw_ids:
+                component.mo_percentage = component.mo_percentage * 100
+
     @api.onchange('product_qty', 'is_percentage')
     def _onchange_product_qty(self):
-
         if self.is_percentage == True:
             for line in self.bom_line_ids:
                 if line.bom_percentage > 0:
                     line._compute_qtys()
-
-
 
 
 class MrpBomLine(models.Model):
@@ -24,7 +29,6 @@ class MrpBomLine(models.Model):
 
     bom_percentage = fields.Float(string="Percentage",default=0, digits=(16, 4), help='The percentage in between 1 and 100')
     percent_sign = fields.Char("", default="%")
-
 
     @api.onchange('bom_percentage')
     def _compute_qty(self):
@@ -36,11 +40,10 @@ class MrpBomLine(models.Model):
 
     @api.onchange('product_qty')
     def _compute_qtys(self):
-
         if self.bom_id.is_percentage == True:
             for line in self:
-                per = line.product_qty/line.bom_id.product_qty
-
+                #per = line.product_qty/line.bom_id.product_qty
+                per = (line.product_qty / line.bom_id.product_qty) * 100
                 line.bom_percentage = per
 
 
