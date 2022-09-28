@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<record id="mail_template_vendor_due" model="mail.template">
+        <field name="name">Notify For Due Vendor Bills</field>
+        <field name="model_id" ref="base.model_res_partner" />
+        <field name="subject">Notification For Due Vendor Bills</field>
+        <field name="auto_delete" eval="True"/>
+        <field name="body_html" type="html">
+			<p>
+				These are the Overdue Vendor Bills Please Look In It.
+				<br></br>
+
+			</p>
+			<t t-set="vendors" t-value="[]"/>
+
+			<t t-foreach="ctx['inv_id']" t-as="l">
+
+				<t t-set="vendors" t-value="vendors+[l.partner_id]"/>
+
+			</t>
+
+			<t t-foreach="set(vendors)" t-as="vend">
+
+				<div>
+					<h6>For Vendor: <t t-esc="vend.name"/></h6>
+				</div>
+				<table style="border-spacing: 0; border-collapse: collapse; width: 70%; text-align: center;">
+					<tr>
+						<th style="border: 1px solid black" class="text-center">Bill No</th>
+						<th style="border: 1px solid black" class="text-center">Date</th>
+						<th style="border: 1px solid black" class="text-center">Due Date</th>
+						<th style="border: 1px solid black" class="text-center">Total</th>
+						<th style="border: 1px solid black" class="text-center">Total Due</th>
+					</tr>
+
+					<t t-foreach="ctx['inv_id']" t-as="l">
+
+						<t t-if="vend.id==l.partner_id.id">
+							<tr>
+								<td style="border: 1px solid black" class="text-center"><t t-out="l.name"/></td>
+								<td style="border: 1px solid black" class="text-center"><t t-out="l.invoice_date"/></td>
+								<td style="border: 1px solid black" class="text-center"><t t-out="l.invoice_date_due"/></td>
+								<td style="border: 1px solid black" class="text-center"><t t-out="l.amount_total" t-options='{"widget": "monetary", "display_currency": l.company_id.currency_id}'/></td>
+								<td style="border: 1px solid black" class="text-center"><t t-out="l.amount_residual"  t-options='{"widget": "monetary", "display_currency": l.company_id.currency_id}'/></td>
+						   </tr>
+						</t>
+					</t>
+				 </table>
+				<br></br>
+			</t>
+			<br></br>
+			<br></br>
+			<p>Regards</p>
+		</field>
+    </record>
+</odoo>

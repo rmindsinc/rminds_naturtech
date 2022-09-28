@@ -39,6 +39,16 @@ class ProductTemplate(models.Model):
                 # valss.add(vals)
                 # stock_data = stock_low_obj.sudo().create(vals)
         if len(prod_list):
+            user1 = self.env['ir.config_parameter'].sudo().get_param(
+                'notify_user')
+            print(user1,"user")
+            if user1:
+                user = self.env['res.users'].search([('id', '=', user1)])
+                if user:
+                    emails = user.partner_id.email
+            else:
+                emails = False
+            print(emails,"----------")
             email = self.env.user.company_id.email
             record = self.env['stock.low.mail.notify'].search([], limit=1)
             new_list = [(5, 0, 0)]
@@ -46,12 +56,12 @@ class ProductTemplate(models.Model):
                 new_list.append((0, 0, product))
             if record:
                 record.write({'product': new_list})
-                template_obj.with_user(2).send_mail(record.id,email_values={'email_to':email},)
+                template_obj.with_user(2).send_mail(record.id,email_values={'email_to':emails},)
             else:
                 obj_product = self.env['stock.low.mail.notify'].sudo().create({'name': 'name'})
                 obj_product.write({'product': new_list})
                 # data = stock_low_obj.search([])
-                template_obj.with_user(2).send_mail(obj_product.id,email_values={'email_to': email},)
+                template_obj.with_user(2).send_mail(obj_product.id,email_values={'email_to': emails},)
                 # for rec in data:
                 #     rec.low_qty_mail_sent = True
         return prod_list 
@@ -67,9 +77,31 @@ class MailNotify(models.Model):
 class MailNotifyLine(models.Model):
     _name = 'stock.low.mail.notify.line'
 
-    product_id = fields.Many2one('product.template','product')
+    product_id = fields.Many2one('product.product','product')
     product_ids = fields.Many2one('stock.low.mail.notify')
     name = fields.Char('Product')
     min_qty = fields.Float('Min Quantity')
     qty_available = fields.Float('Quantity Available')
     low_qty_mail_sent = fields.Boolean('Mail Sent')
+
+
+class ResConfigSettings(models.TransientModel):
+    _inherit = "res.config.settings"
+
+    notify_user = fields.Many2one('res.users', string='Notify User', config_parameter= 'notify_user_on_low_quantity.user_id', require=True)
+
+    @api.model
+    def get_values(self):
+        res = super(ResConfigSettings, self).get_values()
+        params = self.env['ir.config_parameter'].sudo()
+        notify_user = params.get_param('notify_user', default=False)
+
+        res.update(
+            notify_user=int(notify_user),
+
+        )
+        return res
+
+    def set_values(self):
+        super(ResConfigSettings, self).set_values()
+        self.env['ir.config_parameter'].sudo().set_param("notify_user", self.notify_user.id)
