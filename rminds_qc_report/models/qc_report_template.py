@@ -134,14 +134,14 @@ class GeneralTableLine(models.Model):
     general_table_id = fields.Many2one('qc.general.table','general table id' )
     test = fields.Char("test")
 
-    method_1 = fields.Boolean("Method Reference",compute='_field_compute',store=True)
-    spec_1 = fields.Boolean("Specification",compute='_field_compute',store=True)
+    method_1 = fields.Boolean("Method Reference Bool",compute='_field_compute',store=True)
+    spec_1 = fields.Boolean("Specification Bool",compute='_field_compute',store=True)
     # res = fields.Boolean("Result")
-    min_value_1 = fields.Boolean("Min Value",compute='_field_compute',store=True)
-    max_value_1 = fields.Boolean("Max Value",compute='_field_compute',store=True)
-    target_1 = fields.Boolean("Target",compute='_field_compute',store=True)
+    min_value_1 = fields.Boolean("Min Value Bool",compute='_field_compute',store=True)
+    max_value_1 = fields.Boolean("Max Value Bool",compute='_field_compute',store=True)
+    target_1 = fields.Boolean("Target Bool",compute='_field_compute',store=True)
     # date_tested = fields.Boolean("Date Tested")
-    unit_id_1 = fields.Boolean('Testing Unit',compute='_field_compute',store=True)
+    unit_id_1 = fields.Boolean('Testing Unit Bool',compute='_field_compute',store=True)
 
     @api.depends('test_type')
     def _field_compute(self):

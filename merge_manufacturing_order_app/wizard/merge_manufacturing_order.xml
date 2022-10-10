@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="view_manufacture_wizard" model="ir.ui.view">
+		<field name="name">wizard.form</field>
+		<field name="model">merge.mo</field>
+		<field name="arch" type="xml">
+			<form string="Merge sales order">
+				<field name="merge_partner" string="Merge By Partner" widget="radio"/>
+				<div class="content-group" attrs="{'invisible': [('merge_partner','=','merge_by_partner')]}">
+					<div class="mt16" > 
+						Mearge Based On  Duration
+						<field name="by_duration"   widget="radio" class="oe_inline"/> 
+					</div>
+				</div>
+				<footer>
+					<button name="merged_mo" string="Merge Manufacturing Orders" type="object" class="btn-primary"/>
+					<button string="Cancel" class="btn-default" special="cancel" />
+					
+				</footer>
+			</form>
+		</field>
+	</record>
+
+	<record id="action_merge_manufacture_wizard" model="ir.actions.act_window">
+		<field name="name">Merge Manufacturing Orders Based on Partner And Duration</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">merge.mo</field>
+		<!-- <field name="view_type">form</field> -->
+		<field name="view_mode">form</field>
+		<field name="binding_model_id" ref="mrp.model_mrp_production"/>
+		<field name="target">new</field>
+		
+	</record>
+</odoo>
+
