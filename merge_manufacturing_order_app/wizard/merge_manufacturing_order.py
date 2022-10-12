@@ -151,7 +151,7 @@ class Merge_MO(models.TransientModel):
 		bom_id = first_mo.bom_id.id
 		result2 = [manufacturing_order for manufacturing_order in mo_order_ids if manufacturing_order.partner_id.id < partner_id] or[manufacturing_order for manufacturing_order in mo_order_ids if manufacturing_order.partner_id.id > partner_id]		
 		result = [manufacturing_order for manufacturing_order in mo_order_ids if manufacturing_order.product_id.id > product_id] or  [manufacturing_order for manufacturing_order in mo_order_ids if manufacturing_order.product_id.id < product_id]
-		state_res = [manufacturing_order for manufacturing_order in mo_order_ids if manufacturing_order.state != 'draft']
+		state_res = [manufacturing_order for manufacturing_order in mo_order_ids if manufacturing_order.state not in ('draft','confirmed')]
 		if len(result2):
 			raise UserError(
 				_('Found Different FG customer !\n\n You can only allow to merge same customer')) 	
@@ -160,7 +160,7 @@ class Merge_MO(models.TransientModel):
 				_('Found Different  Products !\n\n You can only allow to merge same product'))
 		if len(state_res):
 			raise UserError(
-				_('Found Different State !\n\n You can only allow to merge MO with draft status.'))
+				_('Found Different State !\n\n You can only allow to merge MO with draft or confirm status.'))
 		total_qty = 0
 		new_mo = mo_order_ids[0].copy()
 		ref = ''
@@ -174,5 +174,8 @@ class Merge_MO(models.TransientModel):
 		new_mo._onchange_product_id()
 		new_mo._onchange_move_raw()
 		mo_order_ids.write({'state':'cancel'})
+
+
+
 
 

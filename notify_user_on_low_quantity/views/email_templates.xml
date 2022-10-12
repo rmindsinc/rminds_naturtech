@@ -23,7 +23,7 @@
                     <tr>
                     	<td style="border: 1px solid black" class="text-center"><t t-out="product.name"/></td>
                         <td style="border: 1px solid black" class="text-center"><t t-out="product.min_qty"/></td>
-                        <td style="border: 1px solid black" class="text-center"><t t-out="product.qty_available"/></td>
+                        <td style="border: 1px solid black" class="text-center"><t t-out="'%.2f'% product.qty_available"/></td>
                     </tr>
                 </t>
 			  </table>

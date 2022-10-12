@@ -35,7 +35,7 @@ class MrpBomLine(models.Model):
         if self.bom_id.is_percentage == True:
             for line in self:
                 if line.bom_percentage > 0:
-                    qty = (line.bom_percentage * line.bom_id.product_qty)
+                    qty = (line.bom_percentage * line.bom_id.product_qty) / 100
                     line.product_qty = qty
 
     @api.onchange('product_qty')
@@ -75,4 +75,20 @@ class MRPProduction(models.Model):
                 mo.is_percentage = True
             else:
                 mo.is_percentage = False
+
+
+
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
+
+    @api.model
+    def default_get(self, fields):
+
+
+        self = self.with_context(
+
+            default_country_id=233,
+        )
+        return super(ResPartner, self).default_get(fields)
+
 
