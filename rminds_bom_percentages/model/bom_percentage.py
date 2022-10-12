@@ -21,7 +21,8 @@ class MrpBom(models.Model):
         if self.is_percentage == True:
             for line in self.bom_line_ids:
                 if line.bom_percentage > 0:
-                    line._compute_qtys()
+                    line._compute_qty()
+    
 
 
 class MrpBomLine(models.Model):
